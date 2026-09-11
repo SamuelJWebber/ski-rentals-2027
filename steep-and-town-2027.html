@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Steep Skiing With A Town</title>
+<style>
+  :root{
+    --bg:#f6f4ef; --card:#ffffff; --ink:#1d1d1b; --muted:#5f5e58; --line:#e2ded4;
+    --accent:#1f5f8b; --good:#1c7c4a; --warn:#a4640f; --bad:#a83232; --chip:#eef3f7;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#15171a; --card:#1e2126; --ink:#ecece6; --muted:#a9a8a0; --line:#2f333a;
+      --accent:#7fb3d8; --good:#5fbf85; --warn:#e0a24a; --bad:#e07070; --chip:#262b33;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{padding:36px 28px 18px;max-width:1240px;margin:0 auto}
+  h1{font-size:30px;margin:0 0 6px;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:16px;margin:0 0 14px;max-width:900px}
+  .meta{color:var(--muted);font-size:13px}
+  nav{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);z-index:5}
+  nav div{max-width:1240px;margin:0 auto;padding:8px 28px;display:flex;gap:16px;flex-wrap:wrap;font-size:13px}
+  nav a{color:var(--accent);text-decoration:none}
+  main{max-width:1240px;margin:0 auto;padding:10px 28px 60px}
+  section{margin:34px 0}
+  h2{font-size:22px;margin:0 0 6px;letter-spacing:-.01em}
+  h3{font-size:17px;margin:22px 0 8px}
+  p{margin:8px 0;max-width:900px}
+  .lead{font-size:16px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;margin:16px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .card .rank{font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+  .card h4{margin:4px 0 2px;font-size:17px}
+  .card .where{color:var(--muted);font-size:13px;margin-bottom:8px}
+  .card .price{font-size:26px;font-weight:600;margin:6px 0 2px}
+  .card .price small{font-size:13px;font-weight:400;color:var(--muted)}
+  .card ul{margin:8px 0 0;padding-left:18px;font-size:14px}
+  .card li{margin:2px 0}
+  .ok{color:var(--good);font-weight:600}
+  .part{color:var(--warn);font-weight:600}
+  .no{color:var(--bad);font-weight:600}
+  .wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:1100px}
+  th,td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+  th{background:var(--chip);font-weight:600;position:sticky;top:0}
+  tr:last-child td{border-bottom:none}
+  td.num{white-space:nowrap;font-variant-numeric:tabular-nums}
+  a{color:var(--accent)}
+  .note{background:var(--card);border-left:4px solid var(--accent);padding:10px 14px;border-radius:6px;margin:14px 0;max-width:900px;font-size:14px}
+  .note.warn{border-left-color:var(--warn)}
+  .small{font-size:13px;color:var(--muted)}
+  .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+  footer{max-width:1240px;margin:0 auto;padding:20px 28px 50px;color:var(--muted);font-size:12.5px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Steep skiing with a real town attached, 2027</h1>
+  <p class="sub">Telluride is the closest thing North America has to Zermatt's shape &mdash; Lift 7 and Lift 8 launch off the town grid, Clark's Market is on Main Street, and a genuinely free gondola runs to Mountain Village until midnight. It works in January at roughly $2,100&ndash;2,800 all-in and breaks the budget in March. Hakuba is Japan's answer. Whistler, Fernie and Red Mountain are the cheaper North American runners-up.</p>
+  <p class="meta">Researched 10 Sep 2026 for 1&ndash;3 people, weeks of 9 Jan, 16 Jan, 23 Jan, 6 Mar and 13 Mar 2027. Priority order: (1) extreme terrain, (2) walk to the lift, (3) a real town. Budget US$3,000 per week all-in, refundable, in-unit washer, gym in the building or in town. Rates used: 1 USD = 1.38 CAD, 156 JPY, 0.80 CHF. Every price is a live quote seen on that date; re-check before booking.</p>
+</header>
+<nav><div>
+  <a href="#verdict">The verdict</a><a href="#trust">How to read the prices</a><a href="#scorecard">Scorecard</a><a href="#terrain">Terrain, honestly</a><a href="#towns">Towns, lifts, gyms</a><a href="#passes">Lift tickets</a><a href="#priced">Priced options</a><a href="#timing">Which week</a><a href="#gaps">Gaps</a>
+</div></nav>
+<main>
+
+<section id="verdict">
+  <h2>The verdict</h2>
+  <p class="lead">Ranked on the priority order as stated: steep terrain first, walk-to-lift second, real town third. Green meets the criterion, amber is partial, red misses.</p>
+
+  <div class="note"><strong>The Zermatt premise is worth re-examining first.</strong> Zermatt apartments with a washer priced at <strong>$1,268&ndash;2,435 for the week of 9&ndash;16 Jan 2027</strong> and <strong>$1,491&ndash;2,556 for 6&ndash;13 Mar</strong>, most with free cancellation. A 6-day Zermatt lift pass is CHF 384, about $480. For two people that is roughly $2,300&ndash;3,400 all-in &mdash; inside or barely outside the stated budget. Zermatt is expensive to <em>live</em> in, but the lodging that made it feel unaffordable is not actually the binding constraint at a one-week, two-person scale. Several options below are cheaper. None is cheaper <em>and</em> better shaped.</div>
+
+  <div class="cards">
+    <div class="card"><div class="rank">1 &middot; Best cheaper Zermatt, North America</div><h4>Telluride, Colorado</h4><div class="where">Lift 7 and Lift 8 start in the town itself &middot; January only</div>
+      <div class="price">$2,100<small> &ndash; $2,800 all-in, week of 9, 16 or 23 Jan</small></div>
+      <ul>
+        <li><span class="ok">Terrain</span> 3,845 ft lift-served, Gold Hill Chutes, Palmyra Peak, Black Iron Bowl</li>
+        <li><span class="ok">Lift</span> walk out of the door onto Chair 7; free gondola 6:30am&ndash;midnight</li>
+        <li><span class="ok">Town</span> real year-round Victorian town, Clark's Market on Main St</li>
+        <li><span class="no">March</span> peak for both lodging and tickets &mdash; $3,100&ndash;3,800</li>
+      </ul>
+    </div>
+
+    <div class="card"><div class="rank">2 &middot; Best cheaper Zermatt, Japan</div><h4>Hakuba, Happo village or Wadano</h4><div class="where">5&ndash;15 min walk to Gondola Adam or Nakiyama</div>
+      <div class="price">$1,950<small> &ndash; $2,600 all-in including two lift passes</small></div>
+      <ul>
+        <li><span class="ok">Terrain</span> Happo-One 1,071 m vertical, 37&deg; max, real alpine backcountry above Grat</li>
+        <li><span class="ok">Lift</span> Happo village and Wadano are genuinely walkable to the lift bases</li>
+        <li><span class="part">Town</span> split &mdash; dining in Happo, gym and AEON in Echoland, supermarkets at the station 3 km off</li>
+        <li><span class="ok">Tickets</span> 6-day Hakuba Valley pass covering 10 resorts is $410</li>
+      </ul>
+    </div>
+
+    <div class="card"><div class="rank">3 &middot; Best value in the study</div><h4>Fernie, British Columbia</h4><div class="where">Town 5 km from the lift, C$5 shuttle &middot; or ski-in at the base</div>
+      <div class="price">$1,200<small> &ndash; $2,200 all-in, January or March</small></div>
+      <ul>
+        <li><span class="ok">Terrain</span> five bowls, 344 in of snow &mdash; the most of any Canadian Rockies resort</li>
+        <li><span class="part">Lift</span> ski-in units at the base, or town plus a C$5 shuttle</li>
+        <li><span class="ok">Town</span> real 5,200-person town, Evolution gym at 10,000 sq ft, Save-On-Foods</li>
+        <li><span class="ok">Price</span> half of Telluride, and March costs the same as January</li>
+      </ul>
+    </div>
+
+    <div class="card"><div class="rank">4 &middot; Most complete package</div><h4>Whistler, British Columbia</h4><div class="where">Both gondolas base in the village &middot; 14,000 residents</div>
+      <div class="price">$1,850<small> &ndash; $2,500 all-in, January or March</small></div>
+      <ul>
+        <li><span class="ok">Terrain</span> Couloir Extreme, Spanky's Ladder, Peak Chair, Blackcomb Glacier</li>
+        <li><span class="ok">Lift</span> 5-minute walk from village condos to either gondola</li>
+        <li><span class="ok">Town</span> the only base village here that is a real year-round town</li>
+        <li><span class="part">Snags</span> Epic not Ikon, most crowded in North America, low base means rain risk</li>
+      </ul>
+    </div>
+
+    <div class="card"><div class="rank">5 &middot; Best lift access anywhere here</div><h4>Red Mountain / Rossland, BC</h4><div class="where">Free ski bus, seven days a week, 3 km</div>
+      <div class="price">$960<small> &ndash; $1,650 all-in</small></div>
+      <ul>
+        <li><span class="part">Terrain</span> 37% black, all natural, steep tight trees &mdash; not a chute mountain</li>
+        <li><span class="ok">Lift</span> free bus 7am&ndash;11pm, or ski-in condos at the base</li>
+        <li><span class="part">Town</span> real historic town of 3,700, Ferraro Foods &mdash; but no confirmed public gym</li>
+        <li><span class="no">Lifts</span> not one high-speed chair on the mountain</li>
+      </ul>
+    </div>
+
+    <div class="card"><div class="rank">Honourable mention</div><h4>Jackson town plus Snow King</h4><div class="where">2-min walk to a lift, inside the real town</div>
+      <div class="price">$1,949<small> all-in, week of 6&ndash;13 Mar</small></div>
+      <ul>
+        <li><span class="ok">Shape</span> the only US option where you walk out of the door to a lift in a real town</li>
+        <li><span class="part">Lift</span> Snow King is 1,500 ft and 400 acres; START bus to JHMR is ~30 min, $3</li>
+        <li><span class="ok">Town</span> best restaurant town on the list, $7 rec-centre gym, two supermarkets</li>
+        <li><span class="ok">Note</span> Teton Village is 12&ndash;14 miles and 19&ndash;26 minutes, not 40</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note warn"><strong>Eliminated on the stated priorities.</strong> <strong>Snowbird and Alta</strong> have the best terrain in the study and no town at all &mdash; Little Cottonwood has no supermarket, no gym, and interlodge lockdowns that confine you to a hotel by law. <strong>Big Sky</strong>'s Town Center is a new-build development, and true ski-in/ski-out runs $4,400&ndash;5,100 a week. <strong>Taos</strong> is the strongest pure terrain answer in the Southwest and its town is 18&ndash;20 miles down a winding canyon. <strong>Rusutsu</strong> has no town, no supermarket and no gym. <strong>Sun Peaks</strong>, <strong>Furano</strong> and <strong>Mont-Tremblant</strong> fail the extreme-terrain bar outright.</div>
+</section>
+
+<section id="trust">
+  <h2>How to read the prices</h2>
+  <p>Every figure below was fetched from a live Airbnb search page for the exact 2027 dates on 10 Sep 2026. None is estimated. Four things are worth knowing before trusting them.</p>
+  <div class="two">
+    <div>
+      <h3>Airbnb quotes in USD by default</h3>
+      <p class="small">A/B testing the same Revelstoke listing with <code>&amp;currency=USD</code> and <code>&amp;currency=CAD</code> returned $2,182 and $3,018 &mdash; a ratio of exactly 1.383, the CAD rate. The default is USD. Page summarisers confidently mislabel this as CAD or JPY when they see a bare dollar sign. <strong>Every price on this page is US dollars</strong>, including the Canadian and Japanese ones. Do not re-convert them.</p>
+      <h3>Totals are before tax</h3>
+      <p class="small">Airbnb's search total covers the nightly rate plus fees, not lodging tax. Telluride's rate was verified at <strong>11.9%</strong> &mdash; 2.9% state, 4.5% town sales, 2.0% excise, 2.5% short-term rental. Others are applied at the stated assumptions: BC 16%, CO 16%, UT 15%, WY 13%, MT 12%, NM 15%, Quebec 18.5%. Kutchan adds a 2% accommodation tax.</p>
+    </div>
+    <div>
+      <h3>The washer filter lies</h3>
+      <p class="small">Listings returned under <code>amenities[]=33</code> repeatedly turned out to have shared coin-operated laundry. Three separate cases were caught this way. Only options marked <span class="ok">confirmed</span> below had in-unit laundry verified on the listing page itself. Treat every other washer claim as unverified.</p>
+      <h3>Listing titles are A/B tested</h3>
+      <p class="small">The same room ID returned different names on different fetches &mdash; room 44646128 came back as both "Heart of the Village+Free Parking" and "Village stroll views, 5 min to gondolas" at the same price. Key on the room ID, not the name. And open every listing: several of the cheapest "Telluride" results sit on the Valley Floor, two miles from town.</p>
+    </div>
+  </div>
+</section>
+
+<section id="scorecard">
+  <h2>Every resort against the three criteria</h2>
+  <div class="wrap"><table>
+    <thead><tr><th>Resort</th><th>Lift-served vertical</th><th>1 &middot; Extreme terrain</th><th>2 &middot; Walk to lift</th><th>3 &middot; Real town</th><th>Cheapest all-in</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Telluride CO</strong></td><td class="num">3,845 ft / 1,172 m</td><td><span class="ok">Strong</span>, but gate- and hike-dependent</td><td><span class="ok">Lift 7/8 on the town grid</span></td><td><span class="ok">Real Victorian town</span></td><td class="num">$2,088 (Jan)</td><td><strong>Best fit, January only</strong></td></tr>
+      <tr><td><strong>Whistler BC</strong></td><td class="num">5,280 ft / 1,609 m</td><td><span class="ok">Couloir Extreme, Spanky's Ladder</span></td><td><span class="ok">Gondolas base in village</span></td><td><span class="ok">14,000 residents</span></td><td class="num">$1,832</td><td><strong>Most complete</strong></td></tr>
+      <tr><td><strong>Fernie BC</strong></td><td class="num">3,550 ft / 1,082 m</td><td><span class="ok">Five bowls, 344 in snow</span></td><td><span class="part">Ski-in base, or C$5 shuttle</span></td><td><span class="ok">Real town, gym + Save-On</span></td><td class="num">$1,095</td><td><strong>Best value</strong></td></tr>
+      <tr><td><strong>Hakuba JP</strong></td><td class="num">3,514 ft / 1,071 m</td><td><span class="ok">Steepest in Japan, 37&deg; max</span></td><td><span class="ok">Happo village / Wadano</span></td><td><span class="part">Split across villages</span></td><td class="num">$1,950 incl. passes</td><td><strong>Best in Japan</strong></td></tr>
+      <tr><td><strong>Red Mtn BC</strong></td><td class="num">2,919 ft / 890 m</td><td><span class="part">Steep trees, no chutes</span></td><td><span class="ok">Free bus 7am&ndash;11pm</span></td><td><span class="part">Real town, no gym found</span></td><td class="num">$960</td><td>Best lift access</td></tr>
+      <tr><td><strong>Kicking Horse BC</strong></td><td class="num">4,314 ft / 1,315 m</td><td><span class="ok">Best chutes here, 75&ndash;85 of them</span></td><td><span class="part">Ski-in base village only</span></td><td><span class="no">Golden is 14 km</span></td><td class="num">$1,303</td><td>Terrain wins, town loses</td></tr>
+      <tr><td><strong>Revelstoke BC</strong></td><td class="num">5,620 ft / 1,713 m</td><td><span class="ok">Biggest in NA, ~45% expert</span></td><td><span class="no">Town 10&ndash;15 min, shuttle every 2 hrs</span></td><td><span class="ok">Real working town</span></td><td class="num">$1,283</td><td>Must pick one</td></tr>
+      <tr><td><strong>Crested Butte CO</strong></td><td class="num">3,062 ft / 933 m</td><td><span class="ok">Rambo, the Extremes, inbounds</span></td><td><span class="part">Base village, or free bus q15min</span></td><td><span class="ok">Elk Ave, Clark's + CORE gym</span></td><td class="num">$1,455</td><td><strong>The March answer</strong></td></tr>
+      <tr><td><strong>Niseko JP</strong></td><td class="num">3,061 ft / 933 m</td><td><span class="part">Deepest snow, 11 gates, moderate pitch</span></td><td><span class="ok">Walk to Ace Family from Hirafu</span></td><td><span class="part">Hirafu has no supermarket</span></td><td class="num">$2,620 (Jan)</td><td>Deep, not steep</td></tr>
+      <tr><td><strong>Jackson WY</strong></td><td class="num">4,139 ft / 1,262 m</td><td><span class="ok">Corbet's, 3,000 acres of gates</span></td><td><span class="part">Snow King yes; JHMR 30-min bus</span></td><td><span class="ok">Best town on the list</span></td><td class="num">$1,949</td><td>Town works, tram does not</td></tr>
+      <tr><td><strong>Park City UT</strong></td><td class="num">3,226 ft / 983 m</td><td><span class="no">Jupiter and Daly only, not extreme</span></td><td><span class="ok">Ski to Town Lift from the door</span></td><td><span class="ok">Real historic town</span></td><td class="num">$1,647</td><td>Wins 2 and 3, fails 1</td></tr>
+      <tr><td><strong>Taos NM</strong></td><td class="num">3,281 ft / 1,000 m</td><td><span class="ok">51% expert, patrol-vetted ridges</span></td><td><span class="part">TSV units walk to slopes</span></td><td><span class="no">Town 18&ndash;20 miles</span></td><td class="num">$1,343</td><td>Great skiing, no town</td></tr>
+      <tr><td><strong>Myoko JP</strong></td><td class="num">3,688 ft / 1,124 m</td><td><span class="part">Biggest vertical, long not steep</span></td><td><span class="ok">Akakura Onsen at the base</span></td><td><span class="part">Authentic village, no gym found</span></td><td class="num">$1,825</td><td>Cheapest, gym fails</td></tr>
+      <tr><td><strong>Big Sky MT</strong></td><td class="num">4,350 ft / 1,326 m</td><td><span class="ok">Big Couloir, but only 265 in snow</span></td><td><span class="part">One 10-min-walk option</span></td><td><span class="no">Town Center is a development</span></td><td class="num">$2,326</td><td>Ski-in is $4,400+</td></tr>
+      <tr><td><strong>Snowbird / Alta UT</strong></td><td class="num">3,240 ft / 988 m</td><td><span class="ok">The best here, 500 in, tram</span></td><td><span class="no">SLC is 45 min up a closable canyon</span></td><td><span class="no">No town exists</span></td><td class="num">$894 (SLC)</td><td>Terrain A+, brief F</td></tr>
+      <tr><td><strong>Furano JP</strong></td><td class="num">2,753 ft / 839 m</td><td><span class="no">80% beginner and intermediate</span></td><td><span class="no">3&ndash;6 km to the bases</span></td><td><span class="ok">A real Japanese city</span></td><td class="num">$1,296</td><td>Fails criterion 1</td></tr>
+      <tr><td><strong>Sun Peaks BC</strong></td><td class="num">2,894 ft / 882 m</td><td><span class="no">"None of it is truly extreme"</span></td><td><span class="ok">True ski-in/ski-out village</span></td><td><span class="no">No supermarket within 45 min</span></td><td class="num">$1,275</td><td>Cheapest, wrong mountain</td></tr>
+      <tr><td><strong>Mont-Tremblant QC</strong></td><td class="num">2,116 ft / 645 m</td><td><span class="no">No bowls, chutes, gates or backcountry</span></td><td><span class="ok">Pedestrian village</span></td><td><span class="no">Village is a resort plaza</span></td><td class="num">$850</td><td>Not in the conversation</td></tr>
+      <tr><td><strong>Rusutsu JP</strong></td><td class="num">1,949 ft / 594 m</td><td><span class="no">Max pitch 27.6&deg;, a tree mountain</span></td><td><span class="no">$5,800&ndash;9,100/wk to be walkable</span></td><td><span class="no">No town, supermarket or gym</span></td><td class="num">n/a</td><td>Eliminate</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="terrain">
+  <h2>The terrain, honestly</h2>
+
+  <h3>The genuinely extreme</h3>
+  <p><strong>Snowbird and Alta</strong> are the steepest lift-served skiing in the United States and it is not close. Snowbird's 125-person tram climbs 2,900 ft to Hidden Peak in seven minutes, feeding the Upper Cirque, Great Scott, Pipeline and the Gad chutes; Alta adds High Rustler, the Baldy Chutes and Main Chute. Snowbird claims over 500 in of snow, Alta 405 in on the conservative measure. The AltaSnowbird joint ticket opens 4,700+ acres across both, though Alta remains skiers-only, so snowboarders cannot use the connection.</p>
+  <p><strong>Jackson Hole</strong> has the biggest continuous lift-served vertical in the US at 4,139 ft, verified on the resort's own stats page, with a 50% expert terrain split and an open gate system onto 3,000+ acres. Corbet's Couloir is a 15&ndash;20 ft mandatory entry drop onto a 50&deg; pitch. The Hobacks give nearly 2,000 ft of open powder. Cody Peak's Central Chute and Once Is Enough are serious avalanche terrain with few safe zones. The honest caveat is snow volume: the resort claims 458 in, ZRankings' adjusted figure is 368 in &mdash; materially less than Snowbird.</p>
+  <p><strong>Kicking Horse</strong> is the chute mountain. 4,314 ft of vertical, 60% advanced-expert, and 75&ndash;85 inbounds chutes. Ozone is a former Freeride World Tour venue reached by a 20-minute hike; T1 and T2 are 10&ndash;45 minute bootpacks; Feuz Bowl holds 27 chutes. An independent review notes the double-blacks "can quickly cliff out or require mandatory straightlining with little to no notice," and that the single-blacks ski like experts' terrain elsewhere. The catch is that the entire upper mountain hangs off one gondola.</p>
+  <p><strong>Revelstoke</strong>'s claim to the longest lift-served vertical in North America checks out at 1,713 m / 5,620 ft, with roughly 45% advanced-expert terrain and about 35 ft of snow across North Bowl, Greely Bowl and the hike-to Sub-Peak. Backcountry gates are plentiful and most do not filter back inbounds &mdash; you are committing. Anyone returning via inbounds terrain must do so by 3:45pm. The weakness is a 510 m base: lower-mountain snow goes heavy, and March down low can be poor.</p>
+  <p><strong>Big Sky</strong> has the most vertical here at 4,350 ft and the most formally serious single line in North America. The Big Couloir requires a check-in with patrol and a qualified partner; two skiers descend every 15 minutes from a sign-out shack at the tram summit; avalanche gear is mandatory and violators face lifetime bans. It is roughly 1,400 vertical feet at up to 50&deg;. The problem is snow: 265 in, roughly half Snowbird's.</p>
+  <p><strong>Taos</strong> has the highest expert share in the study at 51%, 1,000 m of vertical, and a gate culture where patrol may question your competence before letting you onto the West Basin or Highline ridges. Al's Run is 1,800 ft of sustained moguls directly above the base. Stauffenberg is roughly 45&deg; and two ski-lengths wide. Everything is inbounds with daily avalanche mitigation &mdash; a clean legal picture, unlike Telluride's.</p>
+
+  <h3>Strong, with an asterisk</h3>
+  <p><strong>Telluride</strong> is the one the brief guessed at, and the guess is broadly right &mdash; but it is more gate- and hike-dependent than the marketing implies. Gold Hill Chutes 3&ndash;5 are permanently closed; the rest need a 15&ndash;30 minute hike and the resort's own guide warns they "are not open continually." Palmyra Peak is a 1&ndash;1.5 hour hike. Bald Mountain's gate closes at 2pm. Black Iron Bowl has the best effort-to-reward ratio, with Genevieve reachable in 5&ndash;10 minutes. Strip out the gated terrain and the reliable lift-served steep is Revelation Bowl, Black Iron after a short hike, and the Plunge and Spiral Stairs falling into town. The San Juans also carry one of the most persistently unstable snowpacks in the US, which governs how often those gates open at all.</p>
+  <p class="small"><strong>Bear Creek is out of bounds, not a sidecountry perk.</strong> Access is only via specific USFS boundary gates. A San Miguel County court recognised a public right to cross the Gertrude and Modena mining claims along the Wasatch Trail, but the easement covers the trail only. The resort does not patrol it and does not mitigate it. Exiting anywhere other than a legal gate means a pulled pass and possible criminal charges. Bear Creek has killed people.</p>
+  <p><strong>Whistler</strong>'s top end is real: Couloir Extreme is a 2,500-vertical-foot chute off 7th Heaven, ranked a top-ten steepest by <em>Skiing</em>. Spanky's Ladder is a 15 m bootpack from the Glacier Chair into Ruby, Diamond and Sapphire Bowls &mdash; very steep, cliffs throughout. Peak Chair holds The Couloir, Cirque and West Cirque. The caveats are that this terrain is alpine and closes in storms, the base is low enough to rain, and it is the most crowded resort in North America.</p>
+  <p><strong>Crested Butte</strong> has shorter terrain than Telluride &mdash; 933 m of vertical, with signature runs of 120&ndash;670 m &mdash; but it is inbounds and avalanche-controlled rather than gated sidecountry, so it is open far more reliably. Rambo is the steepest lift-served cut trail in North America at roughly 55&deg;, though only about 400 ft long. The Extremes run to roughly 542 acres of inbounds double-black. The access lifts are wind-sensitive surface lifts.</p>
+  <p><strong>Fernie</strong>'s five bowls hold 344 in of snow, the most of any Canadian Rockies resort. Currie Bowl is the signature: consistently steep fall line, dominated by double-black, with triple-black lines off the headwall. Polar Peak tops the resort out and every run off it is double-black &mdash; but it reportedly opens less than 10% of a typical season on wind and avalanche closure. Plan around Currie, not Polar.</p>
+  <p><strong>Hakuba</strong> is the only mountain in Japan here with sustained, big-vertical, genuinely steep lift-served terrain. Happo-One runs 1,071 m from 760 to 1,831 m with a 37&deg; maximum; the Omusubi and Black Back off-piste zones average 27&deg;, which is sustained rather than a single pitch. Omusubi has a formal patrol-inspected gate open roughly early January to early March. The real prize is the Happo backcountry from the top of the Grat quad &mdash; genuine alpine, no patrol, no control. Tsugaike's Double Black Diamond zone has four gates and a registration-required backcountry program; Cortina gets about 13 m of snow and its patrol actively supports tree riding rather than merely tolerating it.</p>
+
+  <h3>Deep but not steep</h3>
+  <p><strong>Niseko</strong> has the best-organised and most legally permissive gate system in Japan &mdash; 11 numbered gates, with Gate 3 giving a 20-minute bootpack to the Annupuri summit and Gate 11 opening Mizuno-no-sawa, the only avalanche-controlled zone and the steepest sanctioned terrain on the mountain. Roughly 15 m of snow a year and a typical deepest base of 383 cm. But modelled run pitch across Niseko spans only 2.7&deg; to 21.9&deg;. Against Corbet's or Zermatt's steeps it will feel mellow. It is a tree-and-pillow mountain. Ducking ropes costs your pass, and search-and-rescue is charged at a minimum of &yen;100,000.</p>
+  <p><strong>Red Mountain</strong> is 37% black, entirely natural, with no man-made cut trails &mdash; tight trees, rocks, stumps and mandatory cliff drops. If "extreme" means no-fall-zone glades it delivers; if it means alpine couloirs it does not. It has not one high-speed chairlift, and reaching Grey's summit takes three consecutive lifts.</p>
+  <p><strong>Myoko</strong> has the biggest vertical in the Japan set at 1,124 m and the highest summit at 1,855 m, but Suginohara's famous 8.5 km run is long rather than steep. Seki Onsen's 45&deg; maximum is the steepest pitch anywhere in this study &mdash; on a two-lift hill with 310 m of vertical. Critically, Myoko is much less permissive than Niseko: there is no sanctioned gate network, and Akakura patrol enforces out-of-bounds rules.</p>
+
+  <h3>Below the bar</h3>
+  <p><strong>Park City</strong> has real steep pockets in Jupiter Bowl, McConkey's and the Daly Chutes, but there is no tram, no 4,000 ft sustained fall line, and 23% expert spread thin over 7,300 acres whose centre of gravity is intermediate cruising. <strong>Furano</strong> is 80% beginner and intermediate, and visitors are repeatedly advised to hire guides to find the off-piste at all. <strong>Sun Peaks</strong> &mdash; an independent review states plainly that "none of Sun Peaks's terrain is truly extreme," and Gil's, the headline hike-to, "isn't overly steep." <strong>Rusutsu</strong> tops out at 27.6&deg;. <strong>Mont-Tremblant</strong> has 645 m of vertical, 178 in of snow, no bowls, no chutes, no gates and no backcountry access; La Dynamite's quoted 42&deg; is a peak pitch over a 330 m drop, not a sustained one.</p>
+</section>
+
+<section id="towns">
+  <h2>Lift access, towns, gyms and groceries</h2>
+  <div class="wrap"><table>
+    <thead><tr><th>Resort</th><th>Base to nearest real town</th><th>Link</th><th>Walkable to lift AND near amenities?</th><th>Gym</th><th>Supermarket</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Telluride</strong></td><td class="num">0 &mdash; the lift is in the town</td><td>Free gondola, 12&ndash;13 min, 6:30am&ndash;midnight (2am Fri/Sat), 20 Nov&ndash;4 Apr</td><td><span class="ok">Yes, completely</span></td><td>Telluride FUEL, 205 E Colorado; Broad Collective; The Peaks in Mountain Village via gondola</td><td><strong>Clark's Market</strong>, 700 W Colorado Ave, Mon&ndash;Fri 7am&ndash;9pm</td></tr>
+      <tr><td><strong>Whistler</strong></td><td class="num">0 &mdash; village is the town</td><td>Both gondolas base in the village</td><td><span class="ok">Yes</span></td><td><strong>Whistler Core</strong>, in the village, C$18 drop-in. Meadow Park is 4 km, not walkable</td><td><strong>Fresh St. Market</strong>, Northlands Blvd; <strong>Nesters Market</strong></td></tr>
+      <tr><td><strong>Park City</strong></td><td class="num">0 &mdash; Town Lift runs into Main St</td><td>Ski to the Town Lift from Old Town doorsteps</td><td><span class="ok">Yes</span></td><td><strong>PC MARC</strong>, 1200 Little Kate Rd, ~1 mi; Basin Rec Fieldhouse, 87,000 sq ft</td><td><strong>Fresh Market</strong>, 1740 Park Ave, ~1 mi on the free bus</td></tr>
+      <tr><td><strong>Fernie</strong></td><td class="num">5 km / 7&ndash;8 min</td><td>#FernieStoke shuttle, C$5 each way, C$45 for 10 rides, app-only</td><td><span class="part">Ski-in at the base, or town plus shuttle</span></td><td><strong>Evolution Health &amp; Fitness</strong>, 1192 8th Ave &mdash; 10,000 sq ft, seven zones, 24-hr cardlock</td><td><strong>Save-On-Foods</strong>, 792 2nd Ave</td></tr>
+      <tr><td><strong>Red Mountain</strong></td><td class="num">3.2 km / 6 min</td><td><strong>Free</strong> ski bus, seven days, Sun&ndash;Wed 7am&ndash;7pm, Thu&ndash;Sat 7am&ndash;11pm</td><td><span class="ok">Yes &mdash; best logistics here</span></td><td><span class="no">None confirmed in Rossland.</span> Some base condos have fitness rooms; Trail is 20 min</td><td><strong>Ferraro Foods</strong>, 2029 Columbia Ave, family-owned since 1943</td></tr>
+      <tr><td><strong>Crested Butte</strong></td><td class="num">3 mi / 8 min</td><td>Mountain Express, <strong>free</strong>, every 15 min, ~7:35am&ndash;midnight</td><td><span class="part">Pick one: base village or Elk Ave</span></td><td><strong>CORE Crested Butte</strong>, 502 Belleview &mdash; next door to Clark's; Elevation Spa at the base</td><td><strong>Clark's Market</strong>, 500 Belleview Ave</td></tr>
+      <tr><td><strong>Revelstoke</strong></td><td class="num">6&ndash;8 km / 10&ndash;15 min</td><td>Shuttle C$2 one-way, 6:15am&ndash;8:30pm &mdash; but only <strong>every 2 hours</strong></td><td><span class="no">Pick one.</span> Sutton Place is the only ski-in hotel; the base has one hotel and three restaurants</td><td>Revelstoke Community Centre (basic), Anytime Fitness, CrossFit Revelstoke</td><td><strong>Cooper's / Save-On-Foods</strong>, 555 Victoria Rd; Southside Market</td></tr>
+      <tr><td><strong>Kicking Horse</strong></td><td class="num">14 km / 15&ndash;20 min</td><td>Golden Kicking Horse Connector, C$5, exact change</td><td><span class="no">Base village has no supermarket; Golden means a daily drive</span></td><td><strong>Golden's Gym</strong>, 806 9th St N, 24/7 app entry</td><td><strong>IGA Golden</strong>, 624 9th Ave N; also Save-On-Foods</td></tr>
+      <tr><td><strong>Jackson</strong></td><td class="num">12&ndash;14 mi / 19&ndash;26 min to Teton Village</td><td>START route TVL, $3 one-way, $2.40 on a 10-ride book, ~30&ndash;35 min. Snow King is a 2-min walk from town condos</td><td><span class="part">Yes via Snow King; no for JHMR</span></td><td><strong>Teton County Rec Center</strong>, 155 E Gill Ave, <strong>$7 day pass</strong></td><td><strong>Albertsons</strong>, 105 Buffalo Way, 6am&ndash;11pm; <strong>Smith's</strong>, 1425 S Hwy 89, to midnight</td></tr>
+      <tr><td><strong>Taos</strong></td><td class="num">18&ndash;20 mi / 25&ndash;40 min</td><td>Free Green Route bus, but only ~6&ndash;8 runs a day</td><td><span class="no">TSV village has no supermarket at all</span></td><td><strong>Taos Spa &amp; Tennis Club</strong>, 111 Do&ntilde;a Ana Dr &mdash; best-equipped gym in the study, and 20 miles from the lift</td><td><strong>Smith's</strong> and <strong>Albertsons</strong> on Paseo del Pueblo; <strong>Cid's Food Market</strong></td></tr>
+      <tr><td><strong>Big Sky</strong></td><td class="num">7&ndash;8 mi to Town Center; 50 mi to Bozeman</td><td>Skyline bus, <strong>free</strong>, plus on-demand Big Sky Connect</td><td><span class="no">Town Center is a new-build development, not a town</span></td><td><span class="part">Weakest data here.</span> Santosha (spa/yoga), Gravity Haus (hotel); BASE Big Sky unverified</td><td><strong>Roxy's Market</strong>, Town Center &mdash; 18,000 sq ft, the area's only full-service grocery</td></tr>
+      <tr><td><strong>Snowbird / Alta</strong></td><td class="num">~9 mi to Sandy; 29 mi / 45 min to SLC</td><td>No town exists. SR-210 has 64 slide paths; interlodge is a legal lockdown you cannot leave, even for your car</td><td><span class="no">No</span></td><td>Up-canyon: none. In SLC, several priced apartments below have in-building gyms</td><td>Up-canyon: none. <strong>Harmons Brickyard</strong>, 3270 S 1300 E, SLC</td></tr>
+      <tr><td><strong>Hakuba</strong></td><td class="num">Happo village at the lift; station 3 km</td><td>Free Hakuba Valley shuttles link all villages and 10 resorts &mdash; but storm-disrupted</td><td><span class="part">Happo for the lift, Echoland for the gym and AEON</span></td><td><strong>Hakuba Field Sport Gym</strong>, east of Echoland; municipal sports centre at the station</td><td><strong>Delicia</strong> and <strong>A-COOP</strong> at Hakuba station; <strong>AEON</strong> by Echoland</td></tr>
+      <tr><td><strong>Niseko</strong></td><td class="num">Hirafu at the lift; Kutchan 8 km / 15&ndash;20 min</td><td>Free Hirafu shuttle; JR Hakodate line to Kutchan</td><td><span class="part">Hirafu has 200+ restaurants but no supermarket, only konbini</span></td><td><strong>Niseko CrossFit</strong> and <strong>Kutchan Combined Gymnasium</strong>, both Kutchan; NAC climbing gym in Hirafu itself</td><td><strong>MaxValu Kutchan</strong> (5&ndash;6 km), <strong>LUCKY</strong>, <strong>Coop Sapporo</strong> &mdash; all in Kutchan</td></tr>
+      <tr><td><strong>Myoko</strong></td><td class="num">Akakura Onsen is at the base</td><td>Walkable onsen village; Myoko-Kogen station 10&ndash;15 min by bus, every 1&ndash;2 hrs</td><td><span class="part">Most authentic village here, thinnest infrastructure</span></td><td><span class="no">None found anywhere in the Myoko area.</span> Treat the gym requirement as a fail</td><td><strong>Daiichi Super Myoko</strong>, ~700 m from the station, 2&ndash;3 km from Akakura</td></tr>
+      <tr><td><strong>Furano</strong></td><td class="num">3 km to Kitanomine, 6 km to Furano Zone</td><td>Shuttles between zones and downtown, including evenings</td><td><span class="no">Real town or walk-to-lift, not both</span></td><td><span class="part">None found in OSM.</span> The Prince hotel likely has a fitness room &mdash; unverified</td><td><strong>Ralse Mart</strong>, ~500 m from Furano station; Co-op; DZ Mart</td></tr>
+      <tr><td><strong>Sun Peaks</strong></td><td class="num">Ski-in/ski-out village; Kamloops 56 km / 45 min</td><td>Best lift access of the BC set</td><td><span class="no">Bluebird Market is a convenience store, not a supermarket</span></td><td>Sun Peaks Alpine Fitness, in the village</td><td><span class="no">None.</span> Nearest real supermarket is Kamloops, 45 min</td></tr>
+      <tr><td><strong>Mont-Tremblant</strong></td><td class="num">~10&ndash;12 km to Saint-Jovite</td><td>BUS Mont-Tremblant; complimentary shuttle to the pedestrian village</td><td><span class="no">Village is a purpose-built plaza with no supermarket</span></td><td>Conditionnement Fonctionnel MT; Gym Oxyclub Tremblant &mdash; both in St-Jovite</td><td><strong>IGA Extra Tremblant</strong>, 412 Route 117, Saint-Jovite</td></tr>
+      <tr><td><strong>Rusutsu</strong></td><td class="num">~10 km to Kimobetsu</td><td>Shuttles to Sapporo and New Chitose airport</td><td><span class="no">No town. Four hotels and a theme park</span></td><td><span class="no">None.</span> Only a residents' swimming pool is mapped</td><td><span class="no">None.</span> A Seicomart and a 7-Eleven ~1 km away; nearest supermarket 10 km</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="passes">
+  <h2>Lift tickets and passes</h2>
+  <div class="note warn">Vail Resorts had not released 2026/27 daily lift ticket prices as of 16 Aug 2026, so Whistler, Park City and Crested Butte day rates below are 2025/26 figures used as a proxy. The 2026/27 <strong>Ikon Pass is $1,449 adult, Ikon Base $1,019</strong> &mdash; verified. Ikon gives 7 days at Jackson Hole, Big Sky, Taos, Snowbird, Alta, Sun Peaks and Niseko United; Base gives 5 with blackouts.</div>
+  <div class="wrap"><table>
+    <thead><tr><th>Resort</th><th>Day ticket</th><th>5&ndash;6 day week</th><th>Pass</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Telluride</strong></td><td class="num">$245 window / ~$149&ndash;199 advance</td><td class="num">Regular $1,192 (5d) / $1,430 (6d)<br>Peak $1,390 / $1,631</td><td><strong>Epic</strong>, 7 days</td><td><strong>Both March weeks are peak; all three January weeks are regular.</strong> Minimum 4 days advance. Plus 5% ticket tax</td></tr>
+      <tr><td><strong>Crested Butte</strong></td><td class="num">$164 wkdy / $199 wknd</td><td class="num">Week pass $1,064</td><td><strong>Epic</strong>, unlimited</td><td><strong>An Epic Local pass at $809 beats the $1,064 week ticket.</strong> Buy the pass</td></tr>
+      <tr><td><strong>Park City</strong></td><td class="num">$288 wkdy / $310 wknd</td><td class="num">Week pass $1,925</td><td><strong>Epic</strong>, unlimited</td><td><strong>The full Epic Pass at $1,089 saves ~$836 over the week ticket.</strong> Never buy the week ticket</td></tr>
+      <tr><td><strong>Whistler</strong></td><td class="num">C$305 window / C$205&ndash;255 advance</td><td class="num">Week pass C$2,100 (~US$1,522)</td><td><strong>Epic</strong>, unlimited</td><td>A UK operator quotes a 6-day restricted pass at ~C$630, irreconcilable with C$2,100 &mdash; verify direct</td></tr>
+      <tr><td><strong>Fernie and Kicking Horse</strong></td><td class="num">~C$185 (2025/26 reference)</td><td class="num">2026/27 not yet on sale</td><td><strong>Epic</strong>, up to 7 days</td><td>RCR joined Epic. <strong>Epic 1-3 Day and Limited Access get zero RCR access.</strong> Mobile pass not accepted &mdash; you need the physical card</td></tr>
+      <tr><td><strong>Red Mountain</strong></td><td class="num">C$209 window / C$189 online (peak)</td><td class="num">5-of-7 days C$1,045 / C$945 online</td><td><strong>Ikon</strong>, 7 days (Base 5, blackouts)</td><td><strong>RED Card: C$548 for 5 anytime days, no blackouts</strong> &mdash; early-bird deadline has passed, current price unknown</td></tr>
+      <tr><td><strong>Revelstoke</strong></td><td class="num">C$199 peak; advance saves up to 35%</td><td class="num">Week pass C$1,012 (~US$733)</td><td><strong>Ikon</strong> plus Mountain Collective</td><td><strong>Ikon Base is blacked out 16&ndash;17 Jan 2027</strong> &mdash; that hits the first two days of the 16&ndash;23 Jan week</td></tr>
+      <tr><td><strong>Jackson Hole</strong></td><td class="num">$339 window / $255 advance</td><td class="num">~$1,275&ndash;1,560 advance</td><td><strong>Ikon</strong>, 7 days</td><td><strong>New for 2026/27: lift reservations required for all Ikon and Mountain Collective holders.</strong> Advance needs 7 days' notice</td></tr>
+      <tr><td><strong>Big Sky</strong></td><td class="num">$289 window / $260 advance</td><td class="num">~$1,300&ndash;1,560</td><td><strong>Ikon</strong>, 7 days</td><td><strong>The Lone Peak Tram is free with a day ticket but NOT included on Ikon</strong> &mdash; $10&ndash;40+ per ride, effectively $30&ndash;100/day. For extreme skiing here, a day ticket can beat the pass</td></tr>
+      <tr><td><strong>Snowbird / Alta</strong></td><td class="num">Snowbird $238 window / $215 advance. Alta 2026/27 not yet released</td><td class="num">~$1,075&ndash;1,290</td><td><strong>Ikon</strong>, 7 days</td><td>AltaSnowbird joint ticket exists, sold at either office, price not published</td></tr>
+      <tr><td><strong>Taos</strong></td><td class="num">$185 window; from $75 with 72-hr advance</td><td class="num">Not published</td><td><strong>Ikon</strong>, 7 days</td><td>Passholder reservations required. Kachina Plus season pass includes an Ikon Base</td></tr>
+      <tr><td><strong>Hakuba Valley</strong></td><td class="num">&yen;11,100 ($71); Happo alone &yen;8,700; Cortina+Norikura &yen;6,500</td><td class="num"><strong>&yen;53,400 5d ($342) / &yen;63,900 6d ($410)</strong></td><td><strong>Epic</strong>, 5 consecutive days free. <span class="no">Not on Ikon</span></td><td>Covers all 10 valley resorts. For one week just buy the 6-day pass &mdash; cheaper than an Epic Pass for this trip alone</td></tr>
+      <tr><td><strong>Niseko United</strong></td><td class="num">Peak &yen;13,500 ($87); regular &yen;12,600</td><td class="num">Peak <strong>&yen;65,500 5d ($420) / &yen;78,500 6d ($503)</strong><br>Regular &yen;61,000 / &yen;73,100</td><td><strong>Ikon</strong>, 7 days (Base 5)</td><td><strong>Peak runs 24 Dec&ndash;28 Feb, so all three January weeks are peak; 1&ndash;22 Mar is regular.</strong> Multi-day passes are consecutive-days only</td></tr>
+      <tr><td><strong>Myoko</strong></td><td class="num">Suginohara &yen;8,000; Akakura &yen;7,000; <strong>Seki Onsen &yen;3,900&ndash;4,500</strong></td><td class="num">~&yen;40,000&ndash;44,000 ($256&ndash;282) mixed</td><td>Suginohara on <strong>Ikon</strong>, 7 days. Akakura, Seki and Ikenotaira on nothing</td><td><strong>Cheapest lift cost in the study.</strong> No Myoko-wide multi-day pass exists</td></tr>
+      <tr><td><strong>Furano</strong></td><td class="num">&yen;8,000 ($51)</td><td class="num">~&yen;40,000 ($256), estimate</td><td><strong>Ikon</strong>, 7 days</td><td>Ikon's best Japan argument: 7 days each at Niseko, Furano and Myoko Suginohara, plus Arai, Shiga Kogen, Zao and Appi</td></tr>
+      <tr><td><strong>Rusutsu</strong></td><td class="num">&yen;16,200 window / &yen;12,000 online</td><td class="num">&yen;59,000 5d ($378)</td><td><strong>Epic</strong>, 5 days. <span class="no">Not on Ikon</span></td><td>The most expensive window day-ticket in the study &mdash; always pre-book online</td></tr>
+      <tr><td><strong>Sun Peaks</strong></td><td class="num">C$199</td><td class="num">Week pass C$995 (~US$721)</td><td><strong>Ikon</strong>, 7 days (Base 5)</td><td>Same 16&ndash;17 Jan 2027 Ikon Base blackout as Revelstoke</td></tr>
+      <tr><td><strong>Mont-Tremblant</strong></td><td class="num">C$155 wkdy / C$185 wknd (2025/26)</td><td class="num"><strong>From C$104/day if booked before 15 Oct 2026</strong>; 6 days ~C$624</td><td><strong>Ikon</strong></td><td>Cheapest lift ticket in North America here. One break day allowed on 3&ndash;7 day tickets</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="priced">
+  <h2>Priced options with real 2027 numbers</h2>
+  <p>All fetched live on 10 Sep 2026 for two adults, seven nights, in US dollars. "All-in" adds the local lodging tax. Free cancellation is taken from the search badge unless noted. <span class="ok">Confirmed</span> in the washer column means in-unit laundry was verified on the listing page itself; everything else is filter-claimed only.</p>
+
+  <h3>The shortlist &mdash; options that satisfy all three criteria</h3>
+  <div class="wrap"><table>
+    <thead><tr><th>Property</th><th>Where &middot; walk to which lift</th><th>Week</th><th>Fetched</th><th>All-in</th><th>Washer</th><th>Gym</th><th>Free cancel</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Room 15395305</strong><br><a href="https://www.airbnb.com/rooms/15395305">airbnb.com/rooms/15395305</a></td><td><strong>Telluride town</strong> &mdash; "about a 5-min walk to Main Street, restaurants, and Chair 7"</td><td>23&ndash;30 Jan</td><td class="num">$1,877</td><td class="num"><strong>~$2,100</strong></td><td>Filter-claimed</td><td>Passed washer+gym filter</td><td><span class="ok">Yes</span></td></tr>
+      <tr><td><strong>Room 1663839049801753122</strong><br><a href="https://www.airbnb.com/rooms/1663839049801753122">airbnb.com/rooms/1663839049801753122</a></td><td><strong>Telluride town</strong> &mdash; "just across the river from Lift #7", next to Clark's Market</td><td>9&ndash;16 Jan</td><td class="num">$1,924</td><td class="num"><strong>~$2,153</strong></td><td>Filter-claimed</td><td>Telluride FUEL in town</td><td><span class="ok">Yes</span></td></tr>
+      <tr><td><strong>Room 44646128</strong>, Heart of the Village<br><a href="https://www.airbnb.com/rooms/44646128">airbnb.com/rooms/44646128</a></td><td><strong>Whistler Village</strong> &mdash; "only 5 mins walk to Whistler Gondolas", both of them. Sleeps 5</td><td>9&ndash;16 Jan</td><td class="num">$1,619</td><td class="num"><strong>~$1,878</strong></td><td><span class="ok">Confirmed</span>, "in suite laundry"</td><td><span class="ok">Confirmed</span>, fitness centre and hot tub in Eagle Lodge next door</td><td><span class="ok">Yes</span></td></tr>
+      <tr><td><strong>Room 43744424</strong>, Boomerang<br><a href="https://www.airbnb.com/rooms/43744424">airbnb.com/rooms/43744424</a></td><td><strong>Telluride town</strong> &mdash; "100 ft from Main Street", "couple minutes walk to chair lift 7"</td><td>9&ndash;16 Jan</td><td class="num">$2,020</td><td class="num"><strong>~$2,260</strong></td><td>Filter-claimed</td><td>Telluride FUEL in town</td><td>Not shown</td></tr>
+      <tr><td><strong>Room 2387164</strong>, Slope Side at Snow King<br><a href="https://www.airbnb.com/rooms/2387164">airbnb.com/rooms/2387164</a></td><td><strong>Jackson town</strong> &mdash; 2-min walk to the Snow King lifts; START TVL to JHMR ~30 min, $3</td><td>6&ndash;13 Mar</td><td class="num">$1,725</td><td class="num"><strong>~$1,949</strong></td><td><span class="ok">Confirmed</span></td><td>Teton County Rec Center, $7/day, 10-min walk</td><td><span class="ok">Yes</span></td></tr>
+      <tr><td><strong>Room 13251810</strong>, Woodside in the Trees<br><a href="https://www.airbnb.com/rooms/13251810">airbnb.com/rooms/13251810</a></td><td><strong>Park City Old Town</strong> &mdash; half-block to Quittin' Time, ski down to <strong>Town Lift</strong>; 5 min to Main St</td><td>13&ndash;20 Mar</td><td class="num">$1,715</td><td class="num"><strong>~$1,972</strong></td><td><span class="ok">Confirmed</span>, Euro washer/dryer</td><td>PC MARC, ~1 mi</td><td><span class="ok">Yes</span></td></tr>
+      <tr><td><strong>Room 1497905199107808374</strong><br><a href="https://www.airbnb.com/rooms/1497905199107808374">airbnb.com/rooms/1497905199107808374</a></td><td><strong>Red Mountain</strong> &mdash; ski-in studio condo, Rossland. Sleeps 4</td><td>16&ndash;23 Jan</td><td class="num">$1,394</td><td class="num"><strong>~$1,617</strong></td><td><span class="ok">Confirmed</span>, "in suite laundry"</td><td><span class="ok">Confirmed</span>, "on site fitness center". Solves Rossland's gym gap</td><td><span class="ok">Yes</span></td></tr>
+      <tr><td><strong>Room 694839646627589571</strong>, Palliser Lodge<br><a href="https://www.airbnb.com/rooms/694839646627589571">airbnb.com/rooms/694839646627589571</a></td><td><strong>Kicking Horse base</strong> &mdash; ski-in/ski-out, walk to the Golden Eagle gondola</td><td>13&ndash;20 Mar</td><td class="num">$1,154</td><td class="num"><strong>~$1,339</strong></td><td>Not stated, verify</td><td><span class="ok">Confirmed</span>, "gym in building"</td><td><span class="ok">Yes</span></td></tr>
+      <tr><td><strong>Room 966035320847612433</strong><br><a href="https://www.airbnb.com/rooms/966035320847612433">airbnb.com/rooms/966035320847612433</a></td><td><strong>Mt Crested Butte base</strong> &mdash; "Ski-Base Studio, Two Kings, Pool, Gym &amp; Hot Tub"</td><td>9&ndash;16 Jan</td><td class="num">$1,405</td><td class="num"><strong>~$1,630</strong></td><td>Filter-claimed</td><td>In building, title-claimed</td><td><span class="ok">Yes</span></td></tr>
+      <tr><td><strong>Wadano Local Ski Lodge</strong></td><td><strong>Hakuba, Wadano</strong> &mdash; walkable to Happo's Nakiyama and Sakka bases</td><td>6&ndash;13 Mar</td><td class="num">$1,592</td><td class="num"><strong>~$1,790</strong></td><td>Filter-claimed</td><td>Hakuba Field Sport Gym, Echoland</td><td><span class="ok">Yes</span></td></tr>
+      <tr><td><strong>near Grand HIRAFU, economy 4p</strong></td><td><strong>Niseko, Hirafu</strong> &mdash; walking distance to Grand Hirafu; breakfast included</td><td>9&ndash;16 Jan</td><td class="num">$1,303</td><td class="num"><strong>~$1,460</strong></td><td>Filter-claimed</td><td>NAC climbing gym in Hirafu; CrossFit in Kutchan</td><td><span class="ok">Yes</span></td></tr>
+      <tr><td><strong>Room 914666151815486819</strong><br><a href="https://www.airbnb.com/rooms/914666151815486819">airbnb.com/rooms/914666151815486819</a></td><td><strong>Fernie Alpine Resort</strong> &mdash; ski-in at the base. Same price January and March</td><td>16&ndash;23 Jan / 13&ndash;20 Mar</td><td class="num">$1,244</td><td class="num"><strong>~$1,443</strong></td><td>Filter-claimed</td><td>Evolution, in town via C$5 shuttle</td><td><span class="ok">Yes</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>The rest of the priced set</h3>
+  <div class="wrap"><table>
+    <thead><tr><th>Resort &middot; property</th><th>Week</th><th>Fetched USD</th><th>All-in</th><th>Free cancel</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Telluride</strong> &middot; Plunge E by AvantStay (617410023719291310), 2BR</td><td>9&ndash;16 Jan</td><td class="num">$2,487</td><td class="num">~$2,783</td><td><span class="ok">Yes</span></td><td>Best of the set for three people</td></tr>
+      <tr><td><strong>Telluride</strong> &middot; room 17254493, studio sleeps 3</td><td>23&ndash;30 Jan</td><td class="num">$2,149</td><td class="num">~$2,405</td><td><span class="ok">Yes</span></td><td>"Ski lifts just across the river", ~10 min to gondola</td></tr>
+      <tr><td><strong>Telluride</strong> &middot; hot tub and deck near the gondola</td><td>6&ndash;13 Mar</td><td class="num">$1,643</td><td class="num">~$1,839</td><td>Not shown</td><td><strong>The only comfortably under-budget March option.</strong> 4.66&#9733;, lowest rating of the set</td></tr>
+      <tr><td><strong>Telluride</strong> &middot; 3-min walk to Chair 7 (1730696123472611652)</td><td>6&ndash;13 Mar</td><td class="num">$2,813</td><td class="num"><span class="no">~$3,148</span></td><td><span class="ok">Yes</span></td><td>Typical of March: same shape of unit, 40&ndash;60% dearer</td></tr>
+      <tr><td><strong>Telluride</strong> &middot; room 21539429 <span class="no">&mdash; trap</span></td><td>23&ndash;30 Jan</td><td class="num">$1,665</td><td class="num">~$1,863</td><td><span class="ok">Yes</span></td><td><span class="no">Listing says "2 mile walk, bike, bus, or drive to Telluride."</span> Valley Floor, not town</td></tr>
+      <tr><td><strong>Whistler</strong> &middot; mountain views, top-floor balcony</td><td>9&ndash;16 Jan</td><td class="num">$1,714</td><td class="num">~$1,988</td><td><span class="ok">Yes</span></td><td>350 listings match washer+gym in Whistler &mdash; deep inventory</td></tr>
+      <tr><td><strong>Whistler</strong> &middot; studio condo, heart of the village</td><td>13&ndash;20 Mar</td><td class="num">$1,579</td><td class="num">~$1,832</td><td><span class="ok">Yes</span></td><td>Cheapest village studio found</td></tr>
+      <tr><td><strong>Whistler</strong> &middot; room 22570546, hot tub, walk to lifts</td><td>13&ndash;20 Mar</td><td class="num">$2,062</td><td class="num">~$2,392</td><td><span class="ok">Yes</span></td><td></td></tr>
+      <tr><td><strong>Fernie town</strong> &middot; half a block from downtown, boutique hotel</td><td>9&ndash;16 Jan</td><td class="num">$1,394</td><td class="num">~$1,617</td><td><span class="ok">Yes</span></td><td>Walk to Evolution gym and Save-On-Foods</td></tr>
+      <tr><td><strong>Fernie</strong> &middot; Hot Tub Pool 1BD ski in/ski out</td><td>23&ndash;30 Jan</td><td class="num">$1,341</td><td class="num">~$1,556</td><td><span class="ok">Yes</span></td><td></td></tr>
+      <tr><td><strong>Fernie</strong> &middot; Corner Pocket Cottage</td><td>23&ndash;30 Jan</td><td class="num">$705</td><td class="num">~$818</td><td><span class="ok">Yes</span></td><td>Cheapest Fernie option found</td></tr>
+      <tr><td><strong>Fernie</strong> &middot; room 48750960, walk to FAR, hot tubs, 2BR</td><td>13&ndash;20 Mar</td><td class="num">$1,528</td><td class="num">~$1,772</td><td><span class="ok">Yes</span></td><td></td></tr>
+      <tr><td><strong>Red Mountain</strong> &middot; Ski-In Studio Suite</td><td>13&ndash;20 Mar</td><td class="num">$1,049</td><td class="num">~$1,217</td><td><span class="ok">Yes</span></td><td>5.0&#9733;</td></tr>
+      <tr><td><strong>Rossland town</strong> &middot; bright, quiet 1 bdrm in-town suite</td><td>16&ndash;23 Jan</td><td class="num">$828</td><td class="num">~$960</td><td><span class="ok">Yes</span></td><td>Walk to Ferraro Foods; free ski bus to RED</td></tr>
+      <tr><td><strong>Red Mountain</strong> &middot; room 611546299090226472, walk to base, 2BR</td><td>16&ndash;23 Jan</td><td class="num">$2,634</td><td class="num"><span class="part">~$3,055</span></td><td><span class="ok">Yes</span></td><td>Confirmed in-unit washer/dryer; no gym. Marginally over</td></tr>
+      <tr><td><strong>Crested Butte</strong> &middot; room 42225513, "400 feet from the ski lift", 2BR</td><td>9&ndash;16 Jan</td><td class="num">$1,445</td><td class="num">~$1,676</td><td><span class="ok">Yes</span></td><td></td></tr>
+      <tr><td><strong>Crested Butte town</strong> &middot; Upper West Corner (37899320), 3BR</td><td>13&ndash;20 Mar</td><td class="num">$2,480</td><td class="num">~$2,877</td><td><span class="ok">Yes</span></td><td><strong>Still under budget in peak March, on Elk Ave</strong></td></tr>
+      <tr><td><strong>Crested Butte</strong> &middot; heated pool, short walk to lifts (1384769770653859372)</td><td>13&ndash;20 Mar</td><td class="num">$1,691</td><td class="num">~$1,962</td><td><span class="ok">Yes</span></td><td></td></tr>
+      <tr><td><strong>Revelstoke town</strong> &middot; Powder Highway Guest House, 2BR</td><td>9&ndash;16 Jan</td><td class="num">$1,459</td><td class="num">~$1,692</td><td><span class="ok">Yes</span></td><td>Town, not lift. C$2 shuttle every 2 hrs</td></tr>
+      <tr><td><strong>Revelstoke</strong> &middot; The Wedge House Suite (16965204)</td><td>13&ndash;20 Mar</td><td class="num">$1,106</td><td class="num">~$1,283</td><td><span class="ok">Yes</span></td><td></td></tr>
+      <tr><td><strong>Revelstoke</strong> &middot; Peak Penthouse (1598898594565299798)</td><td>9&ndash;16 Jan</td><td class="num">$1,894</td><td class="num">~$2,197</td><td><span class="ok">Yes</span></td><td><span class="ok">Confirmed</span> in-unit laundry; two rooftop hot tubs. Sleeps 5</td></tr>
+      <tr><td><strong>Kicking Horse base</strong> &middot; Aspen Cubby Too (1485013392471544164), 2BR</td><td>13&ndash;20 Mar</td><td class="num">$1,753</td><td class="num">~$2,033</td><td><span class="ok">Yes</span></td><td><span class="ok">Confirmed</span> in-unit washer/dryer. "A short walk" to the gondola</td></tr>
+      <tr><td><strong>Golden town</strong> &middot; Downtown Riverfront Condo</td><td>13&ndash;20 Mar</td><td class="num">$837</td><td class="num">~$971</td><td><span class="ok">Yes</span></td><td>Walkable to Golden's Gym and IGA &mdash; but 14 km from the lift</td></tr>
+      <tr><td><strong>Jackson town</strong> &middot; Outpost: Pitchfork 432 (49056546), 2BR</td><td>9&ndash;16 Jan</td><td class="num">$1,657</td><td class="num">~$1,872</td><td>Not specified</td><td>5-min walk to Snow King base. <span class="no">Washer not in the amenity list &mdash; treat as no</span></td></tr>
+      <tr><td><strong>Teton Village</strong> &middot; wood-burning fireplace at JHMR's base (43861551)</td><td>16&ndash;23 Jan</td><td class="num">$2,359</td><td class="num">~$2,666</td><td><span class="no">No</span></td><td>Walk to the tram &mdash; but no town</td></tr>
+      <tr><td><strong>Park City</strong> &middot; on Main Street, walk to Town Lift (1031217797752486797), 2BR</td><td>9&ndash;16 Jan</td><td class="num">$2,140</td><td class="num">~$2,461</td><td><span class="ok">Yes</span></td><td></td></tr>
+      <tr><td><strong>Park City</strong> &middot; steps to shops and slopes (1021026719540005808)</td><td>13&ndash;20 Mar</td><td class="num">$1,432</td><td class="num">~$1,647</td><td><span class="ok">Yes</span></td><td><span class="ok">In-building gym</span> but <span class="no">washer is building-only &mdash; confirmed fail</span></td></tr>
+      <tr><td><strong>Taos Ski Valley</strong> &middot; Lively's Place, 1BR/4 beds</td><td>16&ndash;23 Jan</td><td class="num">$1,168</td><td class="num">~$1,343</td><td><span class="ok">Yes</span></td><td>In TSV &mdash; but the town is 20 miles away</td></tr>
+      <tr><td><strong>Taos Ski Valley</strong> &middot; room 39503916, riverfront, forest-view balcony</td><td>13&ndash;20 Mar</td><td class="num">$2,236</td><td class="num">~$2,571</td><td><span class="ok">Yes</span></td><td></td></tr>
+      <tr><td><strong>Big Sky</strong> &middot; The Hill Condos (43388160)</td><td>9&ndash;16 Jan / 13&ndash;20 Mar</td><td class="num">$2,077</td><td class="num">~$2,326</td><td><span class="ok">Yes</span></td><td><span class="ok">Confirmed</span> in-unit washer/dryer. "10 min walk to Big Sky ski area base"</td></tr>
+      <tr><td><strong>Big Sky</strong> &middot; 1BR ski in/out Mountainview (36764018)</td><td>9&ndash;16 Jan</td><td class="num">$4,530</td><td class="num"><span class="no">~$5,074</span></td><td><span class="ok">Yes</span></td><td>What real ski-in/ski-out costs at Big Sky</td></tr>
+      <tr><td><strong>Salt Lake City</strong> &middot; Luxe 2 Bedroom Downtown (1447418264342276737)</td><td>6&ndash;13 Mar</td><td class="num">$941</td><td class="num">~$1,082</td><td><span class="ok">Yes</span></td><td>In-building gym. 45-min drive to Snowbird up a closable canyon</td></tr>
+      <tr><td><strong>Snowbird</strong> &middot; Crest Bedroom Unit (990789137087199196)</td><td>6&ndash;13 Mar</td><td class="num">$3,360</td><td class="num"><span class="no">~$3,864</span></td><td>&mdash;</td><td>Cheapest on-mountain unit found &mdash; still over budget</td></tr>
+      <tr><td><strong>Hakuba</strong> &middot; Japanese home near Hakuba ski resorts</td><td>9&ndash;16 Jan / 23&ndash;30 Jan</td><td class="num">$934</td><td class="num">~$1,050</td><td><span class="ok">Yes</span></td><td>4.93&#9733; (80). Best value in Hakuba January. Walk-to-lift unverified</td></tr>
+      <tr><td><strong>Hakuba</strong> &middot; T Square Hakuba, queen with breakfast</td><td>16&ndash;23 Jan / 6&ndash;13 Mar</td><td class="num">$898&ndash;1,053</td><td class="num">~$1,010&ndash;1,180</td><td><span class="ok">Yes</span></td><td></td></tr>
+      <tr><td><strong>Hakuba</strong> &middot; Summer Leaves, free shuttle and breakfast</td><td>9&ndash;16 Jan</td><td class="num">$1,654</td><td class="num">~$1,860</td><td><span class="ok">Yes</span></td><td>Shuttle-based, not walk-to-lift</td></tr>
+      <tr><td><strong>Hakuba</strong> &middot; 8-minute walk to Goryu, sleeps 5</td><td>23&ndash;30 Jan</td><td class="num">$4,813</td><td class="num"><span class="no">~$5,400</span></td><td><span class="ok">Yes</span></td><td>The clearest walk-to-lift claim found, and far over budget for two</td></tr>
+      <tr><td><strong>Niseko</strong> &middot; SeiSei, 1 bedroom Hirafu Village</td><td>13&ndash;20 Mar</td><td class="num">$1,585</td><td class="num">~$1,810</td><td>Not stated</td><td>In Hirafu Village proper</td></tr>
+      <tr><td><strong>Niseko</strong> &middot; walk to Hirafu ski lifts from Kabayama</td><td>6&ndash;13 Mar</td><td class="num">$882</td><td class="num">~$1,010</td><td><span class="ok">Yes</span></td><td>Explicit walk-to-Hirafu-lifts claim</td></tr>
+      <tr><td><strong>Niseko</strong> &middot; Luka Niseko Cabin, 15-min walk to Hirafu</td><td>9&ndash;16 Jan <em>vs</em> 13&ndash;20 Mar</td><td class="num">$2,347 &rarr; <strong>$978</strong></td><td class="num">~$2,680 &rarr; ~$1,120</td><td><span class="ok">Yes</span></td><td><strong>The same property, minus 58% in March.</strong> The single biggest lever in the study</td></tr>
+      <tr><td><strong>Niseko</strong> &middot; Mori Apartments, central Hirafu</td><td>Jan <em>vs</em> 13&ndash;20 Mar</td><td class="num">$2,061&ndash;2,479 &rarr; <strong>$1,199</strong></td><td class="num">&mdash;</td><td><span class="no">No</span> in Jan</td><td>Minus 45 to 52% in March, same property</td></tr>
+      <tr><td><strong>Myoko</strong> &middot; Rooms in Myoko, 3BR sleeps 5</td><td>13&ndash;20 Mar</td><td class="num">$1,089</td><td class="num">~$1,230</td><td><span class="ok">Yes</span></td><td>Cheapest credible week in the study &mdash; but no gym anywhere in Myoko</td></tr>
+      <tr><td><strong>Furano</strong> &middot; Fusion Furano Apt Studio</td><td>23&ndash;30 Jan <em>vs</em> 6&ndash;13 Mar</td><td class="num">$2,308 &rarr; <strong>$1,296</strong></td><td class="num">~$2,600 &rarr; ~$1,460</td><td><span class="ok">Yes</span></td><td>4.95&#9733; (356). Minus 44% in March</td></tr>
+      <tr><td><strong>Sun Peaks</strong> &middot; The Mini Moose (44206281)</td><td>13&ndash;20 Mar</td><td class="num">$1,099</td><td class="num">~$1,275</td><td><span class="ok">Yes</span></td><td>Cheapest week found anywhere, on the wrong mountain</td></tr>
+      <tr><td><strong>Mont-Tremblant</strong> &middot; Luxury condo and spa Verbier (50210736), 2BR</td><td>23&ndash;30 Jan</td><td class="num">$1,476</td><td class="num">~$1,749</td><td><span class="ok">Yes</span></td><td>Only four Tremblant listings match washer and gym together</td></tr>
+      <tr><td><strong>Rusutsu</strong> &middot; Suiyo Rusutsu, 6-min walk, 4LDK sleeps 8</td><td>6&ndash;13 Mar</td><td class="num">$5,788</td><td class="num"><span class="no">~$6,500</span></td><td><span class="ok">Yes</span></td><td>The only true walk-to-lift Rusutsu listing found</td></tr>
+      <tr><td><strong>Zermatt</strong> &middot; Apartment Theodul, ground-floor studio</td><td>9&ndash;16 Jan</td><td class="num">$1,268</td><td class="num">&mdash;</td><td><span class="ok">Yes</span></td><td><strong>The benchmark.</strong> Add ~$480 per person for a 6-day pass</td></tr>
+      <tr><td><strong>Zermatt</strong> &middot; newly furnished, 10 minutes from ski lifts</td><td>6&ndash;13 Mar</td><td class="num">$1,491</td><td class="num">&mdash;</td><td><span class="ok">Yes</span></td><td>Cheaper than Telluride in March</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="timing">
+  <h2>Which week</h2>
+  <div class="two">
+    <div>
+      <h3>January is the better half of the calendar for this brief</h3>
+      <p>The three January weeks are midwinter everywhere in the study, and at Telluride they are also the cheap half: 9&ndash;16, 16&ndash;23 and 23&ndash;30 Jan all fall in regular-season lift pricing, while <strong>both March weeks are peak</strong> for lodging and tickets alike. The combined swing at Telluride is roughly $1,300&ndash;1,600 per week.</p>
+      <p><strong>Avoid 16&ndash;23 Jan on an Ikon Base pass.</strong> 16&ndash;17 January 2027 is blacked out at Revelstoke, Sun Peaks and Red Mountain, costing the first two days of that week. The full Ikon Pass is unaffected.</p>
+      <h3>Japan inverts this</h3>
+      <p>Niseko's peak season runs 24 Dec to 28 Feb, so all three January weeks cost the same in tickets and the most in lodging. The identical-property evidence is stark: Luka Niseko Cabin goes $2,347 to $978 between January and mid-March, and Mori Apartments drops 45&ndash;52%.</p>
+    </div>
+    <div>
+      <h3>March, honestly</h3>
+      <p><strong>Hakuba carries the most March risk.</strong> Happo's base is only 760 m, on Honshu &mdash; the upper mountain holds, with monthly averages of 240 cm in February and 200 cm in March, but the base area gets rain and slush. The upside is that nearly half of Happo's clear winter days fall in March, which is what the alpine backcountry above Grat actually needs.</p>
+      <p><strong>Niseko has the best March odds</strong> &mdash; colder, ~15 m annual, still resetting through March, with most of the winter's bluebird days arriving then. Reliability drops noticeably after about 20 March. <strong>Myoko is the best March bet in Honshu</strong> on altitude alone: an 1,855 m summit, and Seki Onsen stays open into early May.</p>
+      <p><strong>Revelstoke's low 510 m base</strong> makes March down low poor. <strong>Crested Butte is the North American March answer</strong> &mdash; it stays under budget where Telluride does not, and its extreme terrain is inbounds and mitigated rather than gate-dependent.</p>
+      <p class="small"><strong>13&ndash;20 March is the weakest week on the list</strong> for these priorities &mdash; peak pricing in Colorado, past the reliable window in Hokkaido, and the likeliest to be spring slush at Hakuba's base.</p>
+    </div>
+  </div>
+</section>
+
+<section id="gaps">
+  <h2>What could not be verified</h2>
+  <ul>
+    <li><strong>Whether Airbnb's displayed total already includes tax.</strong> The booking module does not render to a fetcher. Telluride's 11.9% was read off a listing page, which implies tax is shown separately &mdash; so the all-in figures here are the conservative reading. If tax is already included, every number above is 12&ndash;18% pessimistic.</li>
+    <li><strong>Snowbird and Alta on-mountain hotel rates.</strong> Booking.com returned empty, Expedia and VRBO 429, TripAdvisor 403, and snowbird.com/lodging renders no prices. Phone Snowbird Central Reservations.</li>
+    <li><strong>START bus winter timetable</strong> &mdash; first and last departures, frequency, and whether ski gear is carried. Fares are verified. Call 307-733-4521 before committing to a Jackson-town booking.</li>
+    <li><strong>2026/27 lift ticket prices</strong> for Alta, Fernie, Kicking Horse, and Furano and Rusutsu multi-day, plus the AltaSnowbird joint ticket &mdash; none published yet. The RCR Rockies season pass price appears only at checkout. The current post-early-bird RED Card price is unknown.</li>
+    <li><strong>Kicking Horse's avalanche-gate and inbounds policy</strong> &mdash; the resort's mountain-stats page 404s. Call 1-800-258-7669.</li>
+    <li><strong>A public gym in Rossland, Myoko, Akakura Onsen, Furano city or Big Sky.</strong> All are genuine gaps; OpenStreetMap returned nothing for the Japanese ones. If a town gym is a hard requirement these are the weak links &mdash; though the Red Mountain ski-in condo above has its own fitness centre.</li>
+    <li><strong>Exact resort-base-to-Saint-Jovite distance at Tremblant</strong> &mdash; Tremblant.ca returns empty to a fetcher, and a routing service gave an implausible 1.4 km.</li>
+    <li><strong>Myoko's real accommodation inventory.</strong> Airbnb's geocoder for "Myoko" sprawls 30&ndash;60 km into Nagano, Iiyama and Joetsu, and the ryokan and pension stock lives on Booking.com, Jalan and Rakuten Travel, none of which would render.</li>
+  </ul>
+</section>
+
+</main>
+<footer>
+  <p>Researched 10 September 2026 across 19 resorts in North America and Japan, plus Zermatt as the benchmark. Prices were fetched live from Airbnb search pages for the exact 2027 dates and are in US dollars. Terrain, town, gym and pass data came from resort operators, municipal sites, transit authorities, OpenStreetMap and independent resort reviews. Re-check every price and every cancellation policy before paying.</p>
+</footer>
+</body>
+</html>
