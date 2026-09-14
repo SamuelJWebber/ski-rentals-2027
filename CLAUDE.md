@@ -16,3 +16,12 @@ resort is judged against. Lift speed and real lift infrastructure count; marketi
 - A claim that cannot be sourced is cut or marked unsourceable, not softened. Several resorts have already been
   corrected this way (Andermatt queues, Fernie's Polar Peak, St Anton).
 - Headlines state findings or are noun phrases, never commands.
+
+## Session handoff (every session, both assistants)
+
+- **Start:** read this file, then `HANDOFF.md` for what is true right now. For anything spanning more than one
+  project, read `workspace/CONTEXT.md` too.
+- **End:** **rewrite** `HANDOFF.md` — never append. It stays under 150 lines: what is true now, what is next,
+  what is unverified. A dated narrative belongs in a separate archive file, not in the handoff.
+- It is the only channel Codex and Claude Code share; neither can see the other's memory. A finding that is not
+  written there before the session ends is a finding lost.
