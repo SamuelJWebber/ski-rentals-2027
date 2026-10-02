@@ -1,11 +1,16 @@
 # ski-rentals-2027 handoff
 
-Rewritten **2026-09-14**. Read `CLAUDE.md` first for the rules, then this for what is true now.
+Rewritten **2026-10-02**. Read `CLAUDE.md` first for the rules, then this for what is true now.
 **Rewrite this file at the end of every session — never append.** Under 150 lines.
 
 ## State
 
-**Published**, at https://samueljwebber.github.io/ski-rentals-2027/ . Nothing in flight.
+**Published**, at https://samueljwebber.github.io/ski-rentals-2027/ . No booking or live price refresh is recorded after 2026-09-14.
+
+An untracked, unpublished `three-resorts-best-snow-2027.html` was created 2026-09-14. It compares refundable
+apartment picks for Revelstoke (23-30 Jan), Telluride (27 Feb-6 Mar), and Big Sky (6-13 Mar). Its quotes were
+captured 2026-09-14; availability, final price, cancellation terms, and Big Sky laundry/access need checking.
+The Telluride Main St alternative also needs host confirmation of its washer.
 
 Four pages: the rentals shortlist, the steep-and-town comparison, the alps extreme list, and the Zermatt
 month-stay report (added 2026-09-14 — it had been sitting alone in a OneDrive folder with no copy anywhere).
