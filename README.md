@@ -11,7 +11,7 @@ The brief was refined partway through to a strict priority order: **terrain firs
 | | Resort | Week for two | Note |
 |---|---|---|---|
 | Europe | **Engelberg** | $2,350–2,750 | 2,017 m vertical, three glaciers, Galtiberg and Laub. Take 9–16 January. |
-| North America | **Telluride** | ≈$2,100 | The lift launches off the town grid. January only; March is peak. |
+| North America | **Telluride** | ≈$2,200 | The lift launches off the town grid. January only; March is peak. |
 | Japan | **Hakuba** | $1,950–2,600 | The only Japanese mountain here with sustained steep lift-served terrain. |
 
 ## Reports
