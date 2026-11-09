@@ -27,6 +27,6 @@ The brief was refined partway through to a strict priority order: **terrain firs
 
 Airbnb search pages quote in **US dollars by default regardless of country** — verified at a 1.383 ratio on the same Whistler listing. An earlier version of the rentals report divided Canadian figures by 1.38 and understated Whistler, Tremblant and Sun Peaks by about 38%; that is corrected. Airbnb's washer filter is also unreliable, surfacing listings with shared or surcharged laundry, so only amenities confirmed on the listing page are marked as in-unit.
 
-Airbnb's free-cancellation badge is not the policy. Of twelve listing policies read on 9 November 2026, six refunded in full only within 24 hours of booking; only the line on the listing page or at checkout counts.
+Airbnb's free-cancellation badge is not the policy. Of fifteen listing policies read on 9 November 2026, seven refunded in full only within 24 hours of booking; only the line on the listing page or at checkout counts.
 
 Prices are live quotes from 10 to 11 September 2026, except the three-resort report, refreshed 9 November 2026. Re-check prices, cancellation terms and lift status before booking.
