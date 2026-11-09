@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three Resorts, Best Snow</title>
+<style>
+  :root{
+    --bg:#f6f4ef; --card:#ffffff; --ink:#1d1d1b; --muted:#5f5e58; --line:#e2ded4;
+    --accent:#1f5f8b; --good:#1c7c4a; --warn:#a4640f; --bad:#a83232; --chip:#eef3f7;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#15171a; --card:#1e2126; --ink:#ecece6; --muted:#a9a8a0; --line:#2f333a;
+      --accent:#7fb3d8; --good:#5fbf85; --warn:#e0a24a; --bad:#e07070; --chip:#262b33;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{padding:36px 28px 18px;max-width:1240px;margin:0 auto}
+  h1{font-size:30px;margin:0 0 6px;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:16px;margin:0 0 14px;max-width:900px}
+  .meta{color:var(--muted);font-size:13px;max-width:900px}
+  nav{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);z-index:5}
+  nav div{max-width:1240px;margin:0 auto;padding:8px 28px;display:flex;gap:16px;flex-wrap:wrap;font-size:13px}
+  nav a{color:var(--accent);text-decoration:none}
+  main{max-width:1240px;margin:0 auto;padding:10px 28px 60px}
+  section{margin:34px 0}
+  h2{font-size:22px;margin:0 0 6px;letter-spacing:-.01em}
+  h3{font-size:17px;margin:22px 0 8px}
+  p{margin:8px 0;max-width:900px}
+  .lead{font-size:16px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;margin:16px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .card .rank{font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+  .card h4{margin:4px 0 2px;font-size:17px}
+  .card .where{color:var(--muted);font-size:13px;margin-bottom:8px}
+  .card .price{font-size:26px;font-weight:600;margin:6px 0 2px}
+  .card .price small{font-size:13px;font-weight:400;color:var(--muted)}
+  .card ul{margin:8px 0 0;padding-left:18px;font-size:14px}
+  .card li{margin:3px 0}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+  .chip{background:var(--chip);border-radius:999px;padding:2px 9px;font-size:12px;color:var(--ink)}
+  .chip.ok{color:var(--good);font-weight:600}
+  .chip.part{color:var(--warn);font-weight:600}
+  .chip.no{color:var(--bad);font-weight:600}
+  .wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);margin:14px 0}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:760px}
+  th,td{padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+  th{background:var(--chip);font-weight:600}
+  tr:last-child td{border-bottom:none}
+  td.num{white-space:nowrap;font-variant-numeric:tabular-nums}
+  .best{font-weight:600;color:var(--good)}
+  .no{font-weight:600;color:var(--bad)}
+  .part{font-weight:600;color:var(--warn)}
+  a{color:var(--accent)}
+  .note{background:var(--card);border-left:4px solid var(--accent);padding:10px 14px;border-radius:6px;margin:14px 0;max-width:900px;font-size:14px}
+  .note.warn{border-left-color:var(--warn)}
+  .note.bad{border-left-color:var(--bad)}
+  .small{font-size:13px;color:var(--muted)}
+  ol.steps li{margin:6px 0}
+  footer{max-width:1240px;margin:0 auto;padding:20px 28px 50px;color:var(--muted);font-size:12.5px}
+  footer li{margin:4px 0}
+  @media (max-width:600px){
+    header,main,footer{padding-left:16px;padding-right:16px}
+    nav div{padding:8px 16px}
+    h1{font-size:25px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Revelstoke, Telluride and Big Sky, each in its own best-snow week</h1>
+  <p class="sub">Refreshed 9 November 2026. All three September picks are now booked or fail the washer rule. Three new picks are each refundable, under US$3,000 all-in for two, and have a washer named on the listing &mdash; but only if Telluride moves one week earlier, to 20&ndash;27 February. A strong El Ni&ntilde;o is forecast, which historically favours Telluride over the two northern resorts.</p>
+  <p class="meta">Prices quoted 9 Nov 2026 for 2 adults, Saturday to Saturday: Airbnb's 7-night total including cleaning and service fees, before lodging tax. The all-in figure adds tax at the rate stated per resort. Cancellation terms are the line each listing page showed on 9 Nov 2026, not the search-card badge. Every 14 September quote on the earlier version of this page has been replaced or marked as superseded.</p>
+  <p class="note warn"><b>Currency check applied.</b> All quotes were requested and shown in US dollars, including the Canadian listings. Revelstoke figures are USD and are <i>not</i> divided by the CAD rate, which is the error that had to be corrected on the earlier rentals page.</p>
+</header>
+<nav><div>
+  <a href="#changes">Since September</a><a href="#outlook">El Ni&ntilde;o outlook</a><a href="#windows">Snow windows</a><a href="#picks">The three picks</a><a href="#tel">Telluride</a><a href="#bs">Big Sky</a><a href="#rev">Revelstoke</a><a href="#season">Season dates and passes</a><a href="#brief">Against the brief</a><a href="#confirm">Open checks</a>
+</div></nav>
+<main>
+
+<section id="changes">
+  <h2>All three September picks are gone or fail the brief</h2>
+  <p class="lead">Rechecked on 9 November 2026, eight weeks after the first search. Two picks are booked for their weeks, and the third lists no washer.</p>
+  <div class="wrap"><table>
+    <tr><th>Resort and week</th><th>14 Sep 2026 pick</th><th>Status on 9 Nov 2026</th></tr>
+    <tr><td><b>Revelstoke</b>, 23&ndash;30 Jan</td><td>Begbie Retreat, 2BR guest suite, US$1,742</td><td class="no">Booked. Airbnb reports the dates unavailable; the calendar is blocked from 19 Dec to 23 Jan and again 27&ndash;29 Jan.</td></tr>
+    <tr><td><b>Telluride</b>, 27 Feb&ndash;6 Mar</td><td>Clean &amp; Cozy Studio #00191, US$2,347</td><td class="no">Booked. Calendar blocked 23 Feb to 7 Mar.</td></tr>
+    <tr><td><b>Telluride</b> alternative</td><td>Cozy 1BR King on Main St, US$1,736</td><td class="no">Booked. September's open question is now answered: the amenity list states a free washer and dryer in the unit.</td></tr>
+    <tr><td><b>Big Sky</b>, 6&ndash;13 Mar</td><td>Ski-in condo &ldquo;Cute, Cozy &amp; Fun&rdquo;, US$2,089</td><td class="no">Still listed, but its amenity list marks washer and dryer as <i>not included</i> and names a laundromat nearby. It fails the washer rule.</td></tr>
+  </table></div>
+  <div class="note bad"><b>The free-cancellation badge is not the policy.</b> Of the eleven listing policies read on 9 November, six give a full refund only within 24 hours of booking, then a partial refund until a week before arrival. All six looked the same as the refundable ones in search.</div>
+</section>
+
+<section id="outlook">
+  <h2>A strong El Ni&ntilde;o tilts this winter toward Telluride</h2>
+  <p class="lead">NOAA's Climate Prediction Center has an El Ni&ntilde;o Advisory in force. Its 8 October 2026 discussion gives a strong to very strong El Ni&ntilde;o a better than 83% chance of lasting through January&ndash;March 2027. El Ni&ntilde;o pushes the winter storm track south.</p>
+  <div class="wrap"><table>
+    <tr><th>Resort</th><th>Dec&ndash;Feb precipitation outlook</th><th>Source</th></tr>
+    <tr><td><b>Telluride</b></td><td class="best">Even to slightly favoured. The national map shades southwest Colorado &ldquo;leaning above&rdquo; (33&ndash;40%); CPC's western Colorado division is a near-even split, 34% above, 34% near, 33% below.</td><td>CPC outlook issued 15 Oct 2026</td></tr>
+    <tr><td><b>Big Sky</b></td><td class="no">Leaning dry. The map shades southwest Montana &ldquo;leaning below&rdquo;; CPC's south-central Montana division gives 43% below normal against 24% above.</td><td>CPC outlook issued 15 Oct 2026</td></tr>
+    <tr><td><b>Revelstoke</b></td><td class="part">No sourced numeric forecast. Environment Canada's seasonal maps carry no text that could be read here. Its 1998 study of past winters found El Ni&ntilde;o winters generally warmer throughout most of British Columbia, with less snowfall recorded &ldquo;especially in southern British Columbia&rdquo;. It also notes that single episodes may not follow the pattern.</td><td>Environment Canada, Taylor (1998)</td></tr>
+  </table></div>
+  <div class="note"><b>The refund deadlines fall after the snowpack is known.</b> Every pick below can be cancelled for a full refund until 21 January (Telluride), 22 January (Revelstoke) or 4 February (Big Sky). That leaves room to book all three now, watch the bases through December and January, and drop the weakest before its deadline.</div>
+  <p class="small">CPC issues its next ENSO update on 12 November 2026. Outlooks are probabilities for a three-month total over a whole region, not a forecast for one mountain.</p>
+</section>
+
+<section id="windows">
+  <h2>Snow windows: late January, late February, early March</h2>
+  <p class="lead">Ranking on snowfall alone points at December for Revelstoke and a Telluride/Big Sky tie. Ranking on snowfall <i>and</i> base depth moves all three later, because the terrain that makes these mountains worth the trip &mdash; Revelstoke's 5,620 ft of vertical, Telluride's Gold Hill chutes and Palmyra, Big Sky's Big Couloir and North Summit Snowfield &mdash; is rocky and stays closed or thin on a shallow base.</p>
+  <div class="wrap"><table>
+    <tr><th>Resort</th><th class="num">Dec</th><th class="num">Jan</th><th class="num">Feb</th><th class="num">Mar</th><th>Week</th><th>Why</th></tr>
+    <tr>
+      <td><b>Revelstoke</b><br><span class="small">257&Prime;/yr, 93 snow days</span></td>
+      <td class="num">70&Prime; snow<br><span class="small">47&Prime; base</span></td>
+      <td class="num best">56&Prime; snow<br><span class="small">57&Prime; base</span></td>
+      <td class="num">49&Prime; snow<br><span class="small">62&Prime; base</span></td>
+      <td class="num">51&Prime; snow<br><span class="small">70&Prime; base</span></td>
+      <td><b>23&ndash;30 Jan 2027</b></td>
+      <td>December throws the most snow but onto a 47&Prime; base. January is the first month where a big number lands on real coverage, and it is the coldest, so it keeps. Clears the Martin Luther King Day weekend of 16&ndash;18 Jan.</td>
+    </tr>
+    <tr>
+      <td><b>Telluride</b><br><span class="small">206&Prime;/yr, 45 snow days</span></td>
+      <td class="num">44&Prime; snow<br><span class="small">28&Prime; base</span></td>
+      <td class="num">44&Prime; snow<br><span class="small">39&Prime; base</span></td>
+      <td class="num best">50&Prime; snow<br><span class="small">50&Prime; base</span></td>
+      <td class="num">47&Prime; snow<br><span class="small">61&Prime; base</span></td>
+      <td><b>20&ndash;27 Feb 2027</b><br><span class="small">was 27 Feb&ndash;6 Mar</span></td>
+      <td>February is the snowiest month. The original week straddled into March for the deepest base, but nothing there is now both refundable and under budget. One week earlier stays inside the snowiest month. Presidents' Day is Monday 15 Feb 2027, so a 20 Feb start already clears the holiday week.</td>
+    </tr>
+    <tr>
+      <td><b>Big Sky</b><br><span class="small">265&Prime;/yr, 70 snow days</span></td>
+      <td class="num">57&Prime; snow<br><span class="small">25&Prime; base</span></td>
+      <td class="num">44&Prime; snow<br><span class="small">35&Prime; base</span></td>
+      <td class="num">52&Prime; snow<br><span class="small">47&Prime; base</span></td>
+      <td class="num best">57&Prime; snow<br><span class="small">53&Prime; base</span></td>
+      <td><b>6&ndash;13 Mar 2027</b></td>
+      <td>March ties December for snowfall on twice the base. A 35&Prime; January base is thin for Lone Peak terrain; the tram lines open properly later.</td>
+    </tr>
+  </table></div>
+  <div class="note">The weeks still run in sequence with no clash: Revelstoke in late January, Telluride in the last full week of February, then one free week, then Big Sky. Moving Telluride earlier ends the back-to-back pairing with Big Sky that the September version relied on.</div>
+  <p class="small">Snowfall and base figures are OnTheSnow resort-reported historical averages, read 14 Sep 2026, not town weather-station numbers. Telluride's town gauge reads 16&Prime; for January against the mountain's 44&Prime;; the mountain figure is the relevant one.</p>
+</section>
+
+<section id="picks">
+  <h2>The three picks</h2>
+  <p class="lead">Each is the cheapest listing found on 9 November 2026 that has a free-cancellation date on its own page, a named washer, and a total under US$3,000 after tax. Green means stated on the listing, amber means partial or unstated, red means it misses.</p>
+  <div class="cards">
+
+    <div class="card"><div class="rank">Revelstoke &middot; 23&ndash;30 Jan 2027</div><h4>New Condo with Mountain Views and Rooftop Hot Tub</h4><div class="where">Revelstoke BC, near the ski hill &middot; resort shuttle stop outside, 5-min drive downtown (per listing)</div>
+      <div class="price">$2,256 <small>all-in (US$1,945 + 16% tax)</small></div>
+      <div class="chips"><span class="chip ok">Free cancellation to 22 Jan</span><span class="chip part">Washer listed; only the dryer is stated in-unit</span><span class="chip ok">Shuttle stop outside</span><span class="chip no">Not walkable to the gondola</span></div>
+      <ul>
+        <li>2 bedrooms, 2 baths, rooftop hot tub. 5.0 from 67 reviews.</li>
+        <li>Airbnb showed US$1,945, discounted from US$2,302.</li>
+        <li>Two cheaper or better-reviewed condos nearby state an in-unit washer but refund in full for only 24 hours; this one's page showed a free-cancellation date.</li>
+        <li><a href="https://www.airbnb.com/rooms/1521039495192820325?check_in=2027-01-23&amp;check_out=2027-01-30&amp;adults=2">Listing with dates</a></li>
+      </ul></div>
+
+    <div class="card"><div class="rank">Telluride &middot; 20&ndash;27 Feb 2027</div><h4>West Telluride Studio</h4><div class="where">Telluride town, west end &middot; Lift 7 and Clark's Market each two blocks away (per listing)</div>
+      <div class="price">$2,523 <small>all-in (US$2,152 + 17.22% tax)</small></div>
+      <div class="chips"><span class="chip ok">Free cancellation to 21 Jan</span><span class="chip ok">Free washer &amp; dryer in unit</span><span class="chip ok">Walk to lift and to town</span><span class="chip part">Gym in town, not in building</span></div>
+      <ul>
+        <li>Studio. 4.83 from 174 reviews.</li>
+        <li>The only pick of the three that does walk-to-lift and real town at once: Lift 7 two blocks away, and the free gondola and the town core &ldquo;within an easy stroll&rdquo;, per the listing.</li>
+        <li>Not available for the original 27 Feb week; its calendar is blocked from 2 to 20 March.</li>
+        <li><a href="https://www.airbnb.com/rooms/29856063?check_in=2027-02-20&amp;check_out=2027-02-27&amp;adults=2">Listing with dates</a></li>
+      </ul></div>
+
+    <div class="card"><div class="rank">Big Sky &middot; 6&ndash;13 Mar 2027</div><h4>A Little Condo at Big Sky Montana</h4><div class="where">Mountain Village, Big Sky MT &middot; 10-min walk to the lifts or the free shuttle (per listing)</div>
+      <div class="price">$2,582 <small>all-in (US$2,305 + 12% tax)</small></div>
+      <div class="chips"><span class="chip ok">Free cancellation to 4 Feb</span><span class="chip ok">Washer &amp; dryer in the unit description</span><span class="chip part">10-min walk, not ski-in</span><span class="chip part">4.48 rating, 1970s unit</span></div>
+      <ul>
+        <li>One bedroom, queen bed, top floor of an original 1970s condo building; the host calls it well worn. No TV. 4.48 from 119 reviews &mdash; the weakest rating of the three.</li>
+        <li>Airbnb showed US$2,305, discounted from US$2,550.</li>
+        <li>The only Mountain Village listing under budget found with both a washer and a free-cancellation date.</li>
+        <li><a href="https://www.airbnb.com/rooms/9624791?check_in=2027-03-06&amp;check_out=2027-03-13&amp;adults=2">Listing with dates</a></li>
+      </ul></div>
+
+  </div>
+  <div class="note"><b>All three weeks together: $7,361</b> for two people, every booking fully refundable until late January or early February. Keeping Telluride on 27 Feb&ndash;6 Mar instead costs <b>$8,286</b> with the refundable in-town option below, or <b>$7,750</b> with one that refunds in full for only 24 hours.</div>
+</section>
+
+<section id="tel">
+  <h2>Telluride: one week earlier keeps it refundable and under budget</h2>
+  <p>Telluride town and Mountain Village are joined by a free gondola, running 20 Nov 2026 to 4 Apr 2027 from 6:30am to midnight. That single piece of infrastructure is why Telluride clears a brief that Revelstoke and Big Sky each half-miss: you can stay in a 19th-century mining town with a grocery, a gym and bars, and be on a lift in minutes without a car.</p>
+  <div class="wrap"><table>
+    <tr><th>Listing</th><th>Week</th><th class="num">Quote</th><th class="num">All-in +17.22%</th><th>Washer</th><th>Cancellation, read 9 Nov</th><th>Location (per listing)</th><th class="num">Rating</th></tr>
+    <tr><td><a href="https://www.airbnb.com/rooms/29856063?check_in=2027-02-20&amp;check_out=2027-02-27&amp;adults=2">West Telluride Studio</a> <span class="small">(pick)</span></td><td>20&ndash;27 Feb</td><td class="num">$2,152</td><td class="num"><b>$2,523</b></td><td class="best">Free, in unit</td><td class="best">Free to 21 Jan</td><td>Lift 7 and grocery two blocks</td><td class="num">4.83 (174)</td></tr>
+    <tr><td><a href="https://www.airbnb.com/rooms/15985907?check_in=2027-02-27&amp;check_out=2027-03-06&amp;adults=2">In town gem! Parking Jacuzzi</a></td><td>27 Feb&ndash;6 Mar</td><td class="num">$2,941</td><td class="num">$3,448</td><td class="best">Free, in unit</td><td class="best">Free to 28 Jan; partial to 20 Feb</td><td>&ldquo;Lift 7 is a short walk&rdquo;</td><td class="num">4.77 (244)</td></tr>
+    <tr><td><a href="https://www.airbnb.com/rooms/19811781?check_in=2027-02-27&amp;check_out=2027-03-06&amp;adults=2">Creekside views, 1st floor, King</a></td><td>27 Feb&ndash;6 Mar</td><td class="num">$2,485</td><td class="num">$2,912</td><td class="best">Free, in unit</td><td class="no">Full refund 24 h only; partial to 20 Feb</td><td>2-min walk to Lift 7, 3 min to grocery</td><td class="num">4.86 (309)</td></tr>
+    <tr><td>Views and Privacy in Telluride Town</td><td>27 Feb&ndash;6 Mar</td><td class="num">$2,595</td><td class="num">$3,042</td><td class="best">Free, in unit</td><td class="no">Full refund 24 h only; partial to 20 Feb</td><td>Same building text as above</td><td class="num">4.93 (127)</td></tr>
+    <tr><td>The Dreamcatcher</td><td>27 Feb&ndash;6 Mar</td><td class="num">$2,323</td><td class="num">$2,723</td><td class="no">Paid, in building</td><td>Not read</td><td>Ski-in/ski-out at the base of Chair 7</td><td class="num">4.93 (432)</td></tr>
+    <tr><td>Clean &amp; Cozy Studio #00191 <span class="small">(Sep pick)</span></td><td>27 Feb&ndash;6 Mar</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>Free, in unit</td><td>&mdash;</td><td class="no">Booked</td><td class="num">4.96 (481)</td></tr>
+    <tr><td>Cozy 1BR King on Main St <span class="small">(Sep alternative)</span></td><td>27 Feb&ndash;6 Mar</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="best">Free, in unit</td><td class="no">Full refund 24 h only</td><td class="no">Booked</td><td class="num">5.0 (51)</td></tr>
+  </table></div>
+  <div class="note bad"><b>The Dreamcatcher is this round's trap listing.</b> Ski-in/ski-out at the base of Chair 7, 432 reviews at 4.93, and $2,723 all-in &mdash; the obvious winner on the search page. Its washer and dryer are paid machines in the building, not in the unit. Two other in-town units in the same search have the same arrangement.</div>
+  <p><b>Staying on 27 Feb&ndash;6 Mar costs either the budget or the refund.</b> The refundable in-town option is $3,448 all-in, $448 over the cap. The cheaper one, two minutes from Lift 7, is $2,912 but refunds in full only for 24 hours after booking. That was the trade the September week no longer avoids.</p>
+  <p class="small">Lift infrastructure: no new Telluride lift is confirmed for 2026-27. The US Forest Service project page for the Lift 7 and 8 replacements read &ldquo;Pre NEPA&rdquo; on 9 Nov 2026, with no decision signed.</p>
+</section>
+
+<section id="bs">
+  <h2>Big Sky: the best lift fleet of the three, the weakest town</h2>
+  <p>Big Sky is the strongest of the three on lifts. The Lone Peak Tram rebuilt in 2023 carries 75 per cabin, Ramcharger 8 is among the fastest chairs in North America, and Swift Current 6 backs it up. Against that, &ldquo;town&rdquo; is Big Sky Town Center, a purpose-built commercial plaza rather than an old town &mdash; closer to a well-made outlet village than to Telluride or Revelstoke.</p>
+  <p>The zoning matters more here than at the other two. Mountain Village sits at the lifts; Town Center is a shuttle ride away; Meadow is further still. A washer-filtered search for the March week returned 85 listings, and only three of them sit within about a kilometre of the Mountain Village base under US$3,000 before tax. Many of the rest are in Gallatin Gateway and Bozeman, 30 to 55 km away.</p>
+  <div class="wrap"><table>
+    <tr><th>Listing</th><th class="num">Quote</th><th class="num">All-in +12%</th><th>Washer</th><th>Cancellation, read 9 Nov</th><th>Notes (per listing)</th><th class="num">Rating</th></tr>
+    <tr><td><a href="https://www.airbnb.com/rooms/9624791?check_in=2027-03-06&amp;check_out=2027-03-13&amp;adults=2">A Little Condo at Big Sky Montana</a> <span class="small">(pick)</span></td><td class="num">$2,305</td><td class="num"><b>$2,582</b></td><td class="best">In the unit description</td><td class="best">Free to 4 Feb</td><td>10-min walk to lifts or free shuttle; 1970s top floor; no TV</td><td class="num">4.48 (119)</td></tr>
+    <tr><td><a href="https://www.airbnb.com/rooms/688364107479787274?check_in=2027-03-06&amp;check_out=2027-03-13&amp;adults=2">The Ski Lodge in the Mountain Village</a></td><td class="num">$2,551</td><td class="num">$2,857</td><td class="best">Free, in unit</td><td class="no">Full refund 24 h only; partial to 27 Feb</td><td>Mountain Village; guests mention a close shuttle stop</td><td class="num">4.79 (77)</td></tr>
+    <tr><td>Comfy Condo on the Mountain</td><td class="num">$2,998</td><td class="num">$3,358</td><td class="best">Free, in unit</td><td>Not read</td><td>440 sq ft studio, Mountain Village, free shuttle steps away; over budget</td><td class="num">4.85 (296)</td></tr>
+    <tr><td>Ski-in condo &ldquo;Cute, Cozy &amp; Fun&rdquo; <span class="small">(Sep pick)</span></td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="no">Not included; laundromat nearby</td><td>&mdash;</td><td>&ldquo;Ski-in/ski-out &ndash; on a free shuttle line&rdquo;</td><td class="num">4.79 (42)</td></tr>
+  </table></div>
+  <div class="note warn"><b>Big Sky is the weakest pick of the three on quality.</b> The washer and dryer are named in the host's description of the unit, while the amenity list gives no location for them. The walk is ten minutes by the host's own account. 4.48 from 119 reviews is well below the other picks. The better-rated Mountain Village condo at $2,857 has a stated in-unit washer but refunds in full only for 24 hours.</div>
+  <p class="small">The tram is not included on the Ikon Pass or the Mountain Collective; holders are charged per ride by Autocharge. The 2026-27 per-ride price was not found on 9 Nov 2026.</p>
+</section>
+
+<section id="rev">
+  <h2>Revelstoke: deepest snow, and the one resort that cannot do walk-to-lift</h2>
+  <p>Revelstoke has the most snow days of the three &mdash; 93 against Big Sky's 70 and Telluride's 45 &mdash; and the largest lift-served vertical in North America at 5,620 ft. It is also the one that forces a choice against the brief.</p>
+  <p>Downtown Revelstoke is a real town, a working railway town with a grocery, gyms and restaurants. It is <b>about 6 km from the resort</b>. The lodging that sits at the base is essentially the Sutton Place hotel; the many newer Mackenzie Village and Mackenzie Plaza condos sit between the base and town, which their listings put about five minutes' drive from each. Nothing affordable is walkable to the Revelation gondola.</p>
+  <div class="note warn">This is a milder version of the Jackson Hole pattern in the brief: great skiing, town not attached. The difference is scale &mdash; 6 km and a $2 bus against Jackson's 40 minutes &mdash; so it is a real cost but not a disqualifying one.</div>
+  <div class="wrap"><table>
+    <tr><th>Listing</th><th class="num">Quote</th><th class="num">All-in +16%</th><th>Washer</th><th>Cancellation, read 9 Nov</th><th>Location (per listing)</th><th class="num">Rating</th></tr>
+    <tr><td><a href="https://www.airbnb.com/rooms/1521039495192820325?check_in=2027-01-23&amp;check_out=2027-01-30&amp;adults=2">New Condo with Mountain Views and Rooftop Hot Tub</a> <span class="small">(pick)</span></td><td class="num">$1,945</td><td class="num"><b>$2,256</b></td><td class="part">Listed; dryer stated in-unit</td><td class="best">Free to 22 Jan</td><td>Shuttle stop outside; 5-min drive downtown</td><td class="num">5.0 (67)</td></tr>
+    <tr><td><a href="https://www.airbnb.com/rooms/1020383229264071150?check_in=2027-01-23&amp;check_out=2027-01-30&amp;adults=2">Revyverse</a></td><td class="num">$1,861</td><td class="num">$2,159</td><td class="best">Free, in unit</td><td class="no">Full refund 24 h only; partial to 16 Jan</td><td>Mackenzie Plaza; shuttle stop outside</td><td class="num">4.95 (79)</td></tr>
+    <tr><td><a href="https://www.airbnb.com/rooms/53958745?check_in=2027-01-23&amp;check_out=2027-01-30&amp;adults=2">Cozy Condo, Hot Tub, 3 min to Resort</a></td><td class="num">$2,295</td><td class="num">$2,662</td><td class="best">Free, in unit</td><td class="no">Full refund 24 h only; partial to 16 Jan</td><td>3-min drive to the resort; private hot tub</td><td class="num">4.93 (275)</td></tr>
+    <tr><td><a href="https://www.airbnb.com/rooms/37327548?check_in=2027-01-23&amp;check_out=2027-01-30&amp;adults=2">Revelstoke Retreat, Mackenzie Village</a></td><td class="num">$2,256</td><td class="num">$2,617</td><td>Listed</td><td>Not read</td><td class="no">Listing still warns of ongoing construction in the complex</td><td class="num">4.81 (64)</td></tr>
+    <tr><td><a href="https://www.airbnb.com/rooms/980952029630306770?check_in=2027-01-23&amp;check_out=2027-01-30&amp;adults=2">Revylation, 2BR/2BA</a></td><td class="num">$2,862</td><td class="num">$3,320</td><td class="best">In unit</td><td>Not read</td><td>Between resort and downtown; quote up from $2,026 in September</td><td class="num">5.0 (26)</td></tr>
+    <tr><td>Begbie Retreat 2BR <span class="small">(Sep pick)</span></td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>Listed; dryer in unit</td><td>&mdash;</td><td class="no">Booked</td><td class="num">4.95 (110)</td></tr>
+  </table></div>
+  <div class="note bad"><b>Correction: the resort bus is not every 15 minutes.</b> The September version said so. BC Transit's current Route 5 timetable runs about every 30 minutes in the early morning and about every 45 minutes from late morning, at $2 a ride; the resort's page gives daily service from 6:15am to 8:30pm. No 2026-27 timetable had been published on 9 Nov 2026 &mdash; the newest notice is dated 13 Nov 2025.</div>
+  <p><b>Lift caveat:</b> Revelstoke runs a short fleet &mdash; the Revelation gondola plus the Stoke chair and a couple of others. Uplift capacity is low against Big Sky's tram-and-Ramcharger setup. The resort's 9 Nov 2026 pre-season news lists a new haul rope on the lower gondola and a new snowcat, but no new lift. In practice the 93 snow days and light crowds offset it, the same argument that kept Andermatt in play on the earlier page.</p>
+  <p class="small">Short-term rental rules: the City of Revelstoke is on British Columbia's exempt list for the principal-residence requirement (list dated 1 Jun 2026); the surrounding rural Electoral Area B is not exempt. Whether each listing above sits inside city limits was not checked.</p>
+</section>
+
+<section id="season">
+  <h2>Season dates and passes: Telluride needs Epic, the other two Ikon</h2>
+  <div class="wrap"><table>
+    <tr><th>Resort</th><th>Opens</th><th>Closes</th><th>Snow on 9 Nov 2026</th><th>Pass access, 2026-27</th></tr>
+    <tr><td><b>Revelstoke</b></td><td class="num">5 Dec 2026</td><td>Not found on the resort site</td><td>Not available: the resort's snow report still shows last spring's closing text</td><td>Ikon 7 days, Ikon Base 5 days, Mountain Collective 2 days</td></tr>
+    <tr><td><b>Telluride</b></td><td class="num">26 Nov 2026 (targeted)<br><span class="small">gondola from 20 Nov</span></td><td class="num">4 Apr 2027</td><td>12&Prime; base, 12&Prime; season total, 0 of 17 lifts open</td><td>Epic Pass up to 7 days; Epic 4&ndash;7 Day with All Resort Access; not Epic Local</td></tr>
+    <tr><td><b>Big Sky</b></td><td class="num">25 Nov 2026</td><td>11 Apr 2027, plus weekends 16&ndash;18 and 23&ndash;25 Apr</td><td>Resort page did not load. OnTheSnow (third party, 6 Nov): closed, 6&Prime; on 2 Nov</td><td>Ikon 7 days; Ikon Base 5 days with blackouts 26&ndash;30 Dec, 16&ndash;17 Jan, 13&ndash;14 Feb (none in the March week); Mountain Collective 2 days; tram extra</td></tr>
+  </table></div>
+  <p>A full Ikon Pass covers a week at both Big Sky and Revelstoke; Telluride is on Epic instead, so the three weeks need two passes or a week of day tickets at one of them.</p>
+</section>
+
+<section id="brief">
+  <h2>Against the four criteria</h2>
+  <div class="wrap"><table>
+    <tr><th>Criterion</th><th>Telluride</th><th>Big Sky</th><th>Revelstoke</th></tr>
+    <tr><td><b>1. Extreme / steep terrain</b></td><td>Gold Hill chutes, Palmyra Peak, Black Iron Bowl. Hike-to, genuinely steep.</td><td class="best">Big Couloir, North Summit Snowfield, Lone Peak. The steepest lift-served terrain of the three.</td><td>5,620 ft vertical, huge alpine and tree terrain, Selkirk snow.</td></tr>
+    <tr><td><b>2. Walk to the lift</b></td><td class="best">Yes &mdash; the pick is two blocks from Lift 7.</td><td>Ten minutes on foot from the pick, or the free shuttle.</td><td class="no">No. A bus from Mackenzie Village or town; the base has almost no affordable lodging.</td></tr>
+    <tr><td><b>3. Real town</b></td><td class="best">Genuine mining town, grocery two blocks away, gym, bars.</td><td>Town Center is a purpose-built plaza, not a town.</td><td class="best">Real working railway town with full services.</td></tr>
+    <tr><td><b>4. Fast lifts</b></td><td>Gondola plus a solid high-speed quad fleet.</td><td class="best">2023 Lone Peak Tram, Ramcharger 8, Swift Current 6.</td><td>Short fleet, low uplift, offset by light crowds.</td></tr>
+    <tr><td><b>Under $3k, refundable</b></td><td>$2,523, free cancellation to 21 Jan &mdash; on 20&ndash;27 Feb only</td><td>$2,582, free cancellation to 4 Feb</td><td class="best">$2,256, free cancellation to 22 Jan &mdash; cheapest</td></tr>
+    <tr><td><b>2026-27 snow odds</b></td><td class="best">El Ni&ntilde;o neutral to favourable</td><td class="no">Leaning below normal</td><td class="part">El Ni&ntilde;o winters historically warmer with less snow in southern BC</td></tr>
+  </table></div>
+  <p>No single resort sweeps. Telluride wins on the brief as written and, relative to the other two, on this winter's outlook; Big Sky wins on terrain and lifts and is the weakest on lodging; Revelstoke wins on snow days and price and loses on lift access. Since the weeks do not overlap, the three remain complements rather than competitors.</p>
+</section>
+
+<section id="confirm">
+  <h2>Open checks before paying</h2>
+  <ol class="steps">
+    <li><b>The cancellation line at checkout, on every listing.</b> Six of the eleven policies read on 9 November refunded in full only for 24 hours after booking, under the same search card as the refundable ones.</li>
+    <li><b>The Revelstoke pick's washer.</b> The amenity list states the dryer is in the unit but gives no location for the washer. One message to the host settles it.</li>
+    <li><b>The Big Sky pick's washer and walk.</b> Both come from the host's description rather than the amenity list's location fields, and the rating is the lowest of the three.</li>
+    <li><b>Revelstoke prices are already USD.</b> Add 16% British Columbia tax (8% PST, 3% municipal and regional district tax, 5% GST) and nothing else.</li>
+    <li><b>The 2026-27 Revelstoke bus timetable,</b> once published. On the current timetable the gap is 30 to 45 minutes, so a missed bus costs real time; parking or a rental car is the fallback.</li>
+    <li><b>Snow at each refund deadline.</b> 21 Jan for Telluride, 22 Jan for Revelstoke, 4 Feb for Big Sky. CPC updates its ENSO outlook monthly; the next is 12 Nov 2026.</li>
+    <li><b>Passes.</b> Epic for Telluride; Ikon or Mountain Collective for the other two, with the Big Sky tram billed per ride on either.</li>
+  </ol>
+</section>
+
+</main>
+<footer>
+  <p><b>Sources.</b> Read 9 Nov 2026 unless stated.</p>
+  <ul>
+    <li>Airbnb search and listing pages for each property, linked inline, quoted in USD for 2 adults on the dates stated. Amenity lists were read from each listing page's own data; prices and cancellation lines from the rendered listing page.</li>
+    <li>NOAA Climate Prediction Center: <a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml">ENSO diagnostic discussion</a> (issued 8 Oct 2026); Dec&ndash;Feb precipitation outlook <a href="https://www.cpc.ncep.noaa.gov/products/predictions/long_range/lead02/off02_prcp.gif">map</a>, <a href="https://www.cpc.ncep.noaa.gov/products/predictions/long_range/lead02/048.02.p.gif">western Colorado division</a> and <a href="https://www.cpc.ncep.noaa.gov/products/predictions/long_range/lead02/020.02.p.gif">south-central Montana division</a> (issued 15 Oct 2026).</li>
+    <li>Environment Canada, W. G. Taylor, <a href="https://publications.gc.ca/site/eng/9.893812/publication.html"><i>Effect of El Ni&ntilde;o Southern Oscillation on British Columbia and Yukon winter weather</i></a> (1998).</li>
+    <li>OnTheSnow historical snowfall for <a href="https://www.onthesnow.com/colorado/telluride/historical-snowfall">Telluride</a>, <a href="https://www.onthesnow.com/montana/big-sky-resort/historical-snowfall">Big Sky</a> and <a href="https://www.onthesnow.com/british-columbia/revelstoke-mountain/historical-snowfall">Revelstoke</a>, read 14 Sep 2026; OnTheSnow <a href="https://www.onthesnow.com/montana/big-sky-resort/skireport">Big Sky report</a> dated 6 Nov 2026.</li>
+    <li>Season dates and conditions: <a href="https://tellurideskiresort.com/ski/">Telluride Ski Resort</a> and its <a href="https://tellurideskiresort.com/snow-report/">snow report</a>; <a href="https://telluride.com/discover/the-gondola">Telluride gondola</a>; <a href="https://www.bigskyresort.com/season-passes">Big Sky season passes</a>; <a href="https://www.revelstokemountainresort.com/whats-happening/events/opening-day/">Revelstoke opening day</a> and <a href="https://www.revelstokemountainresort.com/whats-happening/news/before-the-snow-falls/">pre-season news</a>.</li>
+    <li>Passes: <a href="https://www.epicpass.com/regions/us/rockies/telluride.aspx">Epic Pass, Telluride</a>; <a href="https://www.bigskyresort.com/ikon-pass">Big Sky Ikon Pass</a>; <a href="https://www.ikonpass.com/en/destinations/revelstoke-mountain-resort">Ikon Pass, Revelstoke</a>; <a href="https://www.mountaincollective.com/">Mountain Collective</a>.</li>
+    <li>Taxes: Town of Telluride taxes page, 17.22% total on short-term rentals, read from the <a href="https://web.archive.org/web/2026/https://www.telluride-co.gov/401/Taxes">archived copy dated 23 Dec 2025</a> because the live site did not resolve; <a href="https://resorttax.org/frequently-asked-questions/">Big Sky Resort Tax</a> (4%) and <a href="https://revenue.mt.gov/taxes/miscellaneous/lodging-facility">Montana lodging taxes</a> (4% + 4%); British Columbia <a href="https://www2.gov.bc.ca/gov/content/taxes/sales-taxes/pst/publications/accommodation">PST on accommodation</a> (8%), <a href="https://www2.gov.bc.ca/gov/content/taxes/tax-updates/updates-taxes-tax-credits/archived-tax-updates/archived-sales-taxes">MRDT</a> (3%) and GST (5%).</li>
+    <li>Revelstoke transport and rules: <a href="https://www.revelstokemountainresort.com/discover/getting-here/resort-shuttle/">resort shuttle page</a>; <a href="https://www.bctransit.com/revelstoke/schedules-and-maps/route-overview?route=5">BC Transit Route 5</a>; <a href="https://www2.gov.bc.ca/gov/content/housing-tenancy/short-term-rentals/principal-residence-requirement">BC principal-residence requirement</a>.</li>
+    <li>Telluride Lifts 7 and 8: <a href="https://www.fs.usda.gov/r02/gmug/projects/68020">US Forest Service project page</a>.</li>
+  </ul>
+  <p>Prices are single-day snapshots and move. Nothing here is a booking. The first version of this page was researched 14 Sep 2026; its picks and quotes are superseded above.</p>
+</footer>
+</body>
+</html>
