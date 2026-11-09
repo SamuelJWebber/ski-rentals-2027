@@ -85,5 +85,16 @@ class R1_6_CurrencyLabels(Base):
                           'euros converted to dollars: €682 ≈ $791', 'expected −$102, −4%')
 
 
+class R1_7_PropagatedCorrections(Base):
+    check = staticmethod(sitecheck.check_propagated_corrections)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('"10,000 sq ft"', '"The March answer"', '"North American March answer"',
+                          '"every 2 h', '"Jackson', '"365–390"', '"5 km / 7"')
+
+
 if __name__ == '__main__':
     unittest.main()

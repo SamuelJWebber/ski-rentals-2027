@@ -27,6 +27,8 @@ PAGES = [
     'zermatt-month-stay-2026-27.html',
 ]
 VOID = {'br', 'img', 'meta', 'link', 'input', 'hr', 'area', 'base', 'col', 'embed', 'source', 'track', 'wbr'}
+BLOCK = {'p', 'div', 'li', 'ul', 'ol', 'td', 'th', 'tr', 'table', 'thead', 'tbody', 'section', 'header', 'footer',
+         'main', 'nav', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dt', 'dd', 'dl', 'pre', 'small'}
 MONTHS = 'Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec'
 
 
@@ -61,7 +63,12 @@ class Node:
                 if isinstance(c, Node):
                     if c.tag == 'br':
                         out.append(' ')
+                    block = c.tag in BLOCK
+                    if block:
+                        out.append(' ')
                     walk(c)
+                    if block:
+                        out.append(' ')
                 else:
                     out.append(c)
         walk(self)
@@ -321,6 +328,40 @@ def check_currency_labels(root=REPO):
 
 
 register('currency-labels', check_currency_labels)
+
+
+# ---------------------------------------------------------------- R1-7: corrections reach every page
+
+# (pattern, the corrected fact, a qualifier that may sit within 200 characters to mark the old wording
+# as superseded or as an estimate). Add a row whenever a correction is made, before closing it.
+STALE_FACTS = [
+    (r'two supermarkets, but no gym found', 'Fernie has a gym (Evolution Health & Fitness, verified 9 Nov 2026)', None),
+    (r'no commercial gym appears in any directory', 'Fernie has a gym (verified 9 Nov 2026)', None),
+    (r'10,000 sq ft', 'the Fernie gym size is unsourced', None),
+    (r'5,200-person town', 'Fernie has 6,320 people (2021 census, as on the index)', None),
+    (r'Town 5 km from the lift|5 km / 7', 'Fernie town is 8 km by road from the lift', None),
+    (r'\bThe March answer\b|North American March answer', 'Crested Butte was dropped on the combined page', None),
+    (r'every 2 h(?:ou)?rs?\b', 'the Revelstoke bus runs about every 30 to 45 minutes', r'September said'),
+    (r"Jackson(?:'|’)s 40 minutes", 'Teton Village is 12 to 14 miles and 19 to 26 minutes from Jackson', None),
+    (r'365[–-]390', 'the Engelberg 6-day pass is unverified (CHF 274 to 390)', r'(?i)unverified|estimate'),
+]
+
+
+def check_propagated_corrections(root=REPO):
+    """R1-7: a fact corrected on one page is not still stated the old way on another."""
+    problems = []
+    for name in PAGES:
+        text = page(root, name)[1].text()
+        for pat, fact, qualifier in STALE_FACTS:
+            for m in re.finditer(pat, text):
+                window = text[max(0, m.start() - 200):m.end() + 200]
+                if qualifier and re.search(qualifier, window):
+                    continue
+                problems.append(f'{name}: "{m.group(0)}" contradicts the correction: {fact}')
+    return problems
+
+
+register('propagated-corrections', check_propagated_corrections)
 
 
 # ---------------------------------------------------------------- registry and CLI
