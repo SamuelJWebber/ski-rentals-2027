@@ -298,6 +298,15 @@ def register(key, fn):
 register('privacy', check_privacy)
 register('anchors', check_anchors)
 register('costs', check_costs)
+
+
+def check_recheck_blocks(root=REPO):
+    """R1-4: the recheck sections, header lines, nav links and banner match the latest run's data."""
+    import recheck
+    return recheck.check(root)
+
+
+register('recheck-blocks', check_recheck_blocks)
 register('headline-costs', check_headline_costs)
 register('cost-definitions', check_cost_definitions)
 

@@ -1,0 +1,15 @@
+{
+  "run_date": "2026-11-09",
+  "rows": "2026-11-09.tsv",
+  "method": "Method: each listing page was fetched for its coordinates and amenity list, then Airbnb&rsquo;s dated search was run over a small map box around it; a listing in the results is bookable at the quoted total, and one absent from a box whose results were exhausted is not offered for those dates. A box that still hit the page limit is marked &ldquo;not determined&rdquo;.",
+  "zermatt_fresh": {
+    "date": "2026-11-09",
+    "fragment": "zermatt-fresh-2026-11-09.html",
+    "banner": "The summary below is from September. A fresh search finds that January no longer fits with a washer inside the flat; February and March still do, through one studio for two."
+  },
+  "booking": {
+    "date": "2026-11-09",
+    "rows": "../booking/2026-11-09.tsv",
+    "intro": "Read in a browser on 9 Nov 2026 for the same dates and two adults. Booking.com prices exclude Japan's 10% consumption tax and local accommodation or hot-spring taxes, as in September. Room types are not always the one priced in September, so the change is indicative."
+  }
+}
