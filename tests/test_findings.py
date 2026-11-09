@@ -198,6 +198,16 @@ class R1_15_RefundCutoffs(Base):
                           'refund in full only until')
 
 
+class R1_16_RollingCitations(Base):
+    check = staticmethod(sitecheck.check_rolling_citations)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('enso_advisory/ensodisc.shtml', 'lead02/off02_prcp.gif', '/-7,0/', 'bchydro.com')
+
+
 class R1_17_GondolaHours(Base):
     check = superseded('R1-17')
 

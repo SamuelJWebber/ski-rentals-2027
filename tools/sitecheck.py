@@ -679,6 +679,34 @@ def check_three_resorts_arithmetic(root=REPO):
 register('three-resorts-arithmetic', check_three_resorts_arithmetic)
 
 
+# ---------------------------------------------------------------- R1-16: rolling sources are labelled
+
+ROLLING_URL = re.compile(r'enso_advisory/ensodisc\.shtml|/long_range/lead0\d/|/-\d+,0/|bchydro\.com/info/res_hydromet/data/')
+ROLLING_NOTE = re.compile(r'replaced each month|rolling file|page updates|readings\.tsv')
+
+
+def check_rolling_citations(root=REPO):
+    """R1-16: a link to a source that replaces itself (CPC's current discussion and outlook images, a
+    SNOTEL 'last N days' window, BC Hydro's rolling file) carries a note that it updates, next to it."""
+    problems = []
+    for name in PAGES:
+        _, tree = page(root, name)
+        for a in tree.find_all('a'):
+            href = a.attrs.get('href', '')
+            m = ROLLING_URL.search(href)
+            if not m:
+                continue
+            block = next((n for n in a.ancestors() if n.tag in ('li', 'p', 'td', 'div')), None)
+            if block is None or not ROLLING_NOTE.search(block.text()):
+                problems.append(f'{name}:{a.line}: links a source that updates itself ({m.group(0)}) without saying so: {href[:90]}')
+    if not os.path.exists(os.path.join(REPO, 'data', 'readings.tsv')):
+        problems.append('data/readings.tsv: no dated snapshot of the live readings')
+    return problems
+
+
+register('rolling-citations', check_rolling_citations)
+
+
 # ---------------------------------------------------------------- registry and CLI
 
 register('privacy', check_privacy)
