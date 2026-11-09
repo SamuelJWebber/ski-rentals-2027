@@ -33,6 +33,13 @@ Engelberg has 2,017 m of lift-served vertical, three glaciers, the Galtiberg and
 
 Airbnb search pages quote in **US dollars by default regardless of country** — verified at a 1.383 ratio on the same Whistler listing. An earlier version of the rentals report divided Canadian figures by 1.38 and understated Whistler, Tremblant and Sun Peaks by about 38%; that is corrected. Airbnb's washer filter is also unreliable, surfacing listings with shared or surcharged laundry, so only amenities confirmed on the listing page are marked as in-unit.
 
-Airbnb's free-cancellation badge is not the policy. Of fifteen listing policies read on 9 November 2026, seven refunded in full only within 24 hours of booking; only the line on the listing page or at checkout counts.
+Airbnb's free-cancellation badge is not the policy. Of fifteen listing policies read for the three-resort report on 9 November 2026, seven refunded in full only within 24 hours of booking. Of 28 more read the same day for the listings the other pages recommend, 22 showed a free-cancellation date, 2 refunded in full only for 24 hours and 4 did not render the line. Only the line on the listing page or at checkout counts.
 
-Prices are live quotes from 10 to 11 September 2026, except the three-resort report, refreshed 9 November 2026. Re-check prices, cancellation terms and lift status before booking.
+The detailed pages were researched on 10 to 11 September 2026. On 9 November 2026 every Airbnb listing they identified by room ID was rechecked, the answers and the three-resort report were repriced, and each figure on the pages says which date it comes from. Re-check prices, cancellation terms and lift status before booking.
+
+## How these pages are maintained
+
+- **Costs.** Every week-for-two figure comes from [`data/costs.json`](data/costs.json): lodging, tax and two 6-day passes, each with its source. `python tools/costs.py` writes the figures into the pages and this README.
+- **Rechecks.** A recheck run is `data/recheck/<date>.json` and `.tsv`; `python tools/recheck.py` renders the dated recheck sections and the status line on every listing a page cites. Listing pages read by hand go in `data/checks/<date>.tsv`.
+- **Checks.** `python tools/sitecheck.py` and `python -m unittest discover -s tests` run with the standard library and no network. `sh tools/install-hooks.sh` installs a pre-push hook that runs them and rejects personal emails, local paths and tokens in outgoing commits.
+- **How listings are rechecked.** Only the listings that drive a recommendation, each opened in a browser at human pace on the listing page itself, with its dates in the address. No scripted scraping and no browser disguise. Stop at the first HTTP 429, challenge or CAPTCHA and record it; never work around one. The scripts used for the 9 November run sent a browser User-Agent and are retired.

@@ -569,6 +569,42 @@ def check_fit_qualifiers(root=REPO):
 register('fit-qualifiers', check_fit_qualifiers)
 
 
+# ---------------------------------------------------------------- R1-13: the recheck method
+
+# Assembled at run time so this file does not itself contain a User-Agent string.
+BROWSER_UA = re.compile('|'.join(['Mozil' + r'la/5\.0', 'Apple' + 'WebKit/', 'Chro' + r'me/\d{2,3}\.\d']))
+METHOD_PHRASES = ('human pace', '429')
+
+
+def check_method(root=REPO):
+    """R1-13: no file in the repo carries a browser User-Agent; README and HANDOFF state the recheck
+    method (a browser at human pace, stop at the first 429), and HANDOFF describes no scraping as the
+    method to reuse."""
+    problems = []
+    for dirpath, dirnames, files in os.walk(root):
+        dirnames[:] = [d for d in dirnames if d not in ('.git', '__pycache__')]
+        for f in files:
+            if not f.endswith(('.py', '.html', '.md', '.json', '.tsv', '.sh', '.txt')) and f != 'pre-push':
+                continue
+            path = os.path.join(dirpath, f)
+            with open(path, encoding='utf-8', errors='replace') as fh:
+                if BROWSER_UA.search(fh.read()):
+                    problems.append(f'{os.path.relpath(path, root)}: carries a browser User-Agent string')
+    for name in ('README.md', 'HANDOFF.md'):
+        text = read(root, name) if os.path.exists(os.path.join(root, name)) else ''
+        for phrase in METHOD_PHRASES:
+            if phrase not in text:
+                problems.append(f'{name}: does not state the recheck method ({phrase!r} missing)')
+    handoff = read(root, 'HANDOFF.md') if os.path.exists(os.path.join(root, 'HANDOFF.md')) else ''
+    for s in sentences(handoff):
+        if re.search(r'plain HTTP|User-Agent', s) and not re.search(r'retired|never|no longer|not to be', s):
+            problems.append(f'HANDOFF.md: describes scripted fetching as the method: {s[:120]}')
+    return problems
+
+
+register('method', check_method)
+
+
 # ---------------------------------------------------------------- registry and CLI
 
 register('privacy', check_privacy)

@@ -16,30 +16,20 @@ Dates of the data: the three-resort page is fully 9 Nov 2026. The four September
 content, with a dated "Rechecked 9 November 2026" section added to each and specific facts marked
 "Corrected 9 Nov 2026" in place. The index has a "What changed by 9 November 2026" section at the top.
 
-## How things were verified on 2026-11-09 (method worth reusing)
+## Recheck method from now on (review finding R1-13)
 
-- **Airbnb over plain HTTP.** Search pages server-render, in `<script id="data-deferred-state-0">`, each
-  result's 7-night "total before taxes", rating and approximate coordinates (`staysSearch.results`). Listing
-  pages server-render the full amenity list with its qualifiers ("Free washer – In unit", "Paid washer – In
-  building", "[NOT INCLUDED]"), coordinates, photo captions and BC registration details. Neither gives the
-  cancellation policy or a listing's own dated price.
-- **Dated availability of a known listing:** a dated search over a map box of ±0.004° around the listing's own
-  coordinates. In the results means bookable at that total; absent from a box whose results ran out means not
-  offered for those dates (booked, blocked, or a minimum-stay rule). Boxes that hit the 72-result cap were
-  re-run at ±0.0012° to 15 pages; calibrated on four known-available listings, all found.
-- **Airbnb searches are not price-sorted and vary between runs.** A listing seen in one run can be missing from
-  the next. Searches were run to the last page (up to 15) and merged across runs before choosing picks.
-- **Cancellation lines** were read in the Claude desktop app's built-in browser (Claude in Chrome was not
-  connected). With the pane hidden, Airbnb pages render only after screenshots: scroll, screenshot, then read
-  `document.body.innerText`. Two listings never rendered the line (see Open).
-- **Booking.com** answers plain HTTP with an AWS WAF challenge. The eight hotels were read in the built-in
-  browser as an ordinary visitor; no CAPTCHA appeared. Nothing was bypassed.
-- **Official facts** (season dates, passes, taxes, NOAA CPC, BC rules, transit, snow stations) were read by two
-  research subagents with WebFetch; every one is cited with URL in the page footers or inline.
-- **Scripts and raw results** are in `.codex-temp\ski-rentals-2027-2026-11-09\` under the machine's `code` folder (`tools\`:
-  search.py, verify.py, recheck.py, recheck2.py, cheapest_inunit2.py, gen_sections.py, insert_sections.py;
-  `results\`: all TSVs). Not in git, deliberately: the repo is public. `insert_sections.py` is idempotent — it
-  replaces the `<!-- recheck:start -->…<!-- recheck:end -->` blocks, so a rerun refreshes them in place.
+- **Only the listings that drive a recommendation**, each opened in the built-in browser pane at human pace on
+  the listing page itself, with its dates in the address (`/rooms/<id>?check_in=...&check_out=...&adults=2`).
+  With the pane hidden, take a screenshot first so the page draws, then read the text; the status rules are in
+  `tools/listing_status.py`. Log every read in `data/checks/<date>.tsv` (price, cancellation line, washer).
+- **No scripted scraping and no browser disguise.** Stop at the first HTTP 429, challenge or CAPTCHA, record it,
+  and do not retry or route around it. Booking.com is read only in the browser pane as an ordinary visitor.
+- **The 9 Nov scripts are retired.** search.py, recheck.py, recheck2.py, verify.py and cheapest_inunit*.py sent a
+  browser User-Agent while fetching hundreds of Airbnb pages over plain HTTP; they are not to be run again. They
+  and the raw TSVs stay in `.codex-temp\ski-rentals-2027-2026-11-09\` under the machine's `code` folder, outside
+  git. Rendering moved into the repo: `tools/recheck.py` replaces gen_sections.py and insert_sections.py.
+- **Official sources** (CPC, NRCS, BC Hydro, municipal pages) are fetched with an honest project identifier,
+  never a browser User-Agent.
 
 ## Findings now on the pages
 

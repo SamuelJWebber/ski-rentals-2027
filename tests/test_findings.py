@@ -148,5 +148,30 @@ class R1_11_FitQualifiers(Base):
                           'February and March still fit through one studio for two, but January does not')
 
 
+class R1_13_Method(Base):
+    check = staticmethod(sitecheck.check_method)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught("README.md: does not state the recheck method ('human pace' missing)",
+                          'HANDOFF.md: describes scripted fetching as the method')
+
+    def test_a_browser_user_agent_is_caught(self):
+        import os
+        import shutil
+        import tempfile
+        d = tempfile.mkdtemp()
+        try:
+            for f in ('README.md', 'HANDOFF.md'):
+                shutil.copy(os.path.join(REPO, f), d)
+            with open(os.path.join(d, 'fetch.py'), 'w', encoding='utf-8') as fh:
+                fh.write("UA = '" + 'Mozil' + "la/5.0 (Windows NT 10.0; Win64; x64)'\n")
+            self.assertTrue(any('fetch.py: carries a browser User-Agent' in p for p in sitecheck.check_method(d)))
+        finally:
+            shutil.rmtree(d, True)
+
+
 if __name__ == '__main__':
     unittest.main()
