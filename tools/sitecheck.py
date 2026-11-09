@@ -605,6 +605,77 @@ def check_method(root=REPO):
 register('method', check_method)
 
 
+# ---------------------------------------------------------------- LOW findings: superseded wording
+
+# finding: [(pattern, why)]; any match on any page is a problem.
+SUPERSEDED = {
+    'R1-14': [(r'of these, only Niseko United|Of the Japanese resorts on the rentals page, only Niseko',
+               'say which resorts the Ikon correction covers (Furano, Shiga Kogen and Myoko Suginohara are on Ikon)')],
+    'R1-17': [(r'\b2 ?am\b|2 a\.m\.', 'the gondola\'s late Friday and Saturday hours are not published')],
+    'R1-19': [(r'Ranks 6th of 9', 'Telluride is 10th of 16 in the lift audit'),
+              (r'Telluride/Big Sky tie', 'Telluride peaks in February; Big Sky ties December with March'),
+              (r'convert CAD at 1\.38', 'Airbnb quotes are already US dollars'),
+              (r'Airbnb totals are all-in', 'Airbnb totals are before taxes'),
+              (r'4 listings had been removed', '4 listing-weeks from 3 listings were removed'),
+              (r'0\.80 CHF', 'the pages use 0.81 CHF per USD')],
+}
+
+
+def check_superseded(root=REPO, findings=None):
+    problems = []
+    for name in PAGES:
+        text = page(root, name)[1].text()
+        for fid, rules in SUPERSEDED.items():
+            if findings and fid not in findings:
+                continue
+            for pat, why in rules:
+                for m in re.finditer(pat, text):
+                    problems.append(f'{fid} {name}: "{m.group(0)}": {why}')
+    return problems
+
+
+register('superseded-wording', check_superseded)
+
+
+def _half_up(x):
+    return int(x + 0.5)
+
+
+def check_three_resorts_arithmetic(root=REPO):
+    """Every all-in on the three-resort page equals quote x (1 + the column's rate), rounded half up,
+    and the combined totals equal the sums of the rows they name."""
+    name = 'three-resorts-best-snow-2027.html'
+    _, tree = page(root, name)
+    problems, allin_by_name = [], {}
+    for table in tree.find_all('table'):
+        rows = [[c for c in tr.children if isinstance(c, Node) and c.tag in ('td', 'th')] for tr in table.find_all('tr')]
+        if not rows:
+            continue
+        head = [c.text() for c in rows[0]]
+        rate_col = next((i for i, h in enumerate(head) if re.match(r'All-in \+[0-9.]+%', h)), None)
+        quote_col = next((i for i, h in enumerate(head) if h == 'Quote'), None)
+        if rate_col is None or quote_col is None:
+            continue
+        rate = float(re.search(r'\+([0-9.]+)%', head[rate_col]).group(1))
+        for cells in rows[1:]:
+            q, a = money(cells[quote_col].text()), money(cells[rate_col].text())
+            if q is None or a is None:
+                continue
+            want = _half_up(q * (1 + rate / 100))
+            allin_by_name[cells[0].text()] = a
+            if int(a) != want:
+                problems.append(f'{name}: {cells[0].text()[:40]}: ${q:,.0f} + {rate}% = ${want:,}, page says ${a:,.0f}')
+    text = tree.text()
+    picks = [v for k, v in allin_by_name.items() if '(pick)' in k]
+    m = re.search(r'All three weeks together: \$([0-9,]+)', text)
+    if m and picks and int(m.group(1).replace(',', '')) != int(sum(picks)):
+        problems.append(f'{name}: "all three weeks together" says ${m.group(1)}, the picks sum to ${int(sum(picks)):,}')
+    return problems
+
+
+register('three-resorts-arithmetic', check_three_resorts_arithmetic)
+
+
 # ---------------------------------------------------------------- registry and CLI
 
 register('privacy', check_privacy)

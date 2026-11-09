@@ -173,5 +173,46 @@ class R1_13_Method(Base):
             shutil.rmtree(d, True)
 
 
+def superseded(fid):
+    return staticmethod(lambda root: sitecheck.check_superseded(root, {fid}))
+
+
+class R1_14_IkonSentence(Base):
+    check = superseded('R1-14')
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('of these, only Niseko United', 'Of the Japanese resorts on the rentals page, only Niseko')
+
+
+class R1_17_GondolaHours(Base):
+    check = superseded('R1-17')
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('index.html: "2am"', 'steep-and-town-2027.html: "2am"')
+
+
+class R1_19_SmallSlips(Base):
+    check = superseded('R1-19')
+
+    def test_current(self):
+        self.assertPasses()
+        problems = sitecheck.check_three_resorts_arithmetic(REPO)
+        self.assertEqual(problems, [], '\n'.join(problems))
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('Ranks 6th of 9', 'Telluride/Big Sky tie', 'convert CAD at 1.38', 'Airbnb totals are all-in',
+                          '4 listings had been removed', '0.80 CHF')
+        root = export()
+        joined = '\n'.join(sitecheck.check_three_resorts_arithmetic(root))
+        self.assertIn('$2,941 + 17.22% = $3,447, page says $3,448', joined)
+        self.assertIn('$2,485 + 17.22% = $2,913, page says $2,912', joined)
+
+
 if __name__ == '__main__':
     unittest.main()
