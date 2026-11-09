@@ -30,6 +30,15 @@ VOID = {'br', 'img', 'meta', 'link', 'input', 'hr', 'area', 'base', 'col', 'embe
 MONTHS = 'Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec'
 
 
+# Every check registers itself here; the CLI and the tests run them by key.
+CHECKS = {}
+
+
+def register(key, fn):
+    CHECKS[key] = fn
+    return fn
+
+
 # ---------------------------------------------------------------- a small HTML tree
 
 class Node:
@@ -285,15 +294,36 @@ def check_cost_definitions(root=REPO):
     return problems
 
 
+# ---------------------------------------------------------------- R1-6: currency labels on the Europe page
+
+def _rows_in_recheck(text):
+    m = re.search(r'<!-- recheck:start -->(.*?)<!-- recheck:end -->', text, re.S)
+    return re.findall(r'<tr>.*?</tr>', m.group(1)) if m else []
+
+
+def check_currency_labels(root=REPO):
+    """R1-6: the Europe page's September Airbnb figures are the US dollars Airbnb displayed. No euro
+    label converted to dollars, no "priced out" verdict, and St Anton's change measured in dollars."""
+    name = 'alps-extreme-ski-2027.html'
+    text, tree = page(root, name)
+    body = tree.text()
+    problems = [f'{name}: still says {p!r}' for p in ('$2,971', '€2,561', 'priced out', 'Cut from contention') if p in body]
+    accom = re.search(r'<h2 id="accom">(.*?)<h2 id="passes">', text, re.S)
+    if accom:
+        for m in re.finditer(r'€[0-9][0-9,]* ≈ \$[0-9][0-9,]*', accom.group(1)):
+            problems.append(f'{name}: Airbnb figure shown as euros converted to dollars: {m.group(0)}')
+    st_anton = [r for r in _rows_in_recheck(text) if 'Pure Alpin' in r and 'check_in=2027-01-09' in r]
+    if not st_anton:
+        problems.append(f'{name}: St Anton row missing from the recheck table')
+    elif '&minus;$102 (&minus;4%)' not in st_anton[0]:
+        problems.append(f'{name}: St Anton change is not measured from the dollar quote (expected −$102, −4%)')
+    return problems
+
+
+register('currency-labels', check_currency_labels)
+
+
 # ---------------------------------------------------------------- registry and CLI
-
-CHECKS = {}
-
-
-def register(key, fn):
-    CHECKS[key] = fn
-    return fn
-
 
 register('privacy', check_privacy)
 register('anchors', check_anchors)

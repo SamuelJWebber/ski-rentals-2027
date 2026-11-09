@@ -163,6 +163,9 @@ def table_section(tag, rows, meta):
              + f'. Prices are Airbnb&rsquo;s total before taxes in US dollars, as in September. The washer column is the '
              f'listing&rsquo;s own amenity wording on {day_month(run)}; a bare &ldquo;Washer&rdquo; does not say where it '
              'is. Cancellation terms were not re-read for these rows.')
+    note = meta.get('notes', {}).get(tag)
+    if note:
+        intro += ' ' + note
     thead = (f'<thead><tr><th>Listing</th><th>Dates</th><th>Sep quote</th><th>{day_month(run)}</th>'
              f'<th>{day_month(run)} quote</th><th>Change</th><th>Washer, per listing</th><th>Rating</th></tr></thead>')
     body = '\n'.join(row_html(r, st) for r in sorted(rows, key=sort_key))

@@ -11,5 +11,8 @@
     "date": "2026-11-09",
     "rows": "../booking/2026-11-09.tsv",
     "intro": "Read in a browser on 9 Nov 2026 for the same dates and two adults. Booking.com prices exclude Japan's 10% consumption tax and local accommodation or hot-spring taxes, as in September. Room types are not always the one priced in September, so the change is indicative."
+  },
+  "notes": {
+    "alps": "<i>Corrected 9 Nov 2026:</i> six September quotes, for St Anton, Argentière and Sadama, were first published here as euros and converted to dollars. Airbnb had shown them in US dollars, so they appear here as shown, and their change is measured from that figure."
   }
 }

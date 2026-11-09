@@ -74,5 +74,16 @@ class R1_3_CostDefinitions(Base):
                           'README.md: the answers table does not split')
 
 
+class R1_6_CurrencyLabels(Base):
+    check = staticmethod(sitecheck.check_currency_labels)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught("'$2,971'", "'€2,561'", "'priced out'", "'Cut from contention'",
+                          'euros converted to dollars: €682 ≈ $791', 'expected −$102, −4%')
+
+
 if __name__ == '__main__':
     unittest.main()
