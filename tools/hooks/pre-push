@@ -1,0 +1,13 @@
+#!/bin/sh
+# Pre-push checks for this public repository (installed by tools/install-hooks.sh).
+# 1. The commits being pushed: noreply author/committer emails; no local paths, stray emails or tokens.
+# 2. The site checks: costs, recheck blocks, privacy, anchors and the review-finding checks.
+repo="$(git rev-parse --show-toplevel)" || exit 1
+py="$(command -v python3 || command -v python || command -v py)"
+if [ -z "$py" ]; then
+  echo "pre-push: no Python found; install Python 3 or push with --no-verify after running tools/sitecheck.py" >&2
+  exit 1
+fi
+"$py" "$repo/tools/prepush.py" || exit 1
+"$py" "$repo/tools/sitecheck.py" >/dev/null || { "$py" "$repo/tools/sitecheck.py"; exit 1; }
+exit 0
