@@ -416,6 +416,67 @@ def check_pick_status(root=REPO):
 register('pick-status', check_pick_status)
 
 
+# ---------------------------------------------------------------- R1-9: capacity claims against the lift table
+
+MULTIPLES = {'two': 2, 'three': 3, 'four': 4, 'five': 5, 'two and a half': 2.5, 'three and a half': 3.5, 'twice': 2}
+
+
+def lift_capacities(tree):
+    """{resort name as written in the lift-audit table: people per hour}."""
+    table, col = _table_with_header(tree, 'Capacity per hour')
+    caps = {}
+    if table is None:
+        return caps
+    for tr in table.find_all('tr'):
+        tds = [c for c in tr.children if isinstance(c, Node) and c.tag == 'td']
+        if len(tds) > col:
+            m = re.search(r'([0-9][0-9,]+)', tds[col].text())
+            if m:
+                caps[tds[1].text()] = int(m.group(1).replace(',', ''))
+    return caps
+
+
+def _cap_of(caps, name):
+    for k, v in caps.items():
+        if k.startswith(name) or name in k:
+            return v
+    return None
+
+
+def check_capacity_claims(root=REPO):
+    """R1-9: on the index, "N people an hour, about K times X's" and "more than A, B and C combined"
+    must hold against the same page's lift-audit table, and no row may claim nothing comes close
+    when another resort moves more people."""
+    problems = []
+    _, tree = page(root, 'index.html')
+    caps = lift_capacities(tree)
+    if not caps:
+        return ['index.html: lift-audit table with a "Capacity per hour" column not found']
+    text = tree.text()
+    for m in re.finditer(r'([0-9][0-9,]+) people an hour, ([^.]*)', text):
+        claimed = int(m.group(1).replace(',', ''))
+        rest = m.group(2)
+        for w, name in re.findall(r"about ((?:two|three|four|five)(?: and a half)?|twice) times ([A-Z][A-Za-z ]+?)'s", rest):
+            other = _cap_of(caps, name.strip())
+            if other is None:
+                problems.append(f'index.html: capacity claim names {name!r}, which is not in the lift table')
+            elif abs(claimed / other - MULTIPLES[w]) > 0.35:
+                problems.append(f'index.html: {claimed:,} is {claimed / other:.2f} times {name}\'s {other:,}, not "{w}"')
+        comb = re.search(r'more than ((?:[A-Z][A-Za-z ]+, )+[A-Z][A-Za-z ]+ and [A-Z][A-Za-z ]+) combined', rest)
+        if comb:
+            names = [n.strip() for n in re.split(r', | and ', comb.group(1))]
+            total = sum(_cap_of(caps, n) or 0 for n in names)
+            if total >= claimed:
+                problems.append(f'index.html: claims {claimed:,} an hour beats {", ".join(names)} combined, but they total {total:,}')
+    whistler = _cap_of(caps, 'Whistler')
+    if 'Nothing else comes close' in text and whistler and any(v > whistler for v in caps.values()):
+        problems.append('index.html: "Nothing else comes close" although the table lists a resort with more capacity')
+    return problems
+
+
+register('capacity-claims', check_capacity_claims)
+
+
 # ---------------------------------------------------------------- registry and CLI
 
 register('privacy', check_privacy)

@@ -115,5 +115,15 @@ class R1_8_PickStatus(Base):
         self.assertEqual(len(sitecheck._unidentified_priced_rows(text)), 26)
 
 
+class R1_9_CapacityClaims(Base):
+    check = staticmethod(sitecheck.check_capacity_claims)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('but they total 124,121', '"Nothing else comes close"')
+
+
 if __name__ == '__main__':
     unittest.main()
