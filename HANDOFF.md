@@ -1,118 +1,124 @@
 # ski-rentals-2027 handoff
 
-Rewritten **2026-11-09** (Claude Code). Read `CLAUDE.md` first for the rules, then this for what is true now.
+Rewritten **2026-11-09**, end of the second Claude Code pass that day. Read `CLAUDE.md` first for the rules.
 **Rewrite this file at the end of every session — never append.** Under 150 lines.
 
 ## State
 
-**Published**, at https://samueljwebber.github.io/ski-rentals-2027/ . Six pages, all linked from `index.html`
-and `README.md`: the combined verdict (index), the alps extreme list, steep-and-town, the rentals shortlist,
-the Zermatt month-stay report, and the three-resort best-snow report. Nothing is booked. Nothing in flight.
+**Published** at https://samueljwebber.github.io/ski-rentals-2027/ . Six pages, all linked from `index.html`
+and `README.md`: index (combined verdict), alps-extreme, steep-and-town, ski-rentals, zermatt-month-stay,
+three-resorts-best-snow. Nothing is booked; nothing is in flight; the working tree is clean.
 
-Verified live on 2026-11-09: Pages build `built` at commit a94b59b; the three-resort page returns 200 with the
-9 November text; the index links both the three-resort and Zermatt pages.
+Verified live on 2026-11-09: Pages build `built` at commit baaf5d2; all six URLs return HTTP 200 and contain
+the 9 November content (`id="changed"` on the index, `recheck:start` blocks on the four detailed pages).
 
-Prices: the three-resort page was refreshed **2026-11-09**. Every other page still carries quotes from
-**10–11 Sep 2026** (Zermatt: 10 Sep). Those are now two months old and were not re-checked.
+Dates of the data: the three-resort page is fully 9 Nov 2026. The four September pages keep their 10–11 Sep
+content, with a dated "Rechecked 9 November 2026" section added to each and specific facts marked
+"Corrected 9 Nov 2026" in place. The index has a "What changed by 9 November 2026" section at the top.
 
-## The brief this answers
+## How things were verified on 2026-11-09 (method worth reusing)
 
-Steep terrain first, then a short walk to the lift, then a real town. **Zermatt is the benchmark.** Lift speed
-and real lift infrastructure count; marketing claims do not. Current answers: Engelberg, Telluride, Hakuba.
-Hard rules in the three-resort page: refundable, under US$3,000 all-in for two, washer in the unit.
+- **Airbnb over plain HTTP.** Search pages server-render, in `<script id="data-deferred-state-0">`, each
+  result's 7-night "total before taxes", rating and approximate coordinates (`staysSearch.results`). Listing
+  pages server-render the full amenity list with its qualifiers ("Free washer – In unit", "Paid washer – In
+  building", "[NOT INCLUDED]"), coordinates, photo captions and BC registration details. Neither gives the
+  cancellation policy or a listing's own dated price.
+- **Dated availability of a known listing:** a dated search over a map box of ±0.004° around the listing's own
+  coordinates. In the results means bookable at that total; absent from a box whose results ran out means not
+  offered for those dates (booked, blocked, or a minimum-stay rule). Boxes that hit the 72-result cap were
+  re-run at ±0.0012° to 15 pages; calibrated on four known-available listings, all found.
+- **Airbnb searches are not price-sorted and vary between runs.** A listing seen in one run can be missing from
+  the next. Searches were run to the last page (up to 15) and merged across runs before choosing picks.
+- **Cancellation lines** were read in the Claude desktop app's built-in browser (Claude in Chrome was not
+  connected). With the pane hidden, Airbnb pages render only after screenshots: scroll, screenshot, then read
+  `document.body.innerText`. Two listings never rendered the line (see Open).
+- **Booking.com** answers plain HTTP with an AWS WAF challenge. The eight hotels were read in the built-in
+  browser as an ordinary visitor; no CAPTCHA appeared. Nothing was bypassed.
+- **Official facts** (season dates, passes, taxes, NOAA CPC, BC rules, transit, snow stations) were read by two
+  research subagents with WebFetch; every one is cited with URL in the page footers or inline.
+- **Scripts and raw results** are in `C:\Users\samwe\code\.codex-temp\ski-rentals-2027-2026-11-09\` (`tools\`:
+  search.py, verify.py, recheck.py, recheck2.py, cheapest_inunit2.py, gen_sections.py, insert_sections.py;
+  `results\`: all TSVs). Not in git, deliberately: the repo is public. `insert_sections.py` is idempotent — it
+  replaces the `<!-- recheck:start -->…<!-- recheck:end -->` blocks, so a rerun refreshes them in place.
 
-## Three-resort report: what is true on 2026-11-09
+## Findings now on the pages
 
-All three September picks are gone: Revelstoke's Begbie Retreat and Telluride's Clean & Cozy Studio are booked
-for their weeks; the Telluride Main St alternative is booked too (its washer is now confirmed in-unit). Big
-Sky's "Cute, Cozy & Fun" (51600238) lists washer and dryer as **not included**, so it fails the washer rule.
+- **Three-resort report.** All three 14 Sep picks were booked or failed the washer rule. Picks on 9 Nov, each
+  with a washer in the unit (photo-confirmed for Revelstoke and Big Sky) and a free-cancellation date:
+  Revelstoke 23–30 Jan, "New Condo with Mountain Views" (1521039495192820325), $1,945 → $2,256 all-in, free to
+  22 Jan; Telluride **20–27 Feb**, West Telluride Studio (29856063), $2,152 → $2,523, free to 21 Jan; Big Sky
+  6–13 Mar, "A Little Condo" (9624791), $2,305 → $2,582, free to 4 Feb. Total $7,361. Also: NOAA strong El Niño
+  outlook, snow-station readings, opening dates, Epic-vs-Ikon, Revelstoke bus every 30–45 min (not 15).
+- **Recheck of every September Airbnb listing:** 158 listing-weeks — 66 bookable, 87 not offered, 4 listings
+  removed, 1 undetermined. Of the 66, only 15 state a free in-unit washer; 27 list a building or paid washer.
+- **Zermatt month:** January no longer fits 10k with a washer stated in the flat (cheapest such: $38,302; village
+  from $6,122 with a paid building washer). February $7,452 and March $7,779 still fit via one studio
+  (673758664490334985); Täsch March $4,927 (39332849). Week: village $1,923 (9–16 Jan), $2,671 (6–13 Mar).
+- **Corrections on the index and other pages:** Telluride and Hakuba are on Epic, not Ikon; only Niseko United
+  of the Japanese resorts named on the rentals page is on Ikon. Telluride lodging tax is 17.22% (town page),
+  not 11.9%: steep-and-town Telluride all-ins and the index's "≈$2,100" (now ≈$2,200) recomputed. Lifts 7/8 were
+  not approved in June 2026 (draft decision only). Hakuba's new gondola is +78% capacity, not double. Zermatt
+  CHF 384 is a dynamic-pricing floor. St Anton's Epic terms added. Engelberg's $914 listing is still bookable
+  ($906) but lists a paid building washer. Airbnb totals are labelled "total before taxes" (open question closed).
+- **Booking.com (rentals page):** Hinode Hills refundable $2,180 (13–20 Mar); Always Niseko no availability
+  16–23 Jan; Setsu, MUSE, Chalet Ivy, Yamakei non-refundable only; Yu Kiroro refundable only on a $6,249 suite.
+- **Policies read on 9 Nov:** 15 Airbnb listings; 7 refund in full only within 24 hours of booking.
 
-New picks, each with a free-cancellation date read on its own listing page:
+## Choices made, and why (all reversible)
 
-| Week | Listing (Airbnb id) | Quote, USD, before tax | All-in | Full refund until |
-|---|---|---|---|---|
-| Revelstoke 23–30 Jan | New Condo with Mountain Views and Rooftop Hot tub (1521039495192820325) | $1,945 | $2,256 (+16%) | 22 Jan |
-| Telluride 20–27 Feb | West Telluride Studio (29856063) | $2,152 | $2,523 (+17.22%) | 21 Jan |
-| Big Sky 6–13 Mar | A Little Condo at Big Sky Montana (9624791) | $2,305 | $2,582 (+12%) | 4 Feb |
+- **Telluride moved from 27 Feb–6 Mar to 20–27 Feb.** On 27 Feb nothing in town with an in-unit washer was both
+  refundable and under $3k ($3,448 refundable, or $2,912 with a 24-hour refund). Both stay on the page.
+- **Pick rule:** among listings passing the hard rules, the one near the lifts whose full refund runs latest,
+  so the snowpack can decide. This keeps the Revelstoke pick over two cheaper condos refundable only to 24 Dec.
+- **Big Sky pick has the weakest rating (4.48/119);** the two better-rated alternatives refund 24 h only.
+- **Telluride Valley Floor listing (21539429)** keeps its 11.9% all-in with a note: it is outside the town and
+  the county rate was not checked.
+- **Scripts kept out of the public repo** (they scrape Airbnb's page data); kept in `.codex-temp` instead.
+- The September commit 2eac02b was pushed unchanged: no new personal data; its email was already public.
 
-Total $7,361. Other new findings on the page: a strong El Niño is forecast (NOAA CPC, >83% through Jan–Mar
-2027), with south-central Montana leaning dry and western Colorado near even; Telluride is on Epic while Big
-Sky and Revelstoke are on Ikon/Mountain Collective; opening days 26 Nov (Telluride), 25 Nov (Big Sky), 5 Dec
-(Revelstoke). Two corrections to the September text: the Revelstoke bus runs every 30–45 minutes, not every
-15; and Presidents' Day is 15 Feb 2027, so a 20 Feb start already clears it.
+## Unverified or open — exact
 
-## Choices made this session, and why (reversible)
-
-- **Telluride moved from 27 Feb–6 Mar to 20–27 Feb.** On 27 Feb nothing in town with an in-unit washer is both
-  refundable and under $3k: the refundable one (15985907) is $3,448 all-in; the in-budget one (19811781) is
-  $2,912 but refunds in full only for 24 h. 20–27 Feb is still in Telluride's snowiest month (OnTheSnow
-  averages). Both 27 Feb options stay on the page as alternatives. Cost: Telluride and Big Sky are no longer
-  back-to-back.
-- **Refundability ranked above the washer location wording.** The Revelstoke pick lists "Washer" with no
-  location (its dryer says in-unit). Two Revelstoke condos that do say "Free washer – In unit" (Revyverse
-  1020383229264071150 at $2,159; 53958745 at $2,662) refund in full only for 24 h.
-- **Big Sky pick has the weakest rating (4.48/119)** and its washer and 10-minute walk come from the host's
-  description. The better-rated Mountain Village condo (688364107479787274, $2,857) refunds 24 h only.
-- The unpushed commit 2eac02b was pushed unchanged: it held research-window dates only, and its author email was
-  already on every public commit. This session's commits use the GitHub noreply address.
-- `index.html` headline "Verify before you commit" became "Checks still open before committing" (rule:
-  headlines are never commands).
-
-## How it was verified (method worth reusing)
-
-- **Plain HTTP works for Airbnb search and listing data.** Search pages server-render each result's 7-night
-  total before taxes, rating and approximate coordinates. Listing pages server-render the full amenity list,
-  including items marked "not included" and the in-unit / in-building / paid qualifiers on the washer — the
-  "behind a fold" problem from September does not apply to this data. Neither gives the price on a listing
-  page or the cancellation policy.
-- Useful search parameters: `amenities[]=33` (washer), `room_types[]=Entire home/apt`, `currency=USD`.
-  `flexible_cancellation=true` filters but is **incomplete**: it missed 9624791, which has free cancellation.
-  Read each policy on the listing page instead.
-- **Prices and cancellation lines** were read in the Claude desktop app's built-in browser, because the Claude
-  in Chrome extension was not connected. When that pane is hidden, Airbnb pages do not render until a
-  screenshot is taken; scroll, screenshot, then read `document.body.innerText`.
-- Official facts (season dates, taxes, passes, CPC outlook, BC rules, shuttle) came from a research subagent
-  using WebFetch, every one with URL and date; they are cited in the page footer.
-- The scripts were scratch-only and are not in the repo. Re-creating them takes about 30 lines each.
-
-## Unverified or open
-
-- Revelstoke pick: where the washer is (listed without a location).
-- Big Sky pick: washer and dryer named in the description only; walk time is the host's claim.
-- Lead not on the page: "Basecamp Resorts Revelstoke I 1 Bedroom Apartment" (45117750), $1,840 before tax for
-  23–30 Jan, matched the free-cancellation filter, washer listed without location. Possibly downtown, which
-  would help the town criterion. Its policy line and address were not read.
-- Telluride's 17.22% tax was read from the Wayback copy (dated 2025-12-23); telluride-co.gov did not resolve.
-- Big Sky's own snow report did not load; Revelstoke's still showed last spring's text. Revelstoke closing
-  date not found on the resort site. No 2026-27 BC Transit Route 5 timetable yet (latest notice 13 Nov 2025).
-- OnTheSnow monthly averages on the page were read 14 Sep 2026, not re-read.
-- `index.html` says Telluride's Lift 7 and 8 replacements were "approved in June 2026"; the US Forest Service
-  project page read "Pre NEPA" on 9 Nov 2026 with no decision signed. Not resolved; the index text is unchanged.
-- Big Sky tram per-ride price for 2026-27 not found.
+- **Cancellation terms not read** for the 66 still-bookable September listings (only price, availability and
+  amenities were rechecked), nor for: 15395305 (Telluride Jan; the line never rendered), Hakuba 15857739 (never
+  rendered), The Dreamcatcher, Comfy Condo (Big Sky), Revelstoke Retreat, Revylation.
+- **Undetermined:** 36729825 (Westgate Park City, 9–16 Jan) — the search hit its cap even with the tight box.
+- **"Not offered"** cannot distinguish booked from a changed minimum stay or blocked calendar.
+- **Engelberg six-day pass** CHF 274 still unverified (titlis.ch returned 429; not retried).
+- **Hakuba Adam:** December 2027 opening rests on third-party reports of an operator release; "base ski school
+  and summit terrace demolished" was not rechecked.
+- **Telluride gondola funding** status comes from search snippets (SMART documents returned 403). Lift 7/8 type
+  (fixed-grip vs detachable) is not stated in anything read.
+- **BC snow outlook** has no current numeric source; the page relies on Environment Canada's 1998 study.
+- **Snow reports:** Big Sky's resort page did not load; Revelstoke's still showed last spring's text; Revelstoke
+  closing day not published (Kids Ski Free runs to 11 Apr 2027).
+- **Steep-and-town tax assumptions** for other places (CO 16%, UT 15%, WY 13%, NM 15%, Quebec 18.5%) were not
+  rechecked. BC 16% and MT 12% were confirmed.
+- **Not rechecked at all this session:** the lift-audit numbers, terrain write-ups, gym and supermarket claims,
+  Jackson details, and every non-Airbnb, non-Booking source on the September pages.
+- Some ratings come from Airbnb's headline line rather than the review block; a blank rating means neither
+  appeared in the page data.
 
 ## Next
 
-1. Re-check the CPC ENSO update (12 Nov 2026, then monthly) and the three resorts' bases through December; the
-   page's refund deadlines (21 Jan, 22 Jan, 4 Feb) are the decision points.
-2. Refresh the other pages' September prices (index, alps, steep-and-town, rentals, Zermatt), at least the
-   headline picks, the same way: search totals and amenities over HTTP, policies on the listing page.
-3. Resolve the Lift 7/8 approval discrepancy in `index.html`.
+1. Read the cancellation line for the still-bookable September listings that a page recommends (start with
+   the index's three answers and each page's top picks), then mark them on the recheck tables.
+2. CPC's ENSO update is due 12 Nov 2026, then monthly; watch bases against the refund deadlines (Revelstoke
+   22 Jan, Telluride 21 Jan, Big Sky 4 Feb; Engelberg option 4 Jan; West Telluride Studio for January 24 Dec).
+3. Re-run the recheck before those deadlines with the saved scripts (`recheck.py` then `make_tight_spec.py`,
+   `recheck2.py` with `BOX=0.0012 PAGES=15`, `gen_sections.py`, `insert_sections.py`).
+4. The repo now enters a review pipeline: adversarial reviews written to `REVIEW.md`, each followed by a fix pass.
 
 ## Needs the user
 
-- Whether moving Telluride to 20–27 Feb is acceptable, or whether to pay $3,448 (refundable) or accept a
-  24-hour refund window ($2,912) to keep 27 Feb.
-- Any booking or host message (washer location for the Revelstoke pick) — assistants do not book or contact.
-- Claude in Chrome was not connected this session; the built-in browser was used instead. No action needed
-  unless Chrome is preferred.
+Nothing is needed to continue the research. Booking, and any message to a host, are the user's alone.
 
 ## Corrections already made — do not undo them
 
 Andermatt's queue figures are unsourceable and size is the real caveat. St Anton is a European co-leader, kept
 off the top by the washer and not by price. Fernie's Polar Peak rarely opens and its gym is unverified.
-Airbnb quotes USD by default — an unlabelled figure caused one published error. The Revelstoke bus is every
-30–45 minutes, not 15. Airbnb's free-cancellation badge is not the policy: 6 of 11 policies read on 9 Nov
-refunded in full for 24 hours only.
+Airbnb quotes USD by default — an unlabelled figure caused one published error. Telluride and Hakuba are on
+Epic, not Ikon. Telluride's lodging tax is 17.22%, not 11.9%. Lifts 7/8 were not approved in June 2026. The
+Revelstoke bus is every 30–45 minutes, not 15. Airbnb's free-cancellation badge is not the policy.
 
 ## Standing
 
