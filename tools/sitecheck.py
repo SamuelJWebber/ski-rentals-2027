@@ -477,6 +477,71 @@ def check_capacity_claims(root=REPO):
 register('capacity-claims', check_capacity_claims)
 
 
+# ---------------------------------------------------------------- R1-10: all-ins equal quote x (1 + rate)
+
+# Lodging-tax rates the steep page states in "How to read the prices" (Telluride: the town's own rate).
+STEEP_RATES = [
+    (r'^Telluride|Telluride town', 17.22),
+    (r'^(Whistler|Fernie|Red Mountain|Rossland|Revelstoke|Kicking Horse|Golden|Sun Peaks)|Whistler Village|Fernie Alpine|Red Mountain|Kicking Horse base', 16),
+    (r'^Crested Butte|Mt Crested Butte', 16),
+    (r'^(Park City|Snowbird|Salt Lake City)|Park City Old Town', 15),
+    (r'^Taos', 15),
+    (r'^(Jackson|Teton Village)|Jackson town', 13),
+    (r'^Big Sky', 12),
+    (r'^Mont-Tremblant', 18.5),
+]
+
+
+def _priced_tables(tree):
+    for sec in tree.find_all('section'):
+        if sec.attrs.get('id') != 'priced':
+            continue
+        for table in sec.find_all('table'):
+            heads = [th.text() for th in table.find_all('th')]
+            q = next((i for i, h in enumerate(heads) if h.startswith('Fetched')), None)
+            a = next((i for i, h in enumerate(heads) if h.startswith('All-in')), None)
+            if q is None or a is None:
+                continue
+            for tr in table.find_all('tr'):
+                tds = [c for c in tr.children if isinstance(c, Node) and c.tag == 'td']
+                if len(tds) > max(q, a):
+                    yield tr, tds, q, a
+
+
+def check_all_in_arithmetic(root=REPO):
+    """R1-10: on the steep page every North American all-in equals the quote times (1 + the stated
+    rate) within $1, unless the cell says why not; every scorecard 'cheapest all-in' is one of them."""
+    name = 'steep-and-town-2027.html'
+    _, tree = page(root, name)
+    problems, listed = [], set()
+    for tr, tds, q, a in _priced_tables(tree):
+        label = tds[0].text() + ' | ' + tds[1].text()
+        allin_txt = tds[a].text()
+        for m in re.finditer(r'\$([0-9][0-9,]*)', allin_txt):
+            listed.add(int(m.group(1).replace(',', '')))
+        rate = next((r for pat, r in STEEP_RATES if re.search(pat, tds[0].text()) or re.search(pat, tds[1].text())), None)
+        quote, allin = money(tds[q].text()), money(allin_txt)
+        if rate is None or quote is None or allin is None or '→' in tds[q].text() or '&rarr;' in tds[q].text():
+            continue
+        if re.search(r'at \d+(\.\d+)?%', allin_txt):
+            continue  # the cell states its own rate and why
+        if abs(quote * (1 + rate / 100) - allin) > 1:
+            problems.append(f'{name}:{tr.line}: {label[:50]}: ${quote:,.0f} at {rate}% is ${quote * (1 + rate / 100):,.0f}, page says ${allin:,.0f}')
+    table, col = _table_with_header(tree, 'Cheapest all-in')
+    if table is not None:
+        for tr in table.find_all('tr'):
+            tds = [c for c in tr.children if isinstance(c, Node) and c.tag == 'td']
+            if len(tds) <= col or any('data-cost' in n.attrs for n in tds[col].iter()):
+                continue
+            v = money(tds[col].text())
+            if v is not None and all(abs(v - x) > 1 for x in listed):
+                problems.append(f'{name}:{tr.line}: scorecard {tds[0].text()} cheapest all-in ${v:,.0f} matches no listed option')
+    return problems
+
+
+register('all-in-arithmetic', check_all_in_arithmetic)
+
+
 # ---------------------------------------------------------------- registry and CLI
 
 register('privacy', check_privacy)

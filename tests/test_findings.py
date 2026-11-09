@@ -125,5 +125,17 @@ class R1_9_CapacityClaims(Base):
         self.assertCaught('but they total 124,121', '"Nothing else comes close"')
 
 
+class R1_10_AllInArithmetic(Base):
+    check = staticmethod(sitecheck.check_all_in_arithmetic)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('$1,643 at 17.22% is $1,926, page says $1,839',
+                          'scorecard Telluride CO cheapest all-in $2,088 matches no listed option',
+                          'scorecard Fernie BC cheapest all-in $1,095')
+
+
 if __name__ == '__main__':
     unittest.main()
