@@ -611,6 +611,9 @@ register('method', check_method)
 SUPERSEDED = {
     'R1-14': [(r'of these, only Niseko United|Of the Japanese resorts on the rentals page, only Niseko',
                'say which resorts the Ikon correction covers (Furano, Shiga Kogen and Myoko Suginohara are on Ikon)')],
+    'R1-15': [(r'[Ff]ree cancellation to\b|[Rr]efundable to\b|\b[Ff]ree to \d|until 2[12] January|'
+               r'refund in full only until|partial to \d|refunds until the day before',
+               'Airbnb\'s cutoff falls before the date, in the listing\'s local time')],
     'R1-17': [(r'\b2 ?am\b|2 a\.m\.', 'the gondola\'s late Friday and Saturday hours are not published')],
     'R1-19': [(r'Ranks 6th of 9', 'Telluride is 10th of 16 in the lift audit'),
               (r'Telluride/Big Sky tie', 'Telluride peaks in February; Big Sky ties December with March'),

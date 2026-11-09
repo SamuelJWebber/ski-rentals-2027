@@ -187,6 +187,17 @@ class R1_14_IkonSentence(Base):
         self.assertCaught('of these, only Niseko United', 'Of the Japanese resorts on the rentals page, only Niseko')
 
 
+class R1_15_RefundCutoffs(Base):
+    check = superseded('R1-15')
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('Free cancellation to', 'refundable to', 'Free to 2', 'until 21 January',
+                          'refund in full only until')
+
+
 class R1_17_GondolaHours(Base):
     check = superseded('R1-17')
 
