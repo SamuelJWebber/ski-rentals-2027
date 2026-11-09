@@ -1,6 +1,6 @@
 # Steep skiing with a real town, 2027
 
-Ski research for winter 2027, for 1 to 3 people, under US$3,000 a week, refundable, for the weeks of 9 Jan, 16 Jan, 23 Jan, 6 Mar and 13 Mar 2027.
+Ski research for winter 2027: refundable lodging under US$3,000 a week, priced for two sharing, Saturday to Saturday, in January and March 2027.
 
 **[Read the combined verdict →](https://samueljwebber.github.io/ski-rentals-2027/)**
 
