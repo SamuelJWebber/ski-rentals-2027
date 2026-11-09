@@ -61,6 +61,8 @@ class Node:
         def walk(n):
             for c in n.children:
                 if isinstance(c, Node):
+                    if c.tag in ('style', 'script'):
+                        continue
                     if c.tag == 'br':
                         out.append(' ')
                     block = c.tag in BLOCK
@@ -540,6 +542,31 @@ def check_all_in_arithmetic(root=REPO):
 
 
 register('all-in-arithmetic', check_all_in_arithmetic)
+
+
+# ---------------------------------------------------------------- R1-11: "fits" says which budget
+
+FIT = re.compile(r'\bfits?\b')
+BUDGET_VIEW = re.compile(r'lodging|all-in|passes|pass\b|skiing|10k on|with tax')
+
+
+def check_fit_qualifiers(root=REPO):
+    """R1-11: on the Zermatt page every sentence saying something fits (or no longer fits) the budget
+    says which view it uses, lodging alone or all-in with lift passes; on the index, the same for any
+    sentence about a Zermatt or Täsch month."""
+    problems = []
+    for name in ('zermatt-month-stay-2026-27.html', 'index.html'):
+        for s in sentences(page(root, name)[1].text()):
+            if not FIT.search(s):
+                continue
+            if name == 'index.html' and not re.search(r'Zermatt|Täsch|T&auml;sch|month', s):
+                continue
+            if not BUDGET_VIEW.search(s):
+                problems.append(f'{name}: "fits" without saying lodging-only or all-in: {s[:150]}')
+    return problems
+
+
+register('fit-qualifiers', check_fit_qualifiers)
 
 
 # ---------------------------------------------------------------- registry and CLI

@@ -137,5 +137,16 @@ class R1_10_AllInArithmetic(Base):
                           'scorecard Fernie BC cheapest all-in $1,095')
 
 
+class R1_11_FitQualifiers(Base):
+    check = staticmethod(sitecheck.check_fit_qualifiers)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('February and March still fit, each through one studio for two',
+                          'February and March still fit through one studio for two, but January does not')
+
+
 if __name__ == '__main__':
     unittest.main()
