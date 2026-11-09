@@ -36,7 +36,7 @@ content, with a dated "Rechecked 9 November 2026" section added to each and spec
   browser as an ordinary visitor; no CAPTCHA appeared. Nothing was bypassed.
 - **Official facts** (season dates, passes, taxes, NOAA CPC, BC rules, transit, snow stations) were read by two
   research subagents with WebFetch; every one is cited with URL in the page footers or inline.
-- **Scripts and raw results** are in `C:\Users\samwe\code\.codex-temp\ski-rentals-2027-2026-11-09\` (`tools\`:
+- **Scripts and raw results** are in `.codex-temp\ski-rentals-2027-2026-11-09\` under the machine's `code` folder (`tools\`:
   search.py, verify.py, recheck.py, recheck2.py, cheapest_inunit2.py, gen_sections.py, insert_sections.py;
   `results\`: all TSVs). Not in git, deliberately: the repo is public. `insert_sections.py` is idempotent — it
   replaces the `<!-- recheck:start -->…<!-- recheck:end -->` blocks, so a rerun refreshes them in place.
