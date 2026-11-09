@@ -96,5 +96,24 @@ class R1_7_PropagatedCorrections(Base):
                           '"every 2 h', '"Jackson', '"365–390"', '"5 km / 7"')
 
 
+class R1_8_PickStatus(Base):
+    check = staticmethod(sitecheck.check_pick_status)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('listing 1450123020779481422 is cited without its dated recheck status',   # Cascade Lodge pick
+                          'listing 22627280 is cited without',                                      # Terrasses d'Eos
+                          'listing 40328205 is cited without',                                      # Le Kalinda
+                          'listing 2387164 is cited without',                                       # Slope Side, Jackson
+                          '26 priced listings have no room ID',
+                          'does not say it covers only listings identified by room ID')
+
+    def test_skipped_count_matches_the_review(self):
+        text = sitecheck.read(REPO, 'steep-and-town-2027.html')
+        self.assertEqual(len(sitecheck._unidentified_priced_rows(text)), 26)
+
+
 if __name__ == '__main__':
     unittest.main()

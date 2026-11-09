@@ -14,5 +14,12 @@
   },
   "notes": {
     "alps": "<i>Corrected 9 Nov 2026:</i> six September quotes, for St Anton, Argentière and Sadama, were first published here as euros and converted to dollars. Airbnb had shown them in US dollars, so they appear here as shown, and their change is measured from that figure."
+  },
+  "checks": "../checks/2026-11-09.tsv",
+  "unidentified": {
+    "steep": {
+      "count": 26,
+      "note": "every Japanese listing among them"
+    }
   }
 }

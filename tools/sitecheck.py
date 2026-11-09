@@ -364,6 +364,58 @@ def check_propagated_corrections(root=REPO):
 register('propagated-corrections', check_propagated_corrections)
 
 
+# ---------------------------------------------------------------- R1-8: pick status and recheck coverage
+
+ROOM_REF = re.compile(r'/rooms/(\d{5,})|\((\d{7,})\)|[Rr]oom (\d{5,})')
+
+
+def _room_refs(seg):
+    return {next(g for g in m.groups() if g) for m in ROOM_REF.finditer(seg)}
+
+
+def _unidentified_priced_rows(text):
+    """Priced Airbnb rows in the steep page's listing tables that carry no room ID."""
+    m = re.search(r'<section id="priced">(.*?)</section>', text, re.S)
+    if not m:
+        return []
+    out = []
+    for row in re.findall(r'<tr>.*?</tr>', m.group(1), re.S):
+        if '<th' in row or '$' not in strip_tags(row) or _room_refs(row):
+            continue
+        out.append(strip_tags(row)[:60])
+    return out
+
+
+def check_pick_status(root=REPO):
+    """R1-8: every listing a page cites outside its recheck table carries a dated recheck note; each
+    recheck says it covers listings identified by room ID; the skipped count matches the page."""
+    import recheck
+    meta, rows = recheck.load()
+    rooms = {r['room_id'] for r in rows}
+    problems = []
+    for tag, name in recheck.PAGES.items():
+        text = read(root, name)
+        block = re.search(r'<!-- recheck:start -->(.*?)<!-- recheck:end -->', text, re.S)
+        outside = re.sub(r'<!-- recheck:start -->.*?<!-- recheck:end -->', '', text, flags=re.S)
+        segments = re.findall(r'<tr>.*?</tr>', outside, re.S) + re.findall(r'<div class="card">.*?</ul>\s*</div>', outside, re.S)
+        for seg in segments:
+            for rid in sorted(_room_refs(seg) & rooms):
+                if f'data-room="{rid}"' not in seg:
+                    problems.append(f'{name}: listing {rid} is cited without its dated recheck status')
+        if not block or 'identified by room ID' not in block.group(1):
+            problems.append(f'{name}: the recheck does not say it covers only listings identified by room ID')
+    steep = read(root, recheck.PAGES['steep'])
+    skipped = _unidentified_priced_rows(steep)
+    if skipped and f'{len(skipped)} more priced listings on this page have no room ID' not in steep:
+        problems.append(f'steep-and-town-2027.html: {len(skipped)} priced listings have no room ID, and the recheck does not say so')
+    if 'identified by room ID' not in page(root, 'index.html')[1].text():
+        problems.append('index.html: the recheck tally does not say it covers only listings identified by room ID')
+    return problems
+
+
+register('pick-status', check_pick_status)
+
+
 # ---------------------------------------------------------------- registry and CLI
 
 register('privacy', check_privacy)

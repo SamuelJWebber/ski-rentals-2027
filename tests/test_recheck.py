@@ -34,6 +34,8 @@ def make_run(runs_dir, run_date, flip_alps=0):
     meta['zermatt_fresh'] = dict(src_meta['zermatt_fresh'],
                                  fragment=os.path.join(recheck.RUNS, src_meta['zermatt_fresh']['fragment']))
     meta['booking'] = dict(src_meta['booking'], rows=os.path.join(recheck.RUNS, src_meta['booking']['rows']))
+    if 'checks' in src_meta:
+        meta['checks'] = os.path.join(recheck.RUNS, src_meta['checks'])
     with open(os.path.join(runs_dir, f'{run_date}.json'), 'w', encoding='utf-8') as f:
         json.dump(meta, f)
     fields = list(rows[0])
