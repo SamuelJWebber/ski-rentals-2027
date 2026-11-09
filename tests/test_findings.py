@@ -47,5 +47,32 @@ class R1_2_Privacy(Base):
                           '1 to 3 people', 'weeks of 9 Jan, 16 Jan', '(possibly 3)')
 
 
+class R1_1_HeadlineCosts(Base):
+    check = staticmethod(sitecheck.check_headline_costs)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught("'2,350–2,750'", "'1,950–2,600'", "'1,950 incl'",
+                          'the Engelberg answer price is not taken from the cost model')
+
+    def test_model_figures_on_pages(self):
+        problems = sitecheck.check_costs(REPO)
+        self.assertEqual(problems, [], '\n'.join(problems))
+
+
+class R1_3_CostDefinitions(Base):
+    check = staticmethod(sitecheck.check_cost_definitions)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('"Telluride, CO" week-for-two cell is not a cost-model total',
+                          'no note under the ranking table',
+                          'README.md: the answers table does not split')
+
+
 if __name__ == '__main__':
     unittest.main()

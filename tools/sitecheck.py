@@ -208,6 +208,83 @@ def check_anchors(root=REPO):
     return problems
 
 
+# ---------------------------------------------------------------- R1-1 / R1-3: one cost model
+
+def sentences(text):
+    return [s for s in re.split(r'(?<=[.!?])\s+(?=[A-Z<(])', text) if s.strip()]
+
+
+STALE_HEADLINES = ['2,350–2,750', '1,950–2,600', '1,950 incl', '≈$2,200', '$1,950 – $2,600']
+ANSWERS = ('Engelberg', 'Telluride', 'Hakuba')
+
+
+def check_costs(root=REPO):
+    """Every figure marked data-cost matches data/costs.json, and the generated tables are current."""
+    import costs
+    return costs.check(root)
+
+
+def check_headline_costs(root=REPO):
+    """R1-1: the three answers carry figures from the cost model, and the superseded headline ranges
+    appear only in a sentence that dates them to September."""
+    problems = []
+    texts = [(n, page(root, n)[1].text()) for n in PAGES]
+    texts.append(('README.md', read(root, 'README.md')))
+    for name, text in texts:
+        for s in sentences(text):
+            for stale in STALE_HEADLINES:
+                if stale in s and 'September' not in s:
+                    problems.append(f'{name}: undated superseded figure {stale!r} in: {s[:140]}')
+    _, tree = page(root, 'index.html')
+    for card in tree.find_all('div', 'card'):
+        h4 = next(card.find_all('h4'), None)
+        if h4 is None or h4.text() not in ANSWERS:
+            continue
+        price = next(card.find_all('div', 'price'), None)
+        if price is None or not any('data-cost' in n.attrs for n in price.iter()):
+            problems.append(f'index.html:{card.line}: the {h4.text()} answer price is not taken from the cost model')
+    return problems
+
+
+def _table_with_header(tree, prefix):
+    for table in tree.find_all('table'):
+        heads = [th.text() for th in table.find_all('th')]
+        for i, h in enumerate(heads):
+            if h.startswith(prefix):
+                return table, i
+    return None, None
+
+
+def check_cost_definitions(root=REPO):
+    """R1-3: every 'Week for two' cell is built the same way (a cost-model total, or a dash with the
+    reason), the definition is stated under the table, and the README splits the parts."""
+    problems = []
+    _, tree = page(root, 'index.html')
+    table, col = _table_with_header(tree, 'Week for two')
+    if table is None:
+        return ['index.html: no ranking table with a "Week for two" column']
+    for tr in table.find_all('tr'):
+        tds = [c for c in tr.children if isinstance(c, Node) and c.tag == 'td']
+        if not tds:
+            continue
+        cell = tds[col]
+        has_total = any(n.attrs.get('data-cost', '').endswith(':total') for n in cell.iter())
+        if not has_total and not cell.text().startswith('—'):
+            problems.append(f'index.html:{tr.line}: "{tds[0].text()}" week-for-two cell is not a cost-model total: {cell.text()!r}')
+    defined = False
+    n = table.parent
+    if n is not None and n.parent is not None:
+        sibs = [c for c in n.parent.children if isinstance(c, Node)]
+        after = sibs[sibs.index(n) + 1:] if n in sibs else []
+        defined = any('Week for two = lodging + tax + two 6-day' in s.text() for s in after[:2])
+    if not defined:
+        problems.append('index.html: no note under the ranking table stating what "Week for two" includes')
+    readme = read(root, 'README.md')
+    if '| Lodging for two + tax | Two 6-day passes | Week for two |' not in readme:
+        problems.append('README.md: the answers table does not split lodging, tax and passes')
+    return problems
+
+
 # ---------------------------------------------------------------- registry and CLI
 
 CHECKS = {}
@@ -220,6 +297,9 @@ def register(key, fn):
 
 register('privacy', check_privacy)
 register('anchors', check_anchors)
+register('costs', check_costs)
+register('headline-costs', check_headline_costs)
+register('cost-definitions', check_cost_definitions)
 
 
 def run(root=REPO, only=None):
