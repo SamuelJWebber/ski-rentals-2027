@@ -20,9 +20,13 @@ The brief was refined partway through to a strict priority order: **terrain firs
 - **[alps-extreme-ski-2027.html](alps-extreme-ski-2027.html)** — Europe, terrain first. 24 priced listings, lift-pass comparison, gym and supermarket data.
 - **[steep-and-town-2027.html](steep-and-town-2027.html)** — North America and Japan, terrain first. 19 resorts, 60 priced options.
 - **[ski-rentals-2027.html](ski-rentals-2027.html)** — the original brief, ranked on amenities and price rather than terrain.
+- **[three-resorts-best-snow-2027.html](three-resorts-best-snow-2027.html)** — Revelstoke, Telluride and Big Sky, each in its best-snow week, with refundable picks under $3,000 and the 2026-27 El Niño outlook. Refreshed 9 November 2026.
+- **[zermatt-month-stay-2026-27.html](zermatt-month-stay-2026-27.html)** — the benchmark itself: a month in Zermatt with a washer, by month and location, against a 10k budget.
 
-## Two research notes
+## Research notes
 
 Airbnb search pages quote in **US dollars by default regardless of country** — verified at a 1.383 ratio on the same Whistler listing. An earlier version of the rentals report divided Canadian figures by 1.38 and understated Whistler, Tremblant and Sun Peaks by about 38%; that is corrected. Airbnb's washer filter is also unreliable, surfacing listings with shared or surcharged laundry, so only amenities confirmed on the listing page are marked as in-unit.
 
-Prices are live quotes from 10 to 11 September 2026. Re-check prices, cancellation terms and lift status before booking.
+Airbnb's free-cancellation badge is not the policy. Of eleven listing policies read on 9 November 2026, six refunded in full only within 24 hours of booking; only the line on the listing page or at checkout counts.
+
+Prices are live quotes from 10 to 11 September 2026, except the three-resort report, refreshed 9 November 2026. Re-check prices, cancellation terms and lift status before booking.
