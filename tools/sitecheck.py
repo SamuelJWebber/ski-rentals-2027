@@ -549,6 +549,76 @@ def check_all_in_arithmetic(root=REPO):
 register('all-in-arithmetic', check_all_in_arithmetic)
 
 
+# ---------------------------------------------------------------- R2-2: "all-in" means lodging plus tax
+
+ALL_IN_PAGES = ('steep-and-town-2027.html', 'three-resorts-best-snow-2027.html')
+ALL_IN_FIGURE = re.compile(r'(?P<cur>US)?\$\s?(?P<x>[0-9][0-9,]*)(?:\s*(?:–|-)\s*\$?(?P<y>[0-9][0-9,]*))?'
+                           r'(?P<gap>(?:\s+[a-z]+){0,2})\s+all-in\b')
+ALL_IN_SPAN = re.compile(r'data-cost="[a-z_]+:(?P<field>[a-z_]+)"[^>]*>[^<]*</span>(?:\s|&nbsp;)*(?:<[^>]+>\s*)*all-in\b')
+
+
+def _listed_all_ins(tree):
+    """Every figure in an All-in column of the page's tables (the lodging-plus-tax totals it lists)."""
+    out = set()
+    for table in tree.find_all('table'):
+        rows = [[c for c in tr.children if isinstance(c, Node) and c.tag in ('td', 'th')] for tr in table.find_all('tr')]
+        heads = [c.text() for c in rows[0]] if rows else []
+        cols = [i for i, h in enumerate(heads) if h.startswith('All-in')]
+        for cells in rows[1:]:
+            for i in cols:
+                if i < len(cells):
+                    out.update(int(v.replace(',', '')) for v in re.findall(r'\$([0-9][0-9,]*)', cells[i].text()))
+    return out
+
+
+def check_all_in_figures(root=REPO):
+    """R2-2: on the North America and three-resort pages "all-in" is lodging plus tax, with lift tickets
+    listed separately. Every figure called all-in must be one of the page's own all-in totals (or a
+    rounded one where the sentence says roughly or about), a cost-model lodging_tax figure, or the
+    budget line itself; a cost-model figure that includes passes may never be called all-in."""
+    problems = []
+    for name in ALL_IN_PAGES:
+        text, tree = page(root, name)
+        listed = _listed_all_ins(tree)
+        for m in ALL_IN_SPAN.finditer(text):
+            if m.group('field') != 'lodging_tax':
+                problems.append(f'{name}: a {m.group("field")} figure, which includes lift passes, is called all-in')
+        body = tree.text()
+        for m in ALL_IN_FIGURE.finditer(body):
+            before = body[max(0, m.start() - 40):m.start()]
+            if re.search(r'(?:under|over|below|above|budget|cap of)\s*$', before):
+                continue  # the budget line, not a priced figure
+            if m.group('gap').strip() and m.group('gap').strip() not in ('for two',):
+                continue
+            rough = re.search(r'(?:roughly|about|around|~|≈)\s*$', before)
+            tol = 50 if rough else 1
+            for v in (m.group('x'), m.group('y')):
+                if v is None:
+                    continue
+                n = int(v.replace(',', ''))
+                if m.group('y') is not None and v == m.group('y') and n < 1000 and m.group('x'):
+                    n = int(m.group('x').replace(',', '')) // 1000 * 1000 + n  # "$2,200–900" style
+                if any(abs(n - x) <= tol for x in listed):
+                    continue
+                if _is_cost_lodging_tax(text, m, n):
+                    continue
+                problems.append(f'{name}: ${n:,} is called all-in but is not one of the page\'s lodging-plus-tax '
+                                f'totals: {body[max(0, m.start() - 80):m.end() + 20]}')
+    return problems
+
+
+def _is_cost_lodging_tax(html_text, m, n):
+    """True when the figure sits in a data-cost lodging_tax span somewhere on the page."""
+    for s in re.finditer(r'data-cost="[a-z_]+:lodging_tax"[^>]*>([^<]*)<', html_text):
+        vals = [int(v.replace(',', '')) for v in re.findall(r'([0-9][0-9,]{2,})', s.group(1))]
+        if n in vals:
+            return True
+    return False
+
+
+register('all-in-figures', check_all_in_figures)
+
+
 # ---------------------------------------------------------------- R1-11: "fits" says which budget
 
 FIT = re.compile(r'\bfits?\b')
@@ -626,6 +696,8 @@ SUPERSEDED = {
               (r'Airbnb totals are all-in', 'Airbnb totals are before taxes'),
               (r'4 listings had been removed', '4 listing-weeks from 3 listings were removed'),
               (r'0\.80 CHF', 'the pages use 0.81 CHF per USD')],
+    'R2-2': [(r'barely outside the stated budget',
+              'on lodging and tax the January Zermatt week is inside the budget; passes are a separate column')],
 }
 
 

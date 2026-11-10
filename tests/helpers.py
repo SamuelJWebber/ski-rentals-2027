@@ -15,7 +15,8 @@ TOOLS = os.path.join(REPO, 'tools')
 if TOOLS not in sys.path:
     sys.path.insert(0, TOOLS)
 
-REVIEWED = '20cb727'  # the commit review round 1 (REVIEW.md) examined
+REVIEWED = '20cb727'  # the commit review round 1 examined
+REVIEWED_R2 = 'd46aeed'  # the commit review round 2 (REVIEW.md) examined: the pages and data of e3866e3
 FILES = ['index.html', 'alps-extreme-ski-2027.html', 'steep-and-town-2027.html', 'ski-rentals-2027.html',
          'three-resorts-best-snow-2027.html', 'zermatt-month-stay-2026-27.html', 'README.md', 'HANDOFF.md']
 _exported = {}
