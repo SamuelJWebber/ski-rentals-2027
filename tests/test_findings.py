@@ -218,6 +218,18 @@ class R1_17_GondolaHours(Base):
         self.assertCaught('index.html: "2am"', 'steep-and-town-2027.html: "2am"')
 
 
+class R1_18_DatesStamped(Base):
+    check = staticmethod(sitecheck.check_dates_stamped)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('index.html footer: does not date both research rounds',
+                          'README.md: does not date both research rounds',
+                          're-shop in October', 'book Winter Park by 29 Sep', 'season pass quoted "from 1,750"')
+
+
 class R1_19_SmallSlips(Base):
     check = superseded('R1-19')
 

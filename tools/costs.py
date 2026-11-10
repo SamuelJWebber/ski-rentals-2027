@@ -71,12 +71,17 @@ def fmt(pair):
 
 
 def values(model):
-    """{(key, field): formatted string} for every row and field."""
+    """{(key, field): formatted string} for every row and field. A pass price marked as a floor
+    (a dynamic-pricing minimum) makes the passes and the total read 'from $X'."""
     out = {}
     for row in model['rows']:
         c = compute(row, model)
+        floor = row['passes'].get('floor')
         for f in FIELDS:
-            out[(row['key'], f)] = fmt(c[f])
+            v = fmt(c[f])
+            if floor and f in ('passes', 'total') and v != '—':
+                v = 'from ' + v
+            out[(row['key'], f)] = v
     return out
 
 

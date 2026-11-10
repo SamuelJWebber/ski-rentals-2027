@@ -707,6 +707,40 @@ def check_rolling_citations(root=REPO):
 register('rolling-citations', check_rolling_citations)
 
 
+# ---------------------------------------------------------------- R1-18: dates and expired advice
+
+PAST_DEADLINE = re.compile(r'\b(?:by|before) \d{1,2} (?:Aug|Sep|Oct) 2026\b|\bby 29 Sep\b|re-shop in October|'
+                           r'closes today|runs to 21 Sep')
+DONE_WORDS = re.compile(r'expired|has passed|have passed|ended|closed')
+
+
+def check_dates_stamped(root=REPO):
+    """R1-18: the index header and footer and the README date both research rounds; no deadline that
+    has passed is offered as an action; no 'live quote' sentence is undated; the Zermatt season pass
+    is not quoted at its October price."""
+    problems = []
+    _, tree = page(root, 'index.html')
+    header = next(tree.find_all('header'), None)
+    footer = next(tree.find_all('footer'), None)
+    for where, t in (('index.html header', header.text() if header else ''),
+                     ('index.html footer', footer.text() if footer else ''),
+                     ('README.md', read(root, 'README.md'))):
+        if not ('September 2026' in t and re.search(r'9 November 2026', t) and 'recheck' in t):
+            problems.append(f'{where}: does not date both research rounds (September, and the 9 November 2026 recheck)')
+    for name in PAGES:
+        for s in sentences(page(root, name)[1].text()):
+            if PAST_DEADLINE.search(s) and not DONE_WORDS.search(s):
+                problems.append(f'{name}: past deadline offered as an action: {s[:130]}')
+            if re.search(r'live quote', s) and not re.search(rf'(?:{MONTHS})\w* \d{{4}}|\d{{1,2}} (?:{MONTHS})', s):
+                problems.append(f'{name}: undated live quote: {s[:130]}')
+    if 'from 1,750' in page(root, 'zermatt-month-stay-2026-27.html')[1].text():
+        problems.append('zermatt-month-stay-2026-27.html: season pass quoted "from 1,750", its October price')
+    return problems
+
+
+register('dates-stamped', check_dates_stamped)
+
+
 # ---------------------------------------------------------------- registry and CLI
 
 register('privacy', check_privacy)
