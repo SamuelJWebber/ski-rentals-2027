@@ -45,8 +45,8 @@ with its commit and test.
   with the washer in the unit (1267557874578220140, $1,571, free cancellation before 4 Jan; no smoke or CO alarm).
 - **Telluride**, 23–30 Jan: $2,014–2,259 lodging and 17.22% tax (29856063 at $1,718, 15395305 at $1,927, both free
   cancellation before 24 Dec); $5,017–5,262 with two 6-day tickets. Epic covers the lifts.
-- **Hakuba**: no refundable week under budget. 13–20 Mar from $2,619 with an in-unit washer, but it refunds in full
-  only for 24 hours; January from $5,605.
+- **Hakuba**, 13–20 Mar: $2,742 lodging and tax (4721170, $2,697, washer in the unit, free cancellation before
+  11 Feb), a 5-minute drive or a shuttle from the lifts; walk logged in data/walks. January from $5,605.
 - **Zermatt**: a January week fits on lodging and tax ($1,992); with passes it is "from $2,940", at a floor price
   the operator charges only 1–27 Nov and 19 Apr–2 May. Season pass CHF 1,850 from 1 Nov, 1,960 from 1 Dec.
 - **Recheck**: 158 listing-weeks identified by room ID: 66 bookable, 88 not offered, 4 removed (3 listings). The

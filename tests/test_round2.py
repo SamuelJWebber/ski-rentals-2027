@@ -92,6 +92,81 @@ def _fixture(name):
         return f.read()
 
 
+def _copy_root():
+    """A temp copy of the pages, README, HANDOFF and data/, for tests that edit one of them."""
+    import os
+    import shutil
+    import tempfile
+    d = tempfile.mkdtemp()
+    for f in sitecheck.PAGES + ['README.md', 'HANDOFF.md']:
+        shutil.copy(os.path.join(REPO, f), d)
+    shutil.copytree(os.path.join(REPO, 'data'), os.path.join(d, 'data'))
+    return d
+
+
+class R2_1_WalkBehindEveryNone(Base):
+    check = staticmethod(sitecheck.check_walks)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('index.html: "no refundable" with no logged walk that reached the budget line: Hakuba: no refundable week',
+                          'data/costs.json hakuba_mar: a "cheapest" basis with no walk log behind it')
+
+    def test_hakuba_march_is_the_refundable_chalet(self):
+        walks = sitecheck.load_walks(REPO)
+        w = walks['hakuba_mar']
+        self.assertEqual((w['outcome'], w['pick']), ('pick', '4721170'))
+        self.assertEqual([s['room_id'] for s in w['steps'][-4:]], ['15857739', '1050498932831223252', '12572632', '4721170'])
+        import costs
+        row = [r for r in costs.load()['rows'] if r['key'] == 'hakuba_mar'][0]
+        self.assertEqual(row['lodging']['usd'], [2697, 2697])
+        self.assertEqual(costs.values(costs.load())[('hakuba_mar', 'lodging_tax')], '$2,742')
+        self.assertTrue(row['fits'].startswith('Yes'))
+
+    def test_zermatt_march_walk_reached_the_budget_line(self):
+        w = sitecheck.load_walks(REPO)['zermatt_mar']
+        self.assertEqual(w['outcome'], 'budget_line')
+        self.assertGreater(w['next']['search_usd'] + w['tax_usd'], w['budget_usd'])
+
+    def test_a_none_claim_against_a_walk_that_found_one_is_caught(self):
+        import os
+        import shutil
+        d = _copy_root()
+        try:
+            p = os.path.join(d, 'index.html')
+            with open(p, encoding='utf-8') as f:
+                s = f.read()
+            s = s.replace('<b>Telluride and Hakuba are on Epic, not Ikon.</b>',
+                          '<b>Hakuba has no refundable week under budget in March.</b> <b>Telluride and Hakuba are on Epic, not Ikon.</b>', 1)
+            with open(p, 'w', encoding='utf-8') as f:
+                f.write(s)
+            self.assertTrue(any('whose walk found one' in x for x in sitecheck.check_walks(d)))
+        finally:
+            shutil.rmtree(d, True)
+
+    def test_a_walk_that_skips_a_passing_listing_is_caught(self):
+        import json
+        import os
+        import shutil
+        d = _copy_root()
+        try:
+            p = os.path.join(d, 'data', 'walks', '2026-11-09.json')
+            with open(p, encoding='utf-8') as f:
+                doc = json.load(f)
+            w = [x for x in doc['walks'] if x['key'] == 'hakuba_mar'][0]
+            # the review's case: stop at the first in-unit listing and call it the answer, refund unread
+            w['steps'][-5].update(washer='in unit', refund='Free cancellation before February 11.')
+            with open(p, 'w', encoding='utf-8') as f:
+                json.dump(doc, f)
+            problems = sitecheck.check_walks(d)
+            self.assertTrue(any('before the pick neither fails' in x or 'differs from data/checks' in x for x in problems),
+                            problems)
+        finally:
+            shutil.rmtree(d, True)
+
+
 class R2_9_EveryLoggedStatusHasItsLine(Base):
     check = staticmethod(sitecheck.check_reading_evidence)
 

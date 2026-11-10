@@ -1,0 +1,639 @@
+{
+ "date": "2026-11-09",
+ "about": "Each walk backs a \"cheapest\" or \"no ... under budget\" claim. It starts from Airbnb's search with the washer filter for the stay (two adults, totals before tax in US dollars, read 9 Nov 2026), keeps the listings in the stated area, and goes up in the search's price order: a listing is the pick when its own page puts the washer in the unit and offers free cancellation (a date, not 24 hours) and its total plus tax is within the budget; the walk ends at the budget line when the next total plus tax passes it. Each step says where its washer and refund facts come from. The 9 Nov scripted washer reads are retired and their wording was not kept; everything read on the listing page itself is in data/checks.",
+ "walks": [
+  {
+   "key": "engelberg",
+   "resort": "Engelberg",
+   "check_in": "2027-01-09",
+   "check_out": "2027-01-16",
+   "adults": 2,
+   "area": "within 1.5 km of Engelberg station",
+   "budget_usd": 3000,
+   "tax_usd": 55,
+   "steps": [
+    {
+     "room_id": "779567373113942720",
+     "search_usd": 907,
+     "km": 1.24,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov run: Paid washer – In building",
+     "refund": "Free cancellation before January 4.",
+     "refund_read": "listing page, 2026-11-09 (data/checks, typed)",
+     "page_usd": 907
+    },
+    {
+     "room_id": "704124575277117776",
+     "search_usd": 950,
+     "km": 0.12,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1413166961647724476",
+     "search_usd": 1167,
+     "km": 0.54,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1695652546040480156",
+     "search_usd": 1196,
+     "km": 0.05,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1302128019202510590",
+     "search_usd": 1199,
+     "km": 0.62,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1544840008421401171",
+     "search_usd": 1231,
+     "km": 1.47,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "45406228",
+     "search_usd": 1264,
+     "km": 0.18,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1548403540580663946",
+     "search_usd": 1274,
+     "km": 0.39,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "42290650",
+     "search_usd": 1318,
+     "km": 0.87,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "539785078511595955",
+     "search_usd": 1410,
+     "km": 1.26,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1340345389851602521",
+     "search_usd": 1467,
+     "km": 0.92,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1536543162087121163",
+     "search_usd": 1508,
+     "km": 0.65,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1808984513375443969",
+     "search_usd": 1515,
+     "km": 0.48,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "7610289",
+     "search_usd": 1519,
+     "km": 0.6,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1431154321932576111",
+     "search_usd": 1526,
+     "km": 0.4,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "30852446",
+     "search_usd": 1526,
+     "km": 0.26,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "9518793",
+     "search_usd": 1533,
+     "km": 0.92,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1218583457247175300",
+     "search_usd": 1544,
+     "km": 1.44,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "30852463",
+     "search_usd": 1551,
+     "km": 0.47,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1267557874578220140",
+     "search_usd": 1571,
+     "km": 1.48,
+     "washer": "in unit",
+     "washer_read": "listing page, 2026-11-09 (data/checks)",
+     "refund": "Free cancellation before January 4. Cancel before check-in on January 9 for a partial refund.",
+     "refund_read": "listing page, 2026-11-09 (data/checks, typed)",
+     "page_usd": 1571
+    }
+   ],
+   "outcome": "pick",
+   "pick": "1267557874578220140",
+   "next": null
+  },
+  {
+   "key": "zermatt_jan",
+   "resort": "Zermatt",
+   "check_in": "2027-01-09",
+   "check_out": "2027-01-16",
+   "adults": 2,
+   "area": "Zermatt village, within 1.6 km of the station",
+   "budget_usd": 3000,
+   "tax_usd": 69,
+   "steps": [
+    {
+     "room_id": "21203039",
+     "search_usd": 1533,
+     "km": 0.29,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "678611464757441246",
+     "search_usd": 1648,
+     "km": 0.44,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1759341565545699359",
+     "search_usd": 1654,
+     "km": 0.3,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1728887257775156315",
+     "search_usd": 1742,
+     "km": 0.64,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1386861503933410862",
+     "search_usd": 1870,
+     "km": 0.51,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1005849900575274943",
+     "search_usd": 1923,
+     "km": 0.43,
+     "washer": "in unit",
+     "washer_read": "listing page, 2026-11-09 (data/checks)",
+     "refund": "Free cancellation before December 10. Cancel before January 2 for a partial refund.",
+     "refund_read": "listing page, 2026-11-09 (data/checks, typed)",
+     "page_usd": 1923
+    }
+   ],
+   "outcome": "pick",
+   "pick": "1005849900575274943",
+   "next": null
+  },
+  {
+   "key": "zermatt_mar",
+   "resort": "Zermatt",
+   "check_in": "2027-03-06",
+   "check_out": "2027-03-13",
+   "adults": 2,
+   "area": "Zermatt village, within 1.6 km of the station",
+   "budget_usd": 3000,
+   "tax_usd": 69,
+   "steps": [
+    {
+     "room_id": "1386861503933410862",
+     "search_usd": 1870,
+     "km": 0.51,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1728887257775156315",
+     "search_usd": 2129,
+     "km": 0.64,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "46184859",
+     "search_usd": 2304,
+     "km": 0.64,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "24752569",
+     "search_usd": 2332,
+     "km": 1.47,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "678611464757441246",
+     "search_usd": 2380,
+     "km": 0.44,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "44180875",
+     "search_usd": 2399,
+     "km": 0.55,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1445381525513143287",
+     "search_usd": 2550,
+     "km": 0.27,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "749164300750846312",
+     "search_usd": 2671,
+     "km": 0.37,
+     "washer": "in unit",
+     "washer_read": "listing page, 2026-11-09 (data/checks)",
+     "refund": "Free cancellation for 24 hours. Cancel before February 27 for a partial refund.",
+     "refund_read": "listing page, 2026-11-09 (data/checks, typed)",
+     "page_usd": 2671
+    },
+    {
+     "room_id": "18758028",
+     "search_usd": 2748,
+     "km": 0.34,
+     "washer": "not read",
+     "washer_read": "the walk decided on the refund line",
+     "refund": "Free cancellation for 24 hours. Cancel before February 4 for a partial refund.",
+     "refund_read": "listing page, 2026-11-09 (data/checks, pasted)",
+     "page_usd": 2749
+    },
+    {
+     "room_id": "43885505",
+     "search_usd": 2748,
+     "km": 0.25,
+     "washer": "not read",
+     "washer_read": "the walk decided on the refund line",
+     "refund": "Free cancellation for 24 hours. Cancel before February 4 for a partial refund.",
+     "refund_read": "listing page, 2026-11-09 (data/checks, pasted)",
+     "page_usd": 2749
+    }
+   ],
+   "outcome": "budget_line",
+   "pick": null,
+   "next": {
+    "room_id": "1250513121980243536",
+    "search_usd": 2981
+   }
+  },
+  {
+   "key": "hakuba_mar",
+   "resort": "Hakuba",
+   "check_in": "2027-03-13",
+   "check_out": "2027-03-20",
+   "adults": 2,
+   "area": "within 2 km of Happo and Echoland",
+   "budget_usd": 3000,
+   "tax_usd": 45,
+   "steps": [
+    {
+     "room_id": "1812996327187552512",
+     "search_usd": 1563,
+     "km": 1.79,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1064011109352623542",
+     "search_usd": 1593,
+     "km": 1.29,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov run: Washer"
+    },
+    {
+     "room_id": "1172033821014577487",
+     "search_usd": 1637,
+     "km": 1.8,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1057559441968267650",
+     "search_usd": 1682,
+     "km": 1.26,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1287588173606178050",
+     "search_usd": 1804,
+     "km": 1.99,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1429485158170469509",
+     "search_usd": 1907,
+     "km": 1.98,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1307740263362265713",
+     "search_usd": 2049,
+     "km": 1.11,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1155431511692723157",
+     "search_usd": 2139,
+     "km": 0.63,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "678032453961510940",
+     "search_usd": 2156,
+     "km": 1.98,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1551546411469278004",
+     "search_usd": 2192,
+     "km": 1.21,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1559778521744405069",
+     "search_usd": 2192,
+     "km": 1.0,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1025746272456071125",
+     "search_usd": 2231,
+     "km": 1.81,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "4003524",
+     "search_usd": 2232,
+     "km": 1.06,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1699246590927114542",
+     "search_usd": 2237,
+     "km": 1.72,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1464157339555306385",
+     "search_usd": 2329,
+     "km": 1.67,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1560678982741108498",
+     "search_usd": 2399,
+     "km": 1.57,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "53927333",
+     "search_usd": 2399,
+     "km": 1.45,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1651292064722815545",
+     "search_usd": 2409,
+     "km": 1.6,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1023798092545677496",
+     "search_usd": 2452,
+     "km": 1.8,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1020050288327963290",
+     "search_usd": 2489,
+     "km": 1.67,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1549635217041486814",
+     "search_usd": 2501,
+     "km": 1.57,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "44079205",
+     "search_usd": 2501,
+     "km": 1.85,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1725760259808478894",
+     "search_usd": 2552,
+     "km": 1.08,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1354123968308286734",
+     "search_usd": 2567,
+     "km": 1.52,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1375864457135767101",
+     "search_usd": 2567,
+     "km": 1.52,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "19865300",
+     "search_usd": 2567,
+     "km": 1.62,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1383062065378001841",
+     "search_usd": 2588,
+     "km": 0.3,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1385843025673433568",
+     "search_usd": 2588,
+     "km": 0.3,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "734354858822961256",
+     "search_usd": 2588,
+     "km": 1.59,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "15857739",
+     "search_usd": 2619,
+     "km": 1.33,
+     "washer": "in unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired)",
+     "refund": "Free cancellation for 24 hours. Cancel before March 6 for a partial refund.",
+     "refund_read": "listing page, 2026-11-09 (data/checks, typed)",
+     "page_usd": 2619
+    },
+    {
+     "room_id": "1050498932831223252",
+     "search_usd": 2664,
+     "km": 1.75,
+     "washer": "not read",
+     "washer_read": "the walk decided on the refund line",
+     "refund": "Free cancellation for 24 hours. Cancel before March 6 for a partial refund.",
+     "refund_read": "listing page, 2026-11-09 (data/checks, pasted)",
+     "page_usd": 2669
+    },
+    {
+     "room_id": "12572632",
+     "search_usd": 2664,
+     "km": 1.66,
+     "washer": "not read",
+     "washer_read": "the walk decided on the refund line",
+     "refund": "Free cancellation for 24 hours. Cancel before March 6 for a partial refund.",
+     "refund_read": "listing page, 2026-11-09 (data/checks, pasted)",
+     "page_usd": 2669
+    },
+    {
+     "room_id": "4721170",
+     "search_usd": 2692,
+     "km": 0.74,
+     "washer": "in unit",
+     "washer_read": "listing page, 2026-11-09 (data/checks)",
+     "refund": "Free cancellation before February 11. Cancel before March 6 for a partial refund.",
+     "refund_read": "listing page, 2026-11-09 (data/checks, pasted)",
+     "page_usd": 2697
+    }
+   ],
+   "outcome": "pick",
+   "pick": "4721170",
+   "next": null
+  },
+  {
+   "key": "hakuba_jan",
+   "resort": "Hakuba",
+   "check_in": "2027-01-09",
+   "check_out": "2027-01-16",
+   "adults": 2,
+   "area": "within 2 km of Happo and Echoland",
+   "budget_usd": 3000,
+   "tax_usd": 90,
+   "steps": [
+    {
+     "room_id": "1725760259808478894",
+     "search_usd": 2850,
+     "km": 1.08,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1651292064722815545",
+     "search_usd": 3482,
+     "km": 1.6,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "40391720",
+     "search_usd": 3964,
+     "km": 0.96,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1573412450828435853",
+     "search_usd": 5289,
+     "km": 1.64,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "1805568053538430517",
+     "search_usd": 5307,
+     "km": 1.47,
+     "washer": "not stated in the unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired; wording not kept)"
+    },
+    {
+     "room_id": "28161342",
+     "search_usd": 5605,
+     "km": 1.12,
+     "washer": "in unit",
+     "washer_read": "amenity list, 9 Nov scripted read (retired)"
+    }
+   ],
+   "outcome": "budget_line",
+   "pick": null,
+   "next": null
+  }
+ ]
+}

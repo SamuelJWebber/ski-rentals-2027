@@ -477,6 +477,120 @@ def check_reading_evidence(root=REPO):
 register('reading-evidence', check_reading_evidence)
 
 
+# ---------------------------------------------------------------- R2-1: a logged walk behind every "cheapest" and "none"
+
+def _step_passes(st):
+    return st.get('washer') == 'in unit' and st.get('refund', '').startswith('Free cancellation before')
+
+
+def _step_fails(st):
+    return (st.get('washer') == 'not stated in the unit'
+            or bool(re.match(r'Free cancellation for \d+ hours|Non-refundable', st.get('refund', ''))))
+
+
+def load_walks(root=REPO):
+    import glob
+    out = {}
+    for path in sorted(glob.glob(os.path.join(root, 'data', 'walks', '*.json'))):
+        with open(path, encoding='utf-8') as f:
+            for w in json.load(f)['walks']:
+                out[w['key']] = dict(w, _file='data/walks/' + os.path.basename(path))
+    return out
+
+
+def check_walks(root=REPO):
+    """R2-1: every walk log holds together, and every claim it backs says what it found. Steps run in the
+    search's price order. A 'pick' walk ends at a listing whose own page puts the washer in the unit and
+    gives a free-cancellation date, within the budget with tax, and every earlier step fails on the washer
+    or the refund. A 'budget_line' walk has no passing step within the budget, and a step or the next
+    result past it. A step citing data/checks matches the logged read. The cost row a walk backs names the
+    pick at the price read on its page, with a verdict that agrees. Every sentence saying there is "no
+    refundable" option names a resort and month whose walk reached the budget line, unless the sentence
+    marks itself as a correction."""
+    import csv
+    import glob
+    problems = []
+    walks = load_walks(root)
+    reads = {}
+    for path in sorted(glob.glob(os.path.join(root, 'data', 'checks', '*.tsv'))):
+        with open(path, encoding='utf-8', newline='') as f:
+            for r in csv.DictReader(f, delimiter='\t', quoting=csv.QUOTE_NONE):
+                reads[(r['room_id'], r['check_in'])] = r
+    for key, w in walks.items():
+        where = f'{w["_file"]} {key}'
+        steps = w['steps']
+        prices = [s['search_usd'] for s in steps]
+        if prices != sorted(prices):
+            problems.append(f'{where}: the steps are not in the search\'s price order')
+        line = w['budget_usd'] - w['tax_usd']
+        for i, st in enumerate(steps):
+            if 'data/checks' in st.get('refund_read', '') + st.get('washer_read', ''):
+                r = reads.get((st['room_id'], w['check_in']))
+                if r is None:
+                    problems.append(f'{where}: step {st["room_id"]} cites data/checks, which has no read of it')
+                elif st.get('refund') and r['cancellation'] != st['refund']:
+                    problems.append(f'{where}: step {st["room_id"]} refund line differs from data/checks')
+                elif st.get('page_usd') and str(st['page_usd']) != r['total_usd']:
+                    problems.append(f'{where}: step {st["room_id"]} page price differs from data/checks')
+        if w['outcome'] == 'pick':
+            last = steps[-1] if steps else {}
+            if last.get('room_id') != w['pick'] or not _step_passes(last):
+                problems.append(f'{where}: the walk does not end at a listing with the washer in the unit and free cancellation')
+            elif last['search_usd'] > line:
+                problems.append(f'{where}: the pick is past the budget line with tax')
+            for st in steps[:-1]:
+                if not _step_fails(st):
+                    problems.append(f'{where}: step {st["room_id"]} before the pick neither fails on the washer nor on the refund')
+        elif w['outcome'] == 'budget_line':
+            for st in steps:
+                if st['search_usd'] <= line and _step_passes(st):
+                    problems.append(f'{where}: step {st["room_id"]} passes within the budget, so the walk did not reach the line')
+                elif st['search_usd'] <= line and not _step_fails(st):
+                    problems.append(f'{where}: step {st["room_id"]} within the budget was not shown to fail')
+            beyond = [st for st in steps if st['search_usd'] > line] + ([w['next']] if w.get('next') else [])
+            if not beyond:
+                problems.append(f'{where}: the walk stops before the budget line')
+        else:
+            problems.append(f'{where}: unknown outcome {w["outcome"]!r}')
+    import costs
+    model = costs.load(costs.data_path(root))
+    for row in model['rows']:
+        k = row.get('walk')
+        if not k:
+            if re.match(r'(?:Cheapest|First) listing', row['lodging']['basis']) and row['lodging']['usd']:
+                problems.append(f'data/costs.json {row["key"]}: a "cheapest" basis with no walk log behind it')
+            continue
+        w = walks.get(k)
+        if w is None:
+            problems.append(f'data/costs.json {row["key"]}: walk {k!r} is not in data/walks')
+            continue
+        if w['outcome'] == 'pick':
+            pick = w['steps'][-1]
+            if row['lodging']['rooms'][:1] != [w['pick']]:
+                problems.append(f'data/costs.json {row["key"]}: the row does not price the walk\'s pick {w["pick"]}')
+            elif pick.get('page_usd') and row['lodging']['usd'] != [pick['page_usd'], pick['page_usd']]:
+                problems.append(f'data/costs.json {row["key"]}: lodging differs from the pick\'s page price ${pick["page_usd"]:,}')
+        if (w['outcome'] == 'budget_line') == row['fits'].startswith('Yes'):
+            problems.append(f'data/costs.json {row["key"]}: the verdict {row["fits"]!r} contradicts the walk ({w["outcome"]})')
+    months = {'01': 'Jan', '02': 'Feb', '03': 'Mar', '12': 'Dec'}
+    found = {(w['resort'], months.get(w['check_in'][5:7], '?')): w['outcome'] for w in walks.values()}
+    texts = [(n, page(root, n)[1].text()) for n in PAGES]
+    texts += [(n, read(root, n)) for n in ('README.md', 'HANDOFF.md') if os.path.exists(os.path.join(root, n))]
+    for name, text in texts:
+        for s in sentences(text):
+            if not re.search(r'\bno refundable\b', s, re.I) or re.search(r'Corrected|first said|was wrong', s):
+                continue
+            named = [(r, m) for (r, m) in found if r in s and re.search(m, s)]
+            if any(found[k] == 'pick' for k in named):
+                problems.append(f'{name}: "no refundable" for a resort and month whose walk found one: {s[:120]}')
+            elif not any(found[k] == 'budget_line' for k in named):
+                problems.append(f'{name}: "no refundable" with no logged walk that reached the budget line: {s[:120]}')
+    return problems
+
+
+register('walks', check_walks)
+
+
 # ---------------------------------------------------------------- R1-9: capacity claims against the lift table
 
 MULTIPLES = {'two': 2, 'three': 3, 'four': 4, 'five': 5, 'two and a half': 2.5, 'three and a half': 3.5, 'twice': 2}

@@ -51,7 +51,8 @@
       "refund": "Free cancellation before 4 Jan (listing read 9 Nov 2026)",
       "washer": "In unit",
       "fits": "Yes",
-      "readme_note": "9–16 Jan 2027, priced 9 Nov 2026. Washer in the flat; free cancellation before 4 Jan. The lift-pass price is unverified."
+      "readme_note": "9–16 Jan 2027, priced 9 Nov 2026. Washer in the flat; free cancellation before 4 Jan. The lift-pass price is unverified.",
+      "walk": "engelberg"
     },
     {
       "key": "telluride",
@@ -100,14 +101,14 @@
       "week": "13–20 Mar 2027",
       "lodging": {
         "usd": [
-          2619,
-          2619
+          2697,
+          2697
         ],
         "quoted": "9 Nov 2026",
         "rooms": [
-          "15857739"
+          "4721170"
         ],
-        "basis": "Cheapest listing within 2 km of Happo and Echoland whose own page puts the washer in the unit; cheaper results show only Airbnb's filter label"
+        "basis": "First listing within 2 km of Happo and Echoland, in the 9 Nov search's price order, whose own page puts the washer in the unit and offers free cancellation; the three before it with a known washer or refund line refund in full only for 24 hours (walk in data/walks/2026-11-09.json). The listing puts the ski areas a 5-minute drive away, with a winter shuttle stop outside"
       },
       "tax": {
         "kind": "per_person_night",
@@ -127,10 +128,11 @@
         "basis": "Hakuba Valley 6-day pass ¥63,900 (steep-and-town page, September 2026)",
         "covered_by": "Epic Pass, 5 consecutive days"
       },
-      "refund": "Full refund for 24 hours after booking only (listing read 9 Nov 2026)",
+      "refund": "Free cancellation before 11 Feb (listing read 9 Nov 2026)",
       "washer": "In unit",
-      "fits": "No: not refundable",
-      "readme_note": "13–20 Mar 2027, priced 9 Nov 2026. The cheapest listing near the lifts with a washer in the unit refunds in full only for 24 hours after booking; January starts at $5,605 before tax."
+      "fits": "Yes, on lodging and tax; a drive or shuttle from the lifts",
+      "readme_note": "13–20 Mar 2027, priced 9 Nov 2026. Washer in the unit; free cancellation before 11 Feb; a 5-minute drive or a shuttle ride from the lifts. January starts at $5,605 before tax.",
+      "walk": "hakuba_mar"
     },
     {
       "key": "hakuba_jan",
@@ -146,7 +148,7 @@
         "rooms": [
           "28161342"
         ],
-        "basis": "Cheapest listing within 2 km whose own page puts the washer in the unit (9 Nov search; cancellation not read)"
+        "basis": "First listing within 2 km whose own page puts the washer in the unit, in the 9 Nov search's price order (walk in data/walks/2026-11-09.json; cancellation not read). The only cheaper listing under the budget line does not state an in-unit washer"
       },
       "tax": {
         "kind": "per_person_night",
@@ -168,7 +170,8 @@
       },
       "refund": "Not read",
       "washer": "In unit",
-      "fits": "No: over budget"
+      "fits": "No: over budget",
+      "walk": "hakuba_jan"
     },
     {
       "key": "whistler",
@@ -244,7 +247,8 @@
       },
       "refund": "Free cancellation before 10 Dec (listing read 9 Nov 2026)",
       "washer": "In unit",
-      "fits": "Yes, on lodging and tax; with two passes only at the floor price, which January does not get"
+      "fits": "Yes, on lodging and tax; with two passes only at the floor price, which January does not get",
+      "walk": "zermatt_jan"
     },
     {
       "key": "zermatt_mar",
@@ -283,7 +287,8 @@
       },
       "refund": "Full refund for 24 hours after booking only (listing read 9 Nov 2026)",
       "washer": "In unit",
-      "fits": "No: not refundable"
+      "fits": "No: under the budget line, no village listing with the washer in the flat has a free-cancellation date (walk logged)",
+      "walk": "zermatt_mar"
     },
     {
       "key": "jackson",
