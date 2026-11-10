@@ -1,3 +1,43 @@
+# Independent Fable review, 2026-11-10 (not a pipeline round)
+
+An outside check of what was pushed on 2026-11-09, by a different model from the one that built and
+reviewed it: first-line reviewers attacked the work and compared it with other people's, then a
+second reviewer tried to refute each HIGH and MEDIUM finding. Only the verified result is below.
+Full reports, with commands and sources: `reviews/fable-2026-11-10/` (`ski-V.md` is the verification;
+the others are the first-line reports, including claims the verifier narrowed or rejected).
+**Nothing here has been implemented.** Mark each row Fixed / Rejected / Deferred as it is handled.
+
+## Verdict table
+
+| Finding | Their severity | Verdict | My severity | Corrected one-line statement |
+|---|---|---|---|---|
+| SKI-1 | HIGH | WEAKENED (washer wording UPHELD; price consequence UNVERIFIABLE) | HIGH, narrowed | Two cheaper Hakuba listings ($2,156, $2,231) were dismissed as "not stated in the unit" and their pages say "Free washer – In unit"; their cancellation lines were never read, so "$2,742 is the first in price order" is unsupported, not shown wrong. |
+| SKI-2 | MEDIUM | UPHELD on the accommodation-tax bands (primary sources); consumption-tax part UNVERIFIABLE | MEDIUM | Hakuba's tax this winter is ¥400 per person per night at this price (¥900 in January), not ¥500 / ¥1,000: $2,733, not $2,742. Whether Airbnb's displayed total already contains consumption tax was not confirmed by any page I could reach. |
+| SKI-3 | MEDIUM | UPHELD | MEDIUM | With the operator's January band starting price (CHF 436) the Zermatt week with two passes is from $3,069 at the site's rate ($3,054 at 10 Nov ECB), not from $2,940; these are still "from" prices. |
+| SKI-4 | MEDIUM | WEAKENED | MEDIUM (low end) | "January only" is accurate inside the index's stated January-and-March frame, and the index does link the three-resort page; what is missing is one line on the Telluride card that the same studio is refundable for 20–27 Feb at $2,523 with tax (priced 9 Nov 2026). |
+| SKI-5 | MEDIUM | WEAKENED | MEDIUM (low end) | The gap is a property of the source (OnTheSnow resort-reported, 14 recent rows, operating-season window, visible reporting gaps), not a transcription error; Crocker and ZRankings are one dataset, not two; "February is the snowiest month" at Telluride rests on 50 in against 47 in. |
+| SKI-6 | MEDIUM | WEAKENED | LOW | The index's El Niño note omits Japan (true), but JMA's own statistics list no significant snowfall signal for the Sea of Japan side in El Niño winters; the cited JMA document is a one-winter forecast for 2023-24 with other drivers. |
+| SKI-7 | MEDIUM | UPHELD | MEDIUM | The rentals page's first sentence still says Whistler has qualifying flats at $1,400–2,500; every Whistler row in the 9 Nov recheck is "not offered" except one at $2,710 before tax ($3,144 with tax). Whistler was not searched afresh, so the sentence is unsupported rather than proven false. |
+| SKI-8 | MEDIUM | UPHELD | MEDIUM (low end) | Crocker and ZRankings both put Jackson's best period in January and say its steep south-facing terrain suffers in March; Crocker has it at 88% of normal in strong El Niño months. The site's sentence is a lift comparison with Crested Butte and makes no snow claim, so this is an omitted caveat. |
+
+Counts: UPHELD 4 (SKI-2, 3, 7, 8), WEAKENED 4 (SKI-1, 4, 5, 6), REFUTED 0 whole findings, two parts UNVERIFIABLE
+(SKI-1 refundability, SKI-2 consumption tax). Sub-claims refuted: SKI-4 "unlinked on another page"; SKI-5 "two
+outside sources"; SKI-6 "JMA ties El Niño winters to below-normal snowfall on the Sea of Japan side" as a general
+rule; SKI-3's fix "drop 'only the floors are known'".
+
+## Fix first
+
+1. Read rooms 678032453961510940 and 1025746272456071125 by hand for 13–20 March (total, cancellation line, washer
+   wording), log them with the date, and until then change "the first listing in price order" to wording that
+   says two cheaper in-unit candidates are unread.
+2. Read the price breakdown on room 4721170 once to settle whether any tax is added to Airbnb's displayed total in
+   Japan, then set Hakuba's tax to ¥400 (¥900 in January) with the ministry notice as the dated source and make
+   the steep page and the index use one treatment.
+3. Replace "from $2,940" for the Zermatt January week with the January band's starting price (about $3,069, leaflet
+   dated April 2026), and rewrite the rentals page's first sentence and North America heading from the 9 Nov rows.
+
+---
+
 # Review round 2 (2026-11-09)
 
 Adversarial review of the published site at commit e3866e3, the end of the round 1 fix pass. No page, data
