@@ -27,3 +27,8 @@ read_date	room_id	check_in	check_out	status	total_usd	originally_usd	cancellatio
 2026-11-09	766838246342060838	2027-03-13	2027-03-20	BOOKABLE	1828	2325			Policy section did not render
 2026-11-09	42225513	2027-01-09	2027-01-16	BOOKABLE	1348	1510	Free cancellation before January 8.		Booking-panel line; the full policy section did not render
 2026-11-09	1455513831165257651	2027-01-09	2027-01-16	BOOKABLE	2459				Policy section did not render
+2026-11-09	24184418	2027-02-27	2027-03-06	BOOKABLE	2323		Free cancellation for 24 hours. Cancel before February 20 for a partial refund.		The Dreamcatcher (three-resort page)
+2026-11-09	27640579	2027-03-06	2027-03-13	BOOKABLE	2999		Free cancellation for 24 hours. Cancel before February 27 for a partial refund.		Comfy Condo on the Mountain (three-resort page)
+2026-11-09	37327548	2027-01-23	2027-01-30	BOOKABLE	2257	2491	Free cancellation before December 24.		Booking-panel line; Revelstoke Retreat (three-resort page)
+2026-11-09	980952029630306770	2027-01-23	2027-01-30	BOOKABLE	2863	3161	Free cancellation before December 24.		Booking-panel line; Revylation (three-resort page)
+2026-11-09	36729825	2027-01-09	2027-01-16	NOT_OFFERED			Those dates are not available		The listing page itself; the scripted 9 Nov check could not determine this row

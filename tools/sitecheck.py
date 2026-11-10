@@ -744,6 +744,33 @@ def check_dates_stamped(root=REPO):
 register('dates-stamped', check_dates_stamped)
 
 
+# ---------------------------------------------------------------- tallies on the index match the run
+
+def check_tallies(root=REPO):
+    """The index's recheck tally (total, bookable, not offered, removed, free in-unit washers) equals
+    the counts in the latest recheck run."""
+    import recheck
+    meta, rows = recheck.load()
+    c = recheck.counts(rows)
+    free_in_unit = sum(1 for r in rows if r['status'] == 'BOOKABLE' and 'Free washer – In unit' in r['washer'])
+    removed_listings = len({r['room_id'] for r in rows if r['status'] == 'REMOVED'})
+    text = page(root, 'index.html')[1].text()
+    want = [
+        (f'Of the {c["n"]} listing-weeks', 'total'),
+        (f'{c["BOOKABLE"]} were still bookable', 'bookable'),
+        (f'{c["NOT_OFFERED"]} were not offered', 'not offered'),
+        (f'{c["REMOVED"]} (from {removed_listings} listings) had been removed', 'removed'),
+        (f'Of the {c["BOOKABLE"]}, only {free_in_unit} state a free washer', 'free in-unit washers'),
+    ]
+    problems = [f'index.html: the recheck tally should read "{s}" ({what}, from the run data)' for s, what in want if s not in text]
+    if c['NOT_DETERMINED'] and 'could not be determined' not in text:
+        problems.append('index.html: the tally omits the rows the recheck could not determine')
+    return problems
+
+
+register('tallies', check_tallies)
+
+
 # ---------------------------------------------------------------- registry and CLI
 
 register('privacy', check_privacy)

@@ -60,7 +60,7 @@ def generated(text):
         body = re.sub(r'<h2 id="fresh">.*?(?=<h3>The September listings)', '', body, flags=re.S)
         body = re.sub(r'<h3>Japan hotels on Booking\.com.*?</table></div>\n', '', body, flags=re.S)
         # a correction note names the day the correction was made, which is not the run date
-        body = re.sub(r'<i>Corrected \d{1,2} [A-Z][a-z]{2} \d{4}:</i>[^<]*', '', body)
+        body = re.sub(r'<i>[A-Z][a-z]+ \d{1,2} [A-Z][a-z]{2} \d{4}:</i>[^<]*', '', body)
         out.append(body)
     return '\n'.join(out)
 
