@@ -1,525 +1,415 @@
-# Review round 1 (2026-11-09)
+# Review round 2 (2026-11-09)
 
-Adversarial review of the published site as of commit 20cb727. No page was changed by this review. Line
-numbers are source lines in the named file. "Scratch folder" means the folder HANDOFF.md names for the
-9 Nov scripts and raw TSVs (not in git).
+Adversarial review of the published site at commit e3866e3, the end of the round 1 fix pass. No page, data
+file or tool was changed by this review; only this file is committed. Line numbers are source lines in the named
+file. "Scratch folder" means the folder HANDOFF.md names for the retired 9 Nov scripts and raw search TSVs (not in
+git); it was read, never changed.
 
-**Counts: 4 HIGH, 9 MEDIUM, 6 LOW.** Round 1 fix pass (9 Nov 2026): 18 fixed, 1 deferred (R1-5, the history rewrite), 0 rejected. No earlier REVIEW.md existed, so no previous fixes needed rechecking.
+**Counts: 3 HIGH, 6 MEDIUM, 6 LOW. Round 1 regressions: 2.** R1-1 and R1-3 each pass their own verify step, but
+the defect each describes survives elsewhere (R2-1, R2-2). R1-5 stays deferred to the owner.
 
-How it was checked: the repo has no test suite (static HTML), so the "main commands" are the scratch-folder
-scripts. I ran them against a scratch copy of the pages. I re-derived figures from raw sources: the
-Telluride tax page, NRCS SNOTEL, BC Hydro, NOAA CPC, Ikon's destination list and operator pages, plus four
-Airbnb listings viewed in the browser pane at human pace. Government sources were fetched with an honest
-project User-Agent, never a browser one.
+How it was checked:
+- `python tools/sitecheck.py` gives 19 checks ok; `python -m unittest discover -s tests` runs 68 tests, OK.
+  `python tools/costs.py --check` and `python tools/recheck.py --check` report no drift.
+- Re-derived without the project's code (awk or plain Python over the raw inputs): every cost-table cell,
+  the 66/88/4 recheck tally and each of the 158 published statuses, Telluride's 17.22%, the SNOTEL, CPC and
+  BC Hydro readings.
+- One Airbnb listing page read live in the browser pane at human pace (R2-1). Official sources and the 73
+  external links were fetched once each with an honest project identifier (the project name and its noreply
+  address), never a browser User-Agent. titlis.ch was not contacted; HANDOFF schedules that for December.
+- The audit skill's four lenses (silent wrong answer, stranger with a clone, leak hunter, bad actor) were run in
+  turn in this session, because no subagent tool was available. The bad-actor lens found nothing that crosses a
+  trust boundary: the tools read only files authored in this repo, with no eval, shell or unsafe deserialisation.
+- `git log -p -20` read line by line; every page read as its reader would read it.
+
+Seen live versus reproduced: R2-1's counterexample was seen live on 9 Nov 2026. R2-3 and R2-7 are reproduced on
+scratch copies of the pages (fixture-level). R2-8's gaps are function-level tests of the two regexes.
+
+## Round 1 findings, re-checked
+
+| R1 | Check re-run | Holds? |
+|---|---|---|
+| R1-1 | grep for the old ranges finds only dated lines; the three answer totals reproduce | **No.** The Hakuba verdict is wrong (R2-1) |
+| R1-2 | `grep -n "Email to send\|your four weeks\|your target\|book all three"` finds nothing | Yes |
+| R1-3 | Index and README cells split lodging, tax and passes, with the definition stated | **No** on the North America page (R2-2) |
+| R1-4 | Two full dated runs render (tests/test_recheck.py) | Yes for full runs; the partial runs the new method produces break the pages (R2-3) |
+| R1-5 | 15 commits still carry the personal address; 868d81c still adds a local path; the hook is installed | Deferred (owner); path gap in R2-8 |
+| R1-6 | grep matches only "Passo dei Salati 2,971 m", an elevation; St Anton reads −$102 (−4%) | Yes |
+| R1-7 | grep finds only corrected lines | Yes |
+| R1-8 | Independent scan of every cited room ID: all carry a dated note, except cost-table rows (own dated status) and an illustration at `steep:164` | Yes |
+| R1-9 | 71,761 / 23,800 = 3.02 and 71,761 / 28,500 = 2.52 | Yes |
+| R1-10 | Every North American all-in equals quote × stated rate within $1; one annotated 11.9% row | Yes (Japanese rows never checked, R2-4) |
+| R1-11 | fit-qualifiers ok | Yes |
+| R1-12 | A saved non-Airbnb page gives NOT_DETERMINED | Yes, but no code path calls it (R2-9) |
+| R1-13 | No browser User-Agent in the repo; method stated in README and HANDOFF | Yes |
+| R1-14, R1-15, R1-17, R1-19 | Each verify grep finds nothing | Yes |
+| R1-16 | Fixed-date SNOTEL queries return 2, 4 and 3 in; CPC's archived October page returns 200 with the quoted sentence | Yes (one note, R2-13) |
+| R1-18 | No undated "live quote"; no August to October deadline offered | Yes; the next deadlines are not covered (R2-6) |
 
 ---
 
 ## HIGH
 
-### R1-1 · HIGH · Two of the three headline answers carry prices the 9 Nov data no longer supports
+### R2-1 · HIGH · Hakuba does have a refundable week under budget; the "none" verdict rests on one listing
 
-On the project's own 9 Nov data, neither the Europe answer nor the Japan answer fits $3,000 for two once the
-brief's in-unit washer is required. Hakuba in January does not fit even without the washer.
-
-**Evidence**
-- **Engelberg.** `index.html:120`, `README.md:13` and `alps-extreme-ski-2027.html:89` still say $2,350–2,750
-  "including lodging, pass and food", built on the $914 flat. That flat's washer is now "Paid washer – In
-  building" (`alps:416-419`, `index.html:77`). The cheapest flat within 1.5 km with a washer in the flat is
-  $1,571 (`index.html:75`); raw row in `eng_0109.tsv` is `1267557874578220140  1571.00  1.48 km`, with 19 cheaper
-  results inside 1.5 km. Swapping $1,571 for $914 adds $657, which moves the range to about $3,007–3,407.
-- **Hakuba.** `index.html:148,151`, `README.md:15` and `steep-and-town-2027.html:88,168` say $1,950–2,600
-  including two $410 passes, "January or March". The 9 Nov raw search tells a different story:
-  - **9–16 Jan:** `awk -F'\t' 'NR>1 && $5+0<2' hak_0109.tsv | sort -n | head -1` gives
-    `2849.08  1.08 km  1725760259808478894`. The cheapest washer-filtered listing within 2 km of Happo/Echoland
-    is $2,849 before tax, which is at least $3,669 with two passes. The first listing whose own page puts the
-    washer in the unit is $5,605 (28161342).
-  - **13–20 Mar:** the first stated in-unit washer is $2,618 (15857739, 1.33 km), at least $3,438 with
-    passes. Only the filter-only result ($1,592, a bare "Washer") fits, and `index.html:268` calls that filter
-    unreliable.
-- No September Hakuba listing behind the range has a room ID on the page (`steep:336,379-382`), so none was
-  rechecked (R1-8).
-
-**Fix:** recompute both answers from 9 Nov listings that meet the brief (washer stated in the unit,
-refundable), and show the arithmetic in the card: lodging + tax + two passes (+ food if kept). Then either
-say plainly that Engelberg now lands at about $3,000–3,400 and that Hakuba in January is out of budget, or
-replace those answers. Change these together: `README.md:13-15`, `index.html:120,148,151,238,240`, `alps:89`,
-`steep:78-88,168`.
-
-**Verify:** every headline range on the pages and in the README reproduces from a listed 9 Nov row plus the
-stated pass and tax figures. `grep -n "2,350–2,750\|1,950–2,600\|1,950 incl" *.html README.md` should return
-only lines that carry a date and a derivation.
-
-Status: Fixed in f5c1aa9 (Zermatt floor price added in 62866e5). Every week-for-two figure now comes from data/costs.json through tools/costs.py, each part sourced in a cost table on the index; Engelberg $2,303–2,612 with a washer in the flat (food left out everywhere), Telluride $2,014–2,259 lodging and tax and $5,017–5,262 with tickets, Hakuba with no refundable week under budget. Test: R1_1_HeadlineCosts in tests/test_findings.py fails on 20cb727; tests/test_costs.py covers the arithmetic.
-
-### R1-2 · HIGH · The public site gives out the travel windows, the party and an enquiry draft, and tells readers to book specific units
-
-If the three-resort picks are booked as the page advises, anyone reading this public site can tell which
-linked Airbnb unit the account owner will be in, and on which dates. CLAUDE.md says the repo is public and
-holds no personal details, and this repo's rule is never to publish travel dates, bookings, addresses or
-companions.
+The search behind the Japan answer stopped at the first listing whose own page puts the washer in the unit.
+That one ($2,619) refunds in full only for 24 hours, and the site concluded that no refundable week exists. The
+next listings up were never opened. One of them, read live on 9 Nov, has a free washer in the unit and free
+cancellation until February, at $2,697 before tax, about $2,742 with tax: under the $3,000 line.
 
 **Evidence**
-- **Candidate weeks and party size:** `README.md:3`, `index.html:66`, `alps:65`, `steep:63` and
-  `ski-rentals:68`. Second-person framing ("your four weeks", "your target windows") at `alps:72,102,281`.
-- **First-person enquiry email:** `zermatt-month-stay-2026-27.html:251-269` gives preferred month windows,
-  party size and a budget, and is addressed to four agencies.
-- **A plan rather than options:** `three-resorts-best-snow-2027.html:105` says "That leaves room to book all
-  three now, watch the bases … and drop the weakest", beside one named, linked unit per week (`:151-180`).
+- The verdict: `index.html:70` ("Hakuba does not"), `:80` ("Hakuba: no refundable week under budget"), `:153`
+  (card label), `:245` (ranking verdict) and `HANDOFF.md:48`.
+- The walk: `cheapest_inunit2.py` in the scratch folder sorts the washer-filtered results by price and stops at
+  the first in-unit hit (`if flag: break`, line 54). It never reads a cancellation policy.
+- Untested candidates, in the scratch folder:
+  `awk -F'\t' 'NR>1 && $5!="" && $5+0<2 && $2+0>2618.14 && $2+0<=2955.13' hak_0313.tsv` lists 13 listings within 2 km at
+  $2,663–2,895 (7 of them within 1.5 km). $2,955 is the most that stays under $3,000 after the cost model's
+  ¥7,000 of tax. None of the 13 is in `data/checks/2026-11-09.tsv`.
+- **Seen live, 9 Nov 2026, browser pane at human pace:** room 4721170, Chalet Ryumeiso Hakuba, 0.74 km in the
+  raw search, `https://www.airbnb.com/rooms/4721170?check_in=2027-03-13&check_out=2027-03-20&adults=2`. The page
+  showed "$2,697 for 7 nights", the amenity list "Free washer – In unit", and "Free cancellation before
+  February 11. Cancel before March 6 for a partial refund." The raw search had it at $2,692. With ¥500 per
+  person per night at 156 (= $45): $2,742 lodging and tax, $3,561 with two valley passes.
+- Its page says the ski areas are "5 minutes away by car" with a shuttle stop outside. The $2,619 pick (1.33 km)
+  is no closer, and neither is in Happo village or Wadano, which the card advises (`index.html:155`).
+- The starting price is off too. `index.html:80` says washer-filtered listings "start at $1,592"; the raw search
+  has room 1812996327187552512 at $1,563, 1.79 km, inside the 2 km the cost table states
+  (`data/costs.json:110`), and Airbnb displayed the $1,592 listing as "$1,593".
+- The same shortcut decides Zermatt's March row, "No: not refundable" (`data/costs.json:286`): two
+  washer-filtered village listings at $2,748 (`wk0306_union.tsv`: rooms 18758028 and 43885505) were not opened.
 
-**Fix:**
-- Delete the enquiry-email block and keep it in a private note outside any repo.
-- Replace party-size and second-person phrasing with neutral wording such as "priced for Saturday-to-Saturday
-  weeks in January and March 2027". Keep the dates on price rows, because every price needs one.
-- Reword `three-resorts:105` as options, not a plan.
-- Add a CLAUDE.md hard line: a unit the user books is never identifiable on the public site. Remove or
-  anonymise that row the day it is booked.
+**Fix:** recompute the Japan answer from listings that meet the brief, as R1-1 asked. Walk the washer-filtered
+results in price order, reading washer location and cancellation line, until the first listing that is both
+in-unit and refundable, or until lodging plus tax passes $3,000; log every listing opened in
+`data/checks/<date>.tsv`. On current evidence the answer is Hakuba 13–20 Mar at $2,742 lodging and tax, free
+cancellation before 11 Feb in the listing's local time, $3,561 with passes, a drive or shuttle from the lifts.
+Rewrite `index.html:70,80,153,245`, the `hakuba_mar` row and HANDOFF together; do the same walk for Zermatt March.
 
-Whether to publish the candidate weeks at all is the user's decision, and git history keeps the old text
-unless it is rewritten.
+**Verify:** every "no refundable … under budget" sentence names a logged walk that reached the budget line;
+`grep -n "no refundable" *.html HANDOFF.md` returns only sentences backed by such a log.
 
-**Verify:** `grep -n "Email to send\|your four weeks\|your target\|book all three" *.html README.md` returns
-nothing, and no page names the party size.
+### R2-2 · HIGH · The North America page still compares Zermatt with lift passes against Telluride without them
 
-Status: Fixed in 5d162d5. Party size, candidate-week lists, second-person trip framing, the enquiry email and "book all three now" are gone; dates stay on price rows. The suggested CLAUDE.md hard line is not added, because an agent cannot authorize a CLAUDE.md change; the rule is in HANDOFF.md and the privacy check enforces the wording. Test: R1_2_Privacy fails on 20cb727.
-
-### R1-3 · HIGH · The "Week for two" comparison mixes four different cost definitions
-
-The ranking table and README make Telluride (≈$2,200) look cheaper than Engelberg ($2,350–2,750). But
-Telluride's figure is lodging plus tax only, while Engelberg's includes two lift passes and food. Add
-Telluride's own ticket price (regular 6-day $1,430 each, `steep:250`) and Telluride comes to about $5,060 for
-two before food.
-
-**Evidence:** every row below sits under a "Week for two" header (`index.html:236`, `README.md:11`).
-
-| Resort | Figure | What it covers |
-|---|---|---|
-| Engelberg (`index.html:120`) | $2,350–2,750 | lodging + pass + food |
-| Telluride (`index.html:136`, `README:14`) | ≈$2,200 | lodging + tax ($1,877 × 1.1722) |
-| Hakuba (`index.html:151`) | $1,950–2,600 | lodging + two passes, no food |
-| Whistler (`index.html:165`) | | lodging + 16% tax, no passes |
-| Jackson (`index.html:243`) | ≈$1,949 | lodging + tax ($1,725 × 1.13) |
-| Zermatt (`index.html:242`) | $1,750–2,900 | lodging $1,268–2,435 + **one** $480 pass |
-
-`steep:74` puts the same Zermatt week for two people at $2,300–3,400.
-
-**Fix:** use one definition everywhere: lodging + tax + two 6-day passes, with food either left out or
-included everywhere. Show each component. Where passes come from Epic or Ikon, put the pass in its own
-column rather than silently leaving it out. Count two passes for Zermatt.
-
-**Verify:** every "Week for two" cell splits into the same parts, and a note under the table states the
-definition.
-
-Status: Fixed in f5c1aa9. One definition (lodging + tax + two 6-day passes, food left out), the parts in their own columns, and the definition stated under the ranking table and the README table. Test: R1_3_CostDefinitions fails on 20cb727.
-
-### R1-4 · HIGH · The documented refresh crashes on the next real run, and would mis-date every price if it ran
-
-HANDOFF "Next 3" tells the next session to rerun the pipeline:
-`recheck.py → make_tight_spec.py → recheck2.py → gen_sections.py → insert_sections.py`. The scripts live in
-the scratch folder.
+This is R1-3's defect, surviving on the page R1-3 cited. On one page, "all-in" means two different things, and
+the verdict reads the wrong way round: Zermatt's week is quoted with two lift passes, Telluride's without, and
+the text concludes that Zermatt is "inside or barely outside the stated budget" while Telluride "works". On the
+page's own budget definition (lodging and tax, lift tickets listed separately), Zermatt is the cheaper of the two.
 
 **Evidence**
-- **The crash.** `insert_sections.py:48` replaces `'Built 10 Sep 2026 · '` through `once()`, which asserts that
-  the old string occurs exactly once. The first run removed that string, so any rerun whose Europe count
-  differs from 23 of 44 fails. I reproduced it on a scratch copy of the four pages with stub snippets (Europe
-  at 20 of 44): `python -I insert_sections.py <copy> <gen>` raised `AssertionError: Built 10 Sep 2026 ·` and
-  exited 1 before writing any page. With the count left at 23, the same run succeeds.
-- **Hard-coded dates.** `gen_sections.py:136-142` hard-codes "Rechecked 9 November 2026", "looked up again on
-  9 Nov 2026" and the "9 Nov" column headers. `insert_sections.py:47,55,63,69,71` hard-codes "9 Nov 2026" and
-  the Zermatt conclusion ("January no longer fits …"). A successful run in January would publish January
-  prices under a 9 November label, which breaks CLAUDE.md's rule that every price carries the date it was
-  quoted.
-- **Stale hotel table.** The Booking.com table is a static snippet (`insert_sections.py:60`,
-  `rentals_booking.html`), so a rerun would re-insert the 9 Nov hotel prices into the new section.
+- `steep-and-town-2027.html:63`: "Budget US$3,000 a week for the lodging including tax … lift tickets are
+  listed separately"; `:195`: "Cheapest all-in = … lodging plus tax and no lift tickets".
+- `:62` and `:78`: Telluride "$2,200 – $2,915 all-in", lodging and 17.22% tax.
+- `:74`: "A 6-day Zermatt lift pass is from CHF 384 … For two people that is roughly $2,300–3,400 all-in —
+  inside or barely outside the stated budget." That range is September lodging ($1,268–2,435) plus two passes
+  and tax.
+- On one definition, from the index's own cost table (`index.html:272,276`): lodging and tax, Zermatt $1,992
+  against Telluride $2,014–2,259; with two 6-day passes, Zermatt from $2,940 against Telluride $5,017–5,262.
+- R1-3 cited this sentence (then `steep:74`) and asked for one definition everywhere; its status says Fixed.
 
-**Fix:**
-- Take the run date as an argument and build every date string from it.
-- Replace the block between the markers by regex instead of asserting exact old strings.
-- Generate the Europe header line and the Zermatt banner from `summary.json`.
-- Drop the Booking.com snippet unless it was re-read that day.
-- Keep the scripts in a versioned place (Bigger improvements 3).
+**Fix:** state both resorts on one definition, taken from the cost model's spans (`zermatt_jan:lodging_tax`
+and `telluride:lodging_tax`, and the `:total` spans where passes are added). Replace "inside or barely outside
+the stated budget" with "inside the budget on lodging and tax". On the steep and three-resort pages keep
+"all-in" for lodging plus tax and write "with passes" wherever passes are added; add a sitecheck rule that fails
+an "all-in" figure which includes passes.
 
-**Verify:** run the pipeline twice on a scratch copy with different summaries and run dates. Both runs
-succeed, and every heading shows its own run date.
+**Verify:** `grep -n "all-in" steep-and-town-2027.html` shows no figure that includes lift passes, and the
+Zermatt note's figures sit in `data-cost` spans.
 
-Status: Fixed in d191655. tools/recheck.py renders all four pages from dated data in the repo, replaces marker blocks by regex, takes every date from the data, and dates the Booking.com and Zermatt pieces independently. On a copy of the reviewed pages the old insert_sections.py still exits 1 with AssertionError on a 20-of-44 rerun; tests/test_recheck.py runs two dated runs with different counts.
+### R2-3 · HIGH · The next documented recheck would wipe 135 of the 158 published rows
+
+The renderer stamps one date on every row of a run, and the new method (R1-13) re-reads only the listings that
+drive a recommendation. So the next run either drops every listing it did not re-read from the published
+tables, or relabels them with a date on which nobody looked at them.
+
+**Evidence**
+- `HANDOFF.md:109-110` (Next 2): re-read the recommended listings, write "`data/checks/<date>.tsv` and a new
+  recheck run, then run `tools/recheck.py`".
+- `tools/recheck.py:74-78` picks one run; `:231-233` builds each page's table from that run's rows only;
+  `:185-189` print one run date for all of them.
+- Reproduced on a scratch copy: a run holding the 23 rows that `data/checks/2026-11-09.tsv` covers, rendered
+  with `recheck.apply(site, '2026-12-05', runs)`. The recheck tables shrink from 44 to 10 rows (Europe), 36 to 5
+  (North America and Japan), 52 to 7 (rentals) and 26 to 1 (Zermatt). The Europe heading becomes "Rechecked 5
+  December 2026: 10 of 10 listing-weeks still bookable" (today: 23 of 44), and each intro still says every
+  identified listing "was looked up again on 5 Dec 2026". Of 135 status notes, 31 take the new date and 104 keep
+  9 Nov; 104 problems are reported, for 89 rooms.
+- `tools/recheck.py:336-349`: `apply()` writes the pages before reporting problems, so the command exits 1 after
+  the damage is done. The message misleads:
+  `no <!-- recheck-note for room 673104662730185469:start --> marker` (`:332,344`), when the room is missing
+  from the run, not a marker missing from the page.
+- The tests only use full copies of the 158 rows (`tests/test_recheck.py:21-45`), so nothing models a
+  partial run.
+
+**Fix:** give each row its own read date and merge runs: the newest reading per (room_id, check_in) wins and
+older readings keep their own date. Print the date per row (status cell and note) and split the heading count
+by read date ("23 re-read 5 Dec 2026; 135 as read 9 Nov 2026"). `apply()` writes nothing when it reports a
+problem. Add a test with a 23-row run.
+
+**Verify:** rerun the partial-run simulation. All four tables keep 158 rows, 23 carry the new date, the notes for
+unread rows keep 9 Nov, and the command exits 0; a run missing a cited room changes no file.
 
 ---
 
 ## MEDIUM
 
-### R1-5 · MEDIUM · A personal email address and a local user path are in the public git history
-
-**Evidence:** `git log --all --format='%ae%n%ce' | sort | uniq -c` shows that 15 commits (5bc2635 … 2eac02b)
-carry a personal Gmail address as author and committer. The other 13 use the GitHub noreply address. The
-same address appears under two different author names, which links those identities. 2eac02b, authored on
-2 Oct, was pushed on 9 Nov with that address (HANDOFF "Choices made"). 868d81c added a full local Windows user
-path to HANDOFF.md; 20cb727 removed it from the file but not from history
-(`git log --all -p | grep -n 'C:\\Users'`).
-
-**Why MEDIUM and not HIGH:** the address has been public since September, the global git identity is now the
-noreply address, and the only complete fix rewrites published history.
-
-**Fix:** the user decides whether to rewrite history (`git filter-repo` with a mailmap to the noreply address,
-plus a scrub of 868d81c, then a force-push). That is destructive on a public repo, so it needs an explicit
-go-ahead. Meanwhile, set a repo-local `user.email` to the noreply address and add a pre-push hook that
-rejects any other author email.
-
-**Verify:** after a rewrite, `git log --all --format='%ae%n%ce' | sort -u` lists only the noreply address.
-Before that, the hook rejects a test commit made with another address.
-
-Status: Deferred: rewriting the 15 published commits that carry the personal address, and 868d81c with the local path, needs git filter-repo plus a force-push to this public repo, a destructive change only the owner can approve; it also cannot recall existing clones or GitHub's cached commits. The preventive part is fixed in 0afff08: tools/prepush.py and the pre-push hook reject non-noreply author or committer emails, local user paths and token-shaped strings, and this clone's identity is pinned to the noreply address (tests/test_prepush.py).
-
-### R1-6 · MEDIUM · The St Anton currency error survives on the Europe page, and the recheck measured price changes against it
+### R2-4 · MEDIUM · Japanese all-ins use an undisclosed ~12% that the cost model dropped, and no check covers them
 
 **Evidence**
-- `index.html:227` says the first St Anton pass "quoted the right numbers in the wrong currency", and `alps:428`
-  says the September quotes were "as displayed in USD".
-- Yet `alps:99,343,525-527` still read "€2,561–7,659 … ($2,971–8,884). It breaks the budget on accommodation
-  alone", and `alps:340` says "priced out".
-- The recheck used $2,971 as the September quote (`alps:409`; `sept.tsv` row
-  `1455513831165257651 2027-01-09 2971`) and reports "−$512 (−17%)". Against the USD figure the change is
-  −$102 (−4%), in line with most European rows.
-- Corrections 4e16970 and f2c46f4 touched `index.html` only (`git show --stat`).
-- The same pass labelled the Argentière rows (`alps:391-392`, "−19%" for both weeks) and Sadama in January
-  (`alps:411`, "+10%") in euros. Those changes are probably wrong in the same way.
+- An implied-rate pass over the steep page's priced tables (plain regex; quote against all-in on every row):
+  every North American row matches its stated rate. The 13 Japanese rows imply 12.0–12.9% (Hakuba, Myoko,
+  Furano, Rusutsu, Wadano: `steep-and-town-2027.html:346,389-392,397-398,401`) and 14.2–14.5% (three Niseko
+  rows, `:393-395`), except one Niseko row at 12.0% (`:347`, $1,303 to ~$1,460). The page's tax note (`:158`)
+  states no Japanese rate; it says only "Kutchan adds a 2% accommodation tax".
+- The cost model taxes Hakuba at ¥500 or ¥1,000 per person per night and Niseko at 2% (`data/costs.json:113-159,
+  640-646`); `HANDOFF.md:83` says this replaced "the September ~12% assumption". The steep scorecard still uses
+  the 12% figures: Niseko $1,460, Myoko $1,230, Furano $1,460 (`:182,186,189`).
+- The rentals page gives Kutchan's tax as 2% (`ski-rentals-2027.html:205`) and as 3% (`:270`, and `:277` "+10%
+  VAT + 3% city tax"), and calls Japan's 10% consumption tax "a 10% accommodation tax" (`:205`).
+- `tools/sitecheck.py:490-499` (STEEP_RATES) has no Japanese pattern, so `check_all_in_arithmetic` skips all 13
+  rows.
 
-**Fix:** relabel the September St Anton, Argentière and Sadama quotes as USD. Drop "breaks the budget on
-accommodation alone": per the index, the washer plus a €468 pass is what breaks it. Retitle rank 9, and
-recompute those Change cells or mark them "September currency uncertain".
+**Fix:** one Japan tax table in data: Hakuba ¥500 or ¥1,000 per person per night; Niseko at Kutchan's rate from
+the town's own page plus Hokkaido's per-person tax; and whether Airbnb's Japanese totals already include
+consumption tax. Recompute the 13 rows and 3 scorecard cells from it, state the rates at `:158`, use one Kutchan
+figure on every page, and add Japanese patterns to STEEP_RATES.
 
-**Verify:** `grep -n "2,971\|€2,561\|priced out\|Cut from contention" alps-extreme-ski-2027.html` returns
-nothing, and St Anton's Change cell reads −$102 (−4%).
+**Verify:** the implied-rate pass finds every priced row checked; `grep -n "Kutchan" *.html` gives one rate.
 
-Status: Fixed in cb1478c. The September St Anton, Argentière and Sadama figures are the US dollars Airbnb displayed; St Anton's change reads −$102 (−4%), Argentière −6%, and "priced out" is replaced by the washer finding. Test: R1_6_CurrencyLabels fails on 20cb727.
-
-### R1-7 · MEDIUM · Corrections made on the index never reached the detailed pages
-
-**Evidence:** each item is a correction the index made, or one on HANDOFF's "do not undo" list.
-
-| Topic | Corrected statement | Uncorrected statement still published |
-|---|---|---|
-| Fernie gym | `index.html:247,277`: "no gym found"; no commercial gym in any directory | `steep:102,224,338,354` name "Evolution Health & Fitness, 1192 8th Ave — 10,000 sq ft". Commit 28cf0d1 touched `index.html` only. |
-| Crested Butte | `index.html:143,246`: "Dropped" | `steep:172` "The March answer"; `steep:412` "the North American March answer". Commit 143871a touched `index.html` only. |
-| Revelstoke bus | `three-resorts:239`: about every 30, then 45, minutes | `steep:171,227,364`: "only every 2 hours" |
-| Jackson distance | `index.html:225`: "19 to 26 minutes … not 40" | `three-resorts:226`: "Jackson's 40 minutes" |
-| Engelberg pass (the recommendation's weakest number) | `index.html:275`: CHF 274 | `alps:170,548,587`: CHF 365–390 estimated |
-
-**Fix:** carry each correction to every page that states the fact (grep before closing a correction), and
-add the consistency check in Bigger improvements 1.
-
-**Verify:** `grep -n "Evolution\|March answer\|every 2 h\|40 minutes\|365–390" *.html` returns only lines that
-carry the corrected statement.
-
-Status: Fixed in 8b95077. Revelstoke bus, Crested Butte, Jackson distance, Engelberg pass and Fernie distance now read the same everywhere. The Fernie gym went the other way: its own site (read 9 Nov 2026) confirms Evolution Health & Fitness with day passes, so the index's "no gym found" is corrected rather than propagated. Test: R1_7_PropagatedCorrections fails on 20cb727.
-
-### R1-8 · MEDIUM · The recheck says it looked up every September listing, but 26 were skipped and gone picks are still shown as picks
+### R2-5 · MEDIUM · The headline totals date their lift passes 9 Nov 2026, but most pass prices are September estimates or 2025/26 prices
 
 **Evidence**
-- **The coverage claim.** `steep:275` says "Every Airbnb listing this page priced in September was looked up
-  again". In fact 26 priced Airbnb listings on that page (about 31 listing-weeks) have no room ID and appear
-  nowhere in its recheck: an ID-matching parse finds 34 rechecked IDs and 26 unidentified listings. They
-  include every Hakuba, Niseko, Myoko, Furano and Rusutsu listing and both Zermatt benchmark units
-  (`steep:336,337,348,351-359,364,368,373,379-393`). One of them, SeiSei, is rechecked under its ID on the
-  rentals page.
-- **What that means.** The "158 listing-weeks" (`index.html:73`) is a subset, and the Japan answer has had no
-  9 Nov recheck.
-- **Picks shown as current though gone:**
-  - Rentals #1 Cascade Lodge, 6–13 Mar (`ski-rentals:81-84`): the recheck at `:157` says "Not offered", and
-    on 9 Nov the listing page showed "Those dates are not available".
-  - #5 Terrasses d'Eos (`:101`; `:153-154`) and #6 Le Kalinda (`:106`; `:152`): both not offered.
-  - Jackson's "≈$1,949" (`index.html:243`, `steep:128,174,331`) rests on Slope Side at Snow King, which the
-    recheck lists as "Listing removed" (`steep:307`).
+- `README.md:18` and `index.html:260`: "Week for two = lodging + tax + two … 6-day lift passes, priced 9 Nov
+  2026". The README rows (`:14-16`) repeat "priced 9 Nov 2026" beside the pass column.
+- The pass sources in `data/costs.json`: Telluride $1,430 "(steep-and-town page, September 2026)" (`:88`);
+  Hakuba ¥63,900 "(September 2026)" (`:127`); Engelberg CHF 274 "no season given" to 390 "September estimate"
+  (`:48`); Whistler and Fernie 2025/26 day prices (`:203,465`); Crested Butte a "2025/26 proxy" (`:428`);
+  Jackson and Snowbird "(September page)" (`:315,578`); Chamonix, Alagna and Andermatt estimates. Only Zermatt's
+  floor was read on 9 Nov. Conversion uses the 10–11 Sep 2026 rates (`:6`).
+- CLAUDE.md: "Every price carries its currency and the date it was quoted." The Europe page's own pass table
+  dates each price by season; the README does not.
 
-**Fix:**
-- Change the recheck wording to "every listing this page identified by room ID", and state how many could not
-  be rechecked.
-- Put a dated "not offered / removed on 9 Nov" note on each pick card and row the recheck found gone.
-- Recompute Jackson or mark it superseded.
+**Fix:** add a `quoted` date to every pass in data/costs.json and print it in the cost table. Reword both notes
+to "lodging priced 9 Nov 2026; lift passes as dated in the cost table, mostly September 2026 estimates;
+converted at 10–11 Sep 2026 rates", and the README row notes to "lodging priced 9 Nov 2026".
 
-**Verify:** every pick whose 9 Nov status is "Not offered" or "Listing removed" carries a visible dated note,
-and the recheck intro states the skipped count.
+**Verify:** every `passes` entry in data/costs.json has a `quoted` date, and
+`grep -n "priced 9 Nov 2026" README.md index.html` attaches that date to lodging only.
 
-Status: Fixed in 15c16c8. Each recheck says it covers listings identified by room ID and the steep page states the 26 it could not recheck; every listing a page cites outside its recheck table carries a dated status line rendered from the run data (Cascade Lodge, Terrasses d'Eos, Le Kalinda, Slope Side and the rest). Test: R1_8_PickStatus fails on 20cb727.
-
-### R1-9 · MEDIUM · Whistler's "more than six resorts combined" capacity claim is false by the page's own table
-
-**Evidence:** `index.html:168` says Whistler moves "71,761 people an hour, more than Telluride, Hakuba,
-Jackson, Crested Butte, Fernie and Revelstoke combined". The same page's table (`index.html:185-199`) gives
-those six as 23,800 + 28,500 + 22,530 + 21,177 + 15,114 + 13,000.
-`python -c "print(23800+28500+22530+21177+15114+13000)"` returns `124121`; the first three alone exceed
-71,761. Row 1 also says "Nothing else comes close as a system", while row 3 (`index.html:187`) gives
-St Anton/Arlberg 145,948. The claim has been there since 07f8f08.
-
-**Fix:** replace it with a true comparison, for example "about three times Telluride's ~23,800". Either
-explain that raw capacity is not the ranking key, or drop "nothing else comes close".
-
-**Verify:** the sentence's arithmetic holds against the table on the same page.
-
-Status: Fixed in 6717a85. Whistler moves about three times Telluride's ~23,800 and two and a half times Hakuba's 28,500; row 1 says raw capacity is not the ranking key. Test: R1_9_CapacityClaims fails on 20cb727 with the review's 124,121.
-
-### R1-10 · MEDIUM · The Telluride 17.22% tax correction missed two figures
+### R2-6 · MEDIUM · Refund windows start closing on 10 December, and nothing on the site or in the checks expires them
 
 **Evidence**
-- `steep:165`: the scorecard still says "Cheapest all-in $2,088 (Jan)". It is unchanged since 2b19b58, no
-  listing on the page produces it, and the same page's verdict says $2,200–2,900.
-- `steep:348`: "hot tub and deck near the gondola | $1,643 | ~$1,839" equals 1,643 × 1.119, the old 11.9%
-  rate. At 17.22% it would be $1,926, and the row has no note like the Valley Floor row's (`steep:350`).
-- `steep:149` says "the Telluride rows below are recomputed". The 17.22% rate itself is correct (see Checked
-  and solid).
+- `data/checks/2026-11-09.tsv`: six listings say "Free cancellation before December 10", two December 17, four
+  December 24, one December 26 and six January 4.
+- Verdicts depend on them: the cost table says "Yes" for Chamonix and "Yes, on lodging and tax" for Zermatt
+  January, each beside "Free cancellation before 10 Dec" (`index.html:276,279`).
+- `grep -n -E 'today|date\.today|datetime\.now' tools/*.py tests/*.py` finds nothing. The only past-deadline rule
+  (`tools/sitecheck.py:717-718`) matches August to October 2026. On 11 Dec the pages would still present those
+  rows as refundable answers, and the pre-push check would pass.
 
-**Fix:** derive the scorecard cell from a listed row, which gives $2,200. Recompute `steep:348` at 17.22%, or
-annotate it like `steep:350` if the unit is in Mountain Village.
+**Fix:** give sitecheck a `--today` option (default today) that fails when a refund cutoff on a "Yes" row or a
+pick has passed; print "refund windows read 9 Nov 2026; the first closes 10 Dec 2026" in the index header from
+the data; mark lapsed rows "refund window closed" until they are re-read.
 
-**Verify:** every Telluride all-in on the page equals the quote × 1.1722, or carries a note saying why not.
+**Verify:** `python tools/sitecheck.py --today 2026-12-11` fails on today's pages and passes once those rows are
+re-read or marked.
 
-Status: Fixed in 85cc978. $1,926 at 17.22% and a scorecard $2,200 from the listed row; tracing the column found seven more cells with no listed source, all now tied to listed all-ins. Test: R1_10_AllInArithmetic recomputes every North American all-in on the page and fails on 20cb727.
-
-### R1-11 · MEDIUM · "February and March still fit" in Zermatt is true only if the 10k excludes skiing
-
-**Evidence:** `index.html:78` and `zermatt:55,82` say February and March "still fit" through the studio
-($7,452 and $7,779 on 9 Nov). The page's own method (`zermatt:59,192-205`: two month passes at $2,760, plus
-$280–300 for tax and transport) gives $10,492 for February and about $10,845 for March. Both are over 10k
-all-in. On that basis only Täsch in March fits ($4,927 + $2,760 + about $1,350 ≈ $9,040). The September text
-showed both budget views; the 9 Nov wording dropped the qualifier.
-
-**Fix:** say "fits on lodging alone; with two month passes, only Täsch in March fits (about $9,040)".
-
-**Verify:** every "fits" on the Zermatt page and the index says which budget view it uses.
-
-Status: Fixed in 7d54a6c. February and March fit on lodging alone; with two month passes only Täsch in March fits (about $9,040). 62866e5 adds that the operator charges the "from" pass prices only 1–27 Nov and 19 Apr–2 May, so totals with passes are lower bounds. Test: R1_11_FitQualifiers fails on 20cb727.
-
-### R1-12 · MEDIUM · The recheck script turns a blank or blocked search page into "Not offered"
-
-**Evidence:** in `recheck2.py`, `dated_price` handles a page without `data-deferred-state-0` like this:
-`deferred()` returns None, `blocks` and `pag` stay empty, the loop ends after one page with `seen = 0`, and the
-function returns `NOT_IN_DATED_SEARCH`. That status is published as "Not offered for these dates". HTTP errors
-are handled correctly and become "Not determined"; a 200 response carrying a challenge page or changed markup
-is not. Two published rows have `seen = 0`: the Zermatt rows for 1556537260452412398 (December) and
-1295138371680887002 (January). In the browser on 9 Nov the first showed "Those dates are not available", so
-these two rows are right, but the path is still unguarded for the next run.
-
-**Fix:** when `deferred(html)` is None, or `paginationInfo` is missing on page 0, return an error status that
-publishes as "Not determined".
-
-**Verify:** given a saved non-Airbnb HTML page, the function returns an error status, not
-`NOT_IN_DATED_SEARCH`.
-
-Status: Fixed in 41ae8e0. tools/listing_status.py returns NOT_DETERMINED for any page it does not recognise, both for listing-page text read in the browser and for saved search pages; a copy of the old logic in tests/test_listing_status.py returns NOT_IN_DATED_SEARCH for a saved non-Airbnb page where the new code does not. The scratch recheck2.py is retired with the scrapers (R1-13) rather than patched outside the repo.
-
-### R1-13 · MEDIUM · The data collection runs against site terms and the working rule on bot walls
+### R2-7 · MEDIUM · The site checks pin 9 November values, so a correct refresh fails the pre-push hook
 
 **Evidence**
-- Every Airbnb script (`search.py:10`, `recheck.py:14`, `recheck2.py:14`, `verify.py:9`,
-  `cheapest_inunit*.py:11`) sends a spoofed desktop Chrome User-Agent while fetching hundreds of search and
-  listing pages: 196 spec rows, up to 15 search pages each in the tight pass.
-- Airbnb's Terms of Service forbid scrapers and other automated collection, and the browser disguise is what
-  keeps the client from being identified. robots.txt itself allows the `/s/homes` and `/rooms/<id>` paths
-  used; it disallows place-named searches (`/s/*/*`).
-- HANDOFF records reading Booking.com in an agent-driven browser after plain HTTP met an AWS WAF challenge.
-- `alps:587` records about a dozen attempts on titlis.ch after HTTP 429.
-- All of these sit against the working rule never to bypass a bot wall or rate limit.
+- `tools/sitecheck.py:330-331` requires St Anton's change cell to read exactly "−$102 (−4%)"; `:733` requires the
+  index header, footer and README to contain "9 November 2026".
+- Reproduced on a scratch copy: a later full run in which only St Anton's 9–16 Jan quote moves ($2,459 to
+  $2,400) renders with no problems, then `check_currency_labels` reports "St Anton change is not measured from
+  the dollar quote (expected −$102, −4%)". A header and README that name "5 December 2026" fail
+  `check_dates_stamped` three times. The hook (`tools/hooks/pre-push:12`) then refuses the push.
 
-**Fix:** for future rechecks, read only the listings that drive a recommendation, in the browser pane at
-human pace, with no User-Agent spoofing. Stop at the first 429 and record it. Write the changed method into
-HANDOFF.
+**Fix:** check invariants, not values: the change cell equals the run's quote minus the September quote; the
+header names the latest run's date from the data. Keep the regression tests against 20cb727 by passing their
+expected strings in from the test.
 
-**Verify:** the next HANDOFF's method section names no spoofed User-Agent and no workaround for a WAF
-challenge or a 429.
+**Verify:** the same simulation passes the checks, and the tests that run on 20cb727 still fail there.
 
-Status: Fixed in 54addcb. README and HANDOFF state the method (only the listings that drive a recommendation, browser pane, human pace, no disguise, stop at the first 429 or challenge) and mark the 9 Nov scripts retired; the 33 listing pages read this session followed it, and titlis.ch's 429 was not retried. Test: R1_13_Method fails on 20cb727 and rejects any browser User-Agent in the repo.
+### R2-8 · MEDIUM · The privacy scan would not stop a booking written into the public handoff
+
+HANDOFF.md is the only channel the two assistants share. It is public on GitHub and served on the Pages site,
+and it already carries booking state ("Nothing is booked", `HANDOFF.md:9`) and a list of last safe cancellation
+days for the options (`:71-75`). A first booking would most likely be recorded there, and the scan looks only
+for first-person wording.
+
+**Evidence**
+- `tools/sitecheck.py:160-173` (PRIVACY_PATTERNS) and `:178`, run on five impersonal phrasings shaped like
+  `UNIT is booked for DATES`, `Booked: UNIT, DATES`, `Reserved the UNIT …`, `Booking confirmed for DATES, code
+  HM + eight characters` and `User booked the UNIT …`: all five pass. Only `We booked …` and `Our booking …` are
+  caught. REVIEW.md, data/ and tests/ are not scanned at all.
+- Local paths: `tools/prepush.py:30` and `tools/sitecheck.py:201` both miss the form this machine's Git Bash
+  prints (`/c/Users/<name>/…`), and the WSL and macOS forms; the sitecheck scan also misses the
+  forward-slash Windows form. Tested with both regexes.
+- HANDOFF.md and REVIEW.md return 200 from the Pages site and match the commit.
+
+**Fix:** keep booking state and the cutoff action list in a private note outside any repository, and leave
+HANDOFF.md to research state. Extend the patterns to impersonal booking verbs near a room ID or a date and to
+Airbnb confirmation-code shapes; scan every tracked text file; add `/[a-z]/Users/[^/]+` and `/mnt/[a-z]/` to
+both path checks.
+
+**Verify:** the five placeholder phrasings, and a Git Bash path on an added line, are rejected by
+`python tools/sitecheck.py --pre-push`.
+
+### R2-9 · MEDIUM · The R1-12 status rules guard nothing: no code path calls them
+
+**Evidence**
+- `grep -rn "listing_status\|classify_listing_text" --include=*.py .` finds only
+  `tests/test_listing_status.py`. `tools/recheck.py:95-101` reads statuses straight from
+  `data/checks/<date>.tsv`, which a session types by hand; no page text is kept.
+- R1-12's status says the code returns NOT_DETERMINED "for listing-page text read in the browser". With the pane
+  hidden, pages draw lazily (`HANDOFF.md:30-32`); a half-drawn page or a challenge typed in as "not available"
+  goes straight to a published "Not offered", with nothing to catch it.
+
+**Fix:** a small `tools/log_read.py` that takes the pasted page text, runs `classify_listing_text` and appends the
+row (status, price line, cancellation line, washer line) to data/checks; or keep those verbatim lines in
+data/checks and have sitecheck re-derive each status from them.
+
+**Verify:** a data/checks row whose stored text does not support its status fails sitecheck.
 
 ---
 
 ## LOW
 
-### R1-14 · LOW · An Ikon correction now reads as if Furano, Shiga Kogen and Myoko are not on Ikon
+### R2-10 · LOW · Seventeen recheck quotes are $1 below what Airbnb showed, so one listing can carry two prices
 
-**Evidence:** 9fc2bdf replaced "Niseko United, Kiroro, Rusutsu and Hakuba are all on Ikon" with "of these,
-only Niseko United is on Ikon" (`ski-rentals:346`). "These" now refers to the Hoshino, Lime Resort Myoko, Shin
-Furano Prince and Shiga Kogen Prince deals in the same sentence. `index.html:76` repeats it as "Of the
-Japanese resorts on the rentals page, only Niseko United is on Ikon". Ikon's live destination list (read
-9 Nov) includes Furano Ski Resort, Shiga Kogen Mountain Resort and Myoko Suginohara, and `steep:264` agrees.
+**Evidence:** joining `data/recheck/2026-11-09.tsv` to the raw `price_line` in all.tsv and tight.tsv, 49 of the
+66 bookable quotes equal the displayed price and 17 are exactly $1 lower: the pipeline truncated totals such as
+906.21, which Airbnb displays as $907. On the site, the Sunny 1-room apartment is $906 at `index.html:82` and
+$907 at `:130,271`; Crested Butte is $1,347 in its note (`steep-and-town-2027.html:371`) and $1,348 in the cost
+table; Silverado is $1,454 in its notes (`ski-rentals-2027.html:89,225`) against $1,455 read on its page. The
+three-resort tables differ from `data/checks` the same way: Revelstoke Retreat $2,256 against $2,257 read,
+Revylation $2,862 against $2,863, Comfy Condo $2,998 against $2,999 (`three-resorts-best-snow-2027.html:235,236,
+215`), so their all-ins should be $2,618, $3,321 and $3,359.
 
-**Fix:** on both pages, write "Of Niseko United, Kiroro, Rusutsu and Hakuba, only Niseko United is on Ikon
-for 2026-27; Furano, Shiga Kogen and Myoko Suginohara are also on Ikon".
+**Fix:** store the displayed price, correct the 17 run rows and the 3 table rows, and check that each (room,
+dates) carries one price across data/checks, the run and the pages.
 
-**Verify:** the sentence names its resorts explicitly.
+**Verify:** the join finds 66 of 66 equal.
 
-Status: Fixed in 06ed2dd. Both sentences now name Niseko United, Kiroro, Rusutsu and Hakuba, and say Furano, Shiga Kogen and Myoko Suginohara are on Ikon. Test: R1_14_IkonSentence fails on 20cb727.
+### R2-11 · LOW · The Zermatt page says the week listings' cancellation terms were not read; they were
 
-### R1-15 · LOW · Refund deadlines read as inclusive dates, but Airbnb's cutoff falls before the date
+**Evidence:** `zermatt-month-stay-2026-27.html:83`, generated from `data/recheck/zermatt-fresh-2026-11-09.html:12`:
+"Cancellation terms were not read for any of these." `data/checks/2026-11-09.tsv` has both: 1005849900575274943
+"Free cancellation before December 10" and 749164300750846312 "Free cancellation for 24 hours", and
+`index.html:83` quotes them.
 
-**Evidence:** `three-resorts:105,153,164,174,263,276` and `index.html:75` write "to 21 Jan", "until
-21 January" and "refundable to 4 Jan". On 9 Nov the listing pages themselves said "Free cancellation before
-January 21" (West Telluride Studio) and "Free cancellation before January 4" (the Chamonix flat). The cutoff
-runs in the listing's own time zone, which for Engelberg and Chamonix is Central European Time.
+**Fix:** put the two read lines into the fragment (say the Täsch weeks were not read) and rerun tools/recheck.py.
 
-**Fix:** write "free cancellation before 21 Jan (listing's local time)", and in HANDOFF list the day before
-each deadline as the action date.
+**Verify:** the Zermatt page no longer says the terms were not read for any of these.
 
-**Verify:** `grep -n "Free cancellation to\|refundable to\|until 2[12] January" *.html` returns nothing.
+### R2-12 · LOW · Two Zermatt "Not offered" rows come from searches that saw nothing, and neither confirmation is logged
 
-Status: Fixed in 1be078a. Cutoffs read "before" with the listing's local time, and HANDOFF lists the day before each as the last safe day. Test: R1_15_RefundCutoffs fails on 20cb727.
+**Evidence:** the raw results give `results_seen` 0 for 1556537260452412398 (5 Dec–5 Jan) and for
+1295138371680887002 (5 Jan–5 Feb, 3 adults), 1 for 4735826 and 2 for 16965204; all four publish "Not offered". A
+search that saw zero listings is the R1-12 failure signature. Round 1 confirmed the first in the browser, but
+that read is not in data/checks; the second was never read (`zermatt-month-stay-2026-27.html:107,153`).
 
-### R1-16 · LOW · Several dated readings cite links that will soon show different data
+**Fix:** read both listing pages with their dates and guest count and log them, or publish "not determined".
 
-**Evidence:** the CPC links at `three-resorts:286` are rolling products. `ensodisc.shtml` is replaced on
-12 Nov, and the `lead02` images are replaced on 19 Nov, after which they show the January–March outlook, not
-December–February. The SNOTEL link at `:294` is a "last 7 days" window (`/-7,0/`), and BC Hydro's `mtr.txt` is
-a rolling file. I could re-derive the 9 Nov values only by building fixed-date queries.
+**Verify:** both rows have a data/checks entry.
 
-**Fix:** cite fixed-date sources, for example
-`https://wcc.sc.egov.usda.gov/reportGenerator/view_csv/customSingleStationReport/daily/590:MT:SNTL%7Cid=%22%22%7Cname/2026-11-09,2026-11-09/SNWD::value`,
-and CPC's archived pages. Alternatively, add "the linked page updates; value read 9 Nov".
+### R2-13 · LOW · A note written on 9 Nov reports the 12 Nov CPC discussion as already published
 
-**Verify:** after 19 Nov each link still shows the cited number, or the text says that it will not.
+**Evidence:** `data/readings.tsv:2`: "The live page was replaced by the 12 Nov 2026 discussion", three days
+before that discussion exists.
 
-Status: Fixed in 77577ae. Fixed-date SNOTEL queries (re-fetched 9 Nov: 2, 4 and 3 in) and CPC's archived October discussion replace the rolling links; the CPC images and BC Hydro file are labelled as updating, and data/readings.tsv keeps each value, URL and read date. Test: R1_16_RollingCitations fails on 20cb727.
+**Fix:** "From 12 Nov 2026 the live page shows the November discussion; the archived copy keeps the October
+text." HANDOFF's Next 1 will add the November reading anyway.
 
-### R1-17 · LOW · The Telluride gondola's "2am on Friday and Saturday" has no source
+**Verify:** the row is in the future tense, or names the November reading.
 
-**Evidence:** `index.html:139` and `steep:221` say "(2am Fri/Sat)". The cited page (telluride.com, read 9 Nov)
-says "Seven days a week - 6:30 a.m. to midnight. Extended Friday and Saturday hours during peak seasons"
-with no closing time given. CLAUDE.md requires an unsourceable claim to be cut or marked.
-
-**Fix:** write "6:30am to midnight, with extended Friday and Saturday hours in peak periods (times not
-published)".
-
-**Verify:** no unsourced "2am" remains.
-
-Status: Fixed in 06ed2dd. Both pages say extended Friday and Saturday hours in peak periods, times not published. Test: R1_17_GondolaHours fails on 20cb727.
-
-### R1-18 · LOW · Stale dates and expired advice surround the refreshed content
+### R2-14 · LOW · Counts and words that do not match their data
 
 **Evidence**
-- `index.html:66` ("Researched 10 to 11 September 2026 … Every price was a live quote on the date researched")
-  and `:301` ("Built 11 September 2026") sit on a page that now carries 9 Nov prices.
-- `README.md:32` still says prices are from 10–11 September "except the three-resort report".
-- `ski-rentals:362` says "re-shop in October" and `:373` says "book Winter Park by 29 Sep".
-- `zermatt:182` gives the season pass "from 1,750". The operator's page on 9 Nov lists CHF 1,850 from 1 Nov
-  and CHF 1,960 from 1 Dec.
+- `index.html:78`: "Of the 158 listing-weeks"; 26 of them are Zermatt listing-months
+  (`zermatt-month-stay-2026-27.html:84`).
+- `three-resorts-best-snow-2027.html:93,272` and `README.md:36`: nineteen policies, nine for 24 hours only, ten
+  with a date. The page's tables show 18 (9 and 9), and 15 of the 19 reads are logged nowhere in the repo
+  (data/checks holds 4).
+- `index.html:170,275` and `HANDOFF.md:55`: "the only September Whistler listing still offered". Two Whistler
+  listings on the steep page have no room ID and were never rechecked (`steep-and-town-2027.html:361-362`).
+- `three-resorts-best-snow-2027.html:74,85,88-90` calls three listings "Booked" where Airbnb only showed the dates
+  as unavailable; the other pages say "not offered (booked, blocked, or a changed minimum stay)".
+- Jackson's and Snowbird's passes are "5 to 6 day" tickets in a column of two 6-day passes (`index.html:278,285`).
+- `HANDOFF.md:109`: "Before 9 Dec (the earliest cutoff)". The earliest cutoff is "before 10 Dec", so the last
+  safe day is 9 Dec.
 
-**Fix:** date-stamp both research rounds in the headers, footers and README. Mark expired offers "expired".
-Update the season-pass line or date it.
+**Fix:** reword each; log the 15 missing policy reads or say eighteen.
 
-**Verify:** no "live quote" sentence is undated, and no deadline in the past is presented as an action.
+**Verify:** each count reproduces from the data it names.
 
-Status: Fixed in 62866e5. Both research rounds are dated in the index header and footer and the README, expired offers are marked, and the Zermatt season pass reads CHF 1,850 from 1 Nov and CHF 1,960 from 1 Dec (operator page re-read 9 Nov). Test: R1_18_DatesStamped fails on 20cb727.
-
-### R1-19 · LOW · Small count and arithmetic slips
+### R2-15 · LOW · Tool edges that fail quietly
 
 **Evidence**
-- `index.html:73` says "4 listings had been removed", but that is 4 removed listing-weeks from 3 listings: the
-  Maison Poluc suite is counted twice.
-- HANDOFF says "27 list a building or paid washer". The tables give 27 in the building plus 2 "Paid washer –
-  In unit", which makes 29.
-- `three-resorts:193-194` show $3,448 and $2,912, but 2,941 × 1.1722 = 3,447.4 and 2,485 × 1.1722 = 2,912.9.
-  The $8,286 total inherits the first.
-- `ski-rentals:146` shows "−$102", but 3,264 − 3,365 = −101.
-- `index.html:142` says "Ranks 6th of 9 here", but the page's own tables put Telluride 10th of 16
-  (`:194,239`).
-- `three-resorts:111` mentions "a Telluride/Big Sky tie", but Telluride's snowfall peaks in February and Big
-  Sky ties December with March.
-- `ski-rentals:203` says "then convert CAD at 1.38", which contradicts `:69`. The numbers themselves follow
-  `:69`.
-- `ski-rentals:270` says "Airbnb totals are all-in", against the 9 Nov finding at `steep:421` that they are
-  "total before taxes".
-- `steep:63` uses 0.80 CHF per USD; the index and rentals page use 0.81.
+- With `--root`, five checks still read the working tree's data (`tools/sitecheck.py:245,400,707,778,809`), so a
+  run against another copy checks that copy's pages against this copy's data.
+- `tools/costs.py:99-108`: `_room_links` knows five weeks; any other week (the three-resort page's 20–27 Feb, for
+  example) silently gets an undated listing link. `:88-96`: `_tax_label` prints only the low end of a percent
+  range.
+- `tools/recheck.py:332,344`: the misleading missing-room message (R2-3).
+- `tools/hooks/pre-push:6` prefers `python3`, which on a fresh Windows machine is often the Microsoft Store alias
+  stub; it works on this machine, but elsewhere it fails and blocks every push.
 
-**Fix:** correct each in place.
+**Fix:** pass `root` through to the data loaders; build listing links from ISO dates stored per row; print both
+ends of a range; reword the message; prefer `python` on Windows. Add a test for each.
 
-**Verify:** redo each calculation and grep each phrase.
-
-Status: Fixed in 06ed2dd (with d191655 for −$101, 5d162d5 for 0.81 CHF, 15c16c8 for 4 listing-weeks from 3 listings; HANDOFF now says 29). Test: R1_19_SmallSlips fails on 20cb727, including $3,447 and $2,913 from the three-resort arithmetic check.
+**Verify:** the new tests pass, and costs.py refuses a row whose week it cannot date.
 
 ---
 
 ## Bigger improvements (ranked)
 
-1. **An in-repo check script, run before every push.** Stdlib Python with no network access, checking that:
-   - every internal anchor resolves;
-   - every all-in equals the quote × (1 + the stated rate), within $1;
-   - each tax breakdown sums to its stated total;
-   - each key fact keeps one canonical value on every page that states it (answers, pass prices,
-     capacities, bus frequency, gym verdicts);
-   - every dollar figure has a date in the same block.
-
-   This alone would have caught R1-6, R1-7, R1-9, R1-10 and R1-19.
-   Status: Done across this round: tools/sitecheck.py (anchors, all-in arithmetic on the steep and three-resort pages, tallies, superseded facts, privacy, dates, rolling citations) plus 68 unittest cases, and a tax-breakdown check that sums each stated total's parts; tools/hooks/pre-push runs it.
-
-2. **One cost model, rendered from one data file.** Each resort gets lodging, tax, passes and optional food as
-   separate fields, and the cards, tables and README read from that file. A corrected input then reaches
-   every page, which fixes R1-1 and R1-3 for good.
-   Status: Done in f5c1aa9: data/costs.json and tools/costs.py feed the answer cards, ranking table, cost table, the Europe verdict, the Hakuba card and the README.
-
-3. **A private, versioned home for the scrapers, specs and raw TSVs**, such as a private companion
-   repository, instead of the never-committed scratch folder. Take the run date as a parameter and write each
-   run to a dated folder. Today nothing versioned can reproduce the 9 Nov numbers, and one machine clean-up
-   loses the method.
-   Status: Partly done. Rendering, status rules and the 9 Nov data are versioned in the repo (tools/recheck.py, tools/listing_status.py, data/); the scrapers are retired rather than moved. A private companion repository was not created: this round worked inside this repository only.
-
-4. **Pick status driven by recheck output.** Each pick card would show bookable / not offered / removed, the
-   date checked and the cancellation line read, so a stale pick cannot stay on a card.
-   Status: Done in 15c16c8: every cited listing carries a dated status line, and the recheck tables have a refund column from data/checks/.
-
-5. **A privacy split.** The research stays public; the shortlist being acted on, enquiry drafts and anything
-   booked live in a private document. Back it with a CLAUDE.md rule and a pre-push grep for first-person
-   enquiries, "booked" and non-noreply author emails.
-   Status: Partly done in 5d162d5, 0afff08 and e6ed699: the privacy check and pre-push hook reject the review's patterns, first-person booking text and non-noreply emails. The CLAUDE.md rule needs the owner, and a private document for the acted-on shortlist was not created.
-
-6. **Fixed-date citations with a small dated snapshot** (value, URL, read date) for each live reading
-   (SNOTEL, BC Hydro, CPC, snow reports), so a reader can still audit a figure after its source rolls over.
-   Status: Done in 77577ae: fixed-date URLs where they exist and data/readings.tsv for the rest.
-
-7. **A lighter recheck that respects site terms.** Browser-pane reads of the 10–20 listings that drive a
-   recommendation, logging date, price, availability and cancellation line, instead of mass searches.
-   Status: Done in 54addcb and 41ae8e0: the method is written down, the status rules are tested, and 33 listing pages were read this way on 9 Nov (data/checks/2026-11-09.tsv).
+1. **Readings, not runs.** One table of dated readings (room, dates, read date, method, price line, cancellation
+   line, washer line, status), appended by every browser read and merged by the renderer. It fixes R2-3, R2-9 and
+   R2-10 together, and lets every row say when it was last seen.
+2. **A saved walk log behind every "cheapest" or "none" claim.** Version the non-personal search results and the
+   per-listing washer and refund reads under `data/searches/<date>/`, and have sitecheck require a log for each
+   "cheapest …" or "no … under budget" sentence. Today a stranger with the repo cannot reproduce any "cheapest
+   with a washer in the unit" figure, and R2-1 shows what that hides.
+3. **A date-aware check and a "valid until" line**: `--today` in sitecheck, and the first open refund cutoff
+   printed in the index header from the data (R2-6).
+4. **One tax table for every page**, Japan included, feeding costs.py, the steep page's all-ins and the rentals
+   and three-resort tables (R2-4).
+5. **A private place for anything booked.** HANDOFF.md stays the research handoff; booking state, cutoff actions
+   and timing live in a private note; the scan covers impersonal wording and every path form (R2-8, R1-5).
+6. **Invariant checks** in place of 9 Nov literals, so the hook keeps protecting the site after the next refresh
+   (R2-7).
 
 ---
 
 ## Checked and solid
 
-- **Recheck tallies.** An independent parse of the four recheck tables gives 158 rows: 66 Bookable,
-  87 Not offered, 4 Listing removed and 1 Not determined. 15 of the 66 say "Free washer – In unit". A portable
-  check reproduces it:
-  `sed -n '/recheck:start/,/recheck:end/p' alps-extreme-ski-2027.html steep-and-town-2027.html ski-rentals-2027.html zermatt-month-stay-2026-27.html | grep -oE '>(Bookable|Not offered for these dates|Listing removed|Not determined)<' | sort | uniq -c`
-  gives 66 / 4 / 1 / 87. The Change column matches the two quotes in 65 of 66 rows (one $1 slip, R1-19).
-- **Telluride 17.22%.** The town tax page (read 9 Nov) lists SMART 1.07, State 2.90, County 1.00, Town 4.50,
-  food-and-lodging excise 2.00, short-term-rental excise 2.50, Town lodgers' 2.00 and SMART lodgers' 1.25,
-  which sum to 17.22. It also notes the town has no agreement with rental platforms to collect local tax.
-- **Snow on 9 Nov, from raw station data via fixed-date queries.** NRCS Lone Mountain 2″, Lizard Head Pass 4″,
-  Idarado 3″; BC Hydro Mt Revelstoke 17–18 cm. All match `three-resorts:248-250`.
-- **NOAA CPC.**
-  - 8 Oct 2026 discussion: El Niño Advisory, "strong-to-very strong … through January-March 2027 (remaining
-    greater than an 83% chance)".
-  - December–February outlook made 15 Oct: Western Colorado 33.6 above / 33.6 near / 32.7 below;
-    South-central Montana 24.0 above / 43.2 below.
-  - Next ENSO discussion 12 Nov.
-
-  All match `three-resorts:98-106`.
-- **Three-resort arithmetic.** Every all-in equals quote × (1 + rate) to the dollar apart from two $1 slips,
-  and the totals of $7,361, $8,286 and $7,750 add up.
-- **Live spot checks in the browser pane on 9 Nov.**
-  - West Telluride Studio, 20–27 Feb: $2,152, "Free cancellation before January 21", in-unit washer and
-    dryer. This matches the pick.
-  - Cascade Lodge 6–13 Mar, the two-room Chamonix flat 9–16 Jan and the Täsch "Panoramic Views" unit for
-    5 Dec–5 Jan all showed "Those dates are not available", agreeing with "Not offered".
-- **Official facts that match the pages:**
-  - Big Sky resort tax 4% (resorttax.org).
-  - The USFS project page reads "Pre NEPA", decision expected 4/2026, and the CARA notice of a draft decision
-    to approve replacing Lifts 7 and 8 is live.
-  - Telluride gondola 20 Nov 2026–4 Apr 2027, 6:30am to midnight.
-  - Zermatt 6-day pass from CHF 384 and month pass from CHF 1,118.
-- **Calendar.** 9 Jan 2027 is a Saturday; MLK Day falls on 18 Jan, Presidents' Day on 15 Feb and Easter on
-  28 Mar 2027. Every pick's refund date follows Airbnb's 30-day, 5-day or 1-day tier.
-- **Links.**
-  - Every internal anchor on the six pages resolves.
-  - 71 of the 72 external links outside Airbnb and Booking.com return 200; VRBO returns 429, which
-    `zermatt:249` already discloses.
-  - The USFS link now redirects (68020 → 301822) to the right project.
-- **Publication.** The latest Pages build is "built" at 20cb727. All six live URLs return 200 and match the
-  committed files apart from line endings.
-- **Secrets.** No version contains API keys, tokens, passwords, cookies or booking codes. The email addresses
-  in the page text are businesses' public contacts.
-- **Error routing in `recheck2.py`.** HTTP errors become "Not determined", not "Not offered" (but see R1-12
-  for the blank-page path).
+- **Tests and checks.** 19 sitecheck checks ok and 68 unittest cases pass; `costs.py --check` and
+  `recheck.py --check` report no drift. `.git/hooks/pre-push` is identical to `tools/hooks/pre-push`, and the
+  clone's identity is the noreply address.
+- **Publication.** The latest Pages build is "built" at e3866e3, which is HEAD and origin/main. All six pages,
+  data/readings.tsv, data/costs.json, README, HANDOFF and REVIEW return 200 and match the commit apart from line
+  endings.
+- **The three answers, recomputed by hand.** Engelberg: $1,571 + CHF 3.20–4.50 × 14 at 0.81 = $1,626–1,649, plus
+  CHF 274–390 × 2 = $2,303–2,612. Telluride: $1,718 and $1,927 × 1.1722 = $2,014–2,259, plus $1,430 × 2 × 1.05 =
+  $5,017–5,262. Hakuba: $2,619 + ¥7,000 at 156 = $2,664, plus ¥63,900 × 2 = $3,483. All 48 cost-table cells
+  (16 rows × lodging and tax, passes, total) recompute to the dollar from the inputs printed in each row.
+- **Recheck statuses from the raw data.** Joining all.tsv and tight.tsv with the hand reads gives 66 bookable, 88
+  not offered and 4 removed (3 listings), and each of the 158 published statuses matches its raw source. Washer
+  wording among the 66: 15 free in the unit, 27 in the building, 2 paid in the unit, 22 a bare "Washer".
+- **Hand-read log.** data/checks has 33 rows: 24 with a free-cancellation date, 4 for 24 hours only, 4 blank and 1
+  not available. The 28 outside the three-resort page split 22, 2 and 4, as the README says.
+- **Telluride 17.22%**, re-read on the town's taxes page on 9 Nov (one request): SMART 1.07, state 2.90, county
+  1.00, town 4.50, food-and-lodging excise 2.00, short-term-rental excise 2.50, town lodgers' 2.00, SMART
+  lodgers' 1.25, and "The total tax to be collected on short-term rentals is 17.22%."
+- **Readings.** The fixed-date SNOTEL queries return 2, 4 and 3 in. CPC's archived October discussion contains "a
+  strong-to-very strong El Niño likely through January-March 2027 (remaining greater than an 83% chance)". BC
+  Hydro's file shows 18 cm and 51 mm at 15:45 on 9 Nov.
+- **Arithmetic.** Every North American all-in on the steep page matches its stated rate within $1 (the one 11.9%
+  row is annotated). The rentals page's all-ins match its stated rates (16, about 15, 20.4, about 16 and 18.5%).
+  The three-resort totals of $7,361, $8,285 and $7,751 add up.
+- **Links.** 72 of 73 external links outside Airbnb and Booking.com return 200; VRBO returns 429, already
+  disclosed. Every internal anchor resolves.
+- **History since round 1.** `git log -p 800768a..HEAD` adds no email outside the allow-list, no local path and
+  nothing token-shaped. No tracked text file contains mojibake.
+- **Calendar.** Easter falls on 28 Mar 2027, Coming of Age Day on 11 Jan, MLK Day on 18 Jan and Presidents' Day on
+  15 Feb. Every logged cutoff falls 30, 14, 5 or 1 days before arrival, Airbnb's standard tiers.
