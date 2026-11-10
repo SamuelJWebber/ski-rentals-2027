@@ -33,7 +33,7 @@ Engelberg has 2,017 m of lift-served vertical, three glaciers, the Galtiberg and
 
 Airbnb search pages quote in **US dollars by default regardless of country** — verified at a 1.383 ratio on the same Whistler listing. An earlier version of the rentals report divided Canadian figures by 1.38 and understated Whistler, Tremblant and Sun Peaks by about 38%; that is corrected. Airbnb's washer filter is also unreliable, surfacing listings with shared or surcharged laundry, so only amenities confirmed on the listing page are marked as in-unit.
 
-Airbnb's free-cancellation badge is not the policy. Of fifteen listing policies read for the three-resort report on 9 November 2026, seven refunded in full only within 24 hours of booking. Of 28 more read the same day for the listings the other pages recommend, 22 showed a free-cancellation date, 2 refunded in full only for 24 hours and 4 did not render the line. Only the line on the listing page or at checkout counts.
+Airbnb's free-cancellation badge is not the policy. Of nineteen listing policies read for the three-resort report on 9 November 2026, nine refunded in full only within 24 hours of booking. Of 28 more read the same day for the listings the other pages recommend, 22 showed a free-cancellation date, 2 refunded in full only for 24 hours and 4 did not render the line. Only the line on the listing page or at checkout counts.
 
 The detailed pages were researched on 10 to 11 September 2026. On 9 November 2026 every Airbnb listing they identified by room ID was rechecked, the answers and the three-resort report were repriced, and each figure on the pages says which date it comes from. Re-check prices, cancellation terms and lift status before booking.
 
