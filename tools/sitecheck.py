@@ -844,22 +844,29 @@ register('tax-breakdowns', check_tax_breakdowns)
 # ---------------------------------------------------------------- tallies on the index match the run
 
 def check_tallies(root=REPO):
-    """The index's recheck tally (total, bookable, not offered, removed, free in-unit washers) equals
-    the counts in the latest recheck run."""
+    """The index's recheck tally is the block tools/recheck.py generates from the readings, and every
+    count in it reproduces from them: listing-weeks and listing-months apart (R2-14), bookable, not
+    offered, removed, undetermined, and free in-unit washers."""
     import recheck
-    meta, rows = recheck.load()
+    meta, rows = recheck.load(runs_dir=os.path.join(root, 'data', 'recheck'))
     c = recheck.counts(rows)
+    weeks = sum(1 for r in rows if r['page'] != 'zermatt')
     free_in_unit = sum(1 for r in rows if r['status'] == 'BOOKABLE' and 'Free washer – In unit' in r['washer'])
     removed_listings = len({r['room_id'] for r in rows if r['status'] == 'REMOVED'})
-    text = page(root, 'index.html')[1].text()
+    html_text, tree = page(root, 'index.html')
+    problems = []
+    if '<!-- recheck-tally:start -->' not in html_text:
+        problems.append('index.html: the recheck tally is not the generated <!-- recheck-tally --> block')
+    text = tree.text()
     want = [
-        (f'Of the {c["n"]} listing-weeks', 'total'),
+        (f'Of the {weeks} listing-weeks and {c["n"] - weeks} listing-months', 'weeks and months apart'),
         (f'{c["BOOKABLE"]} were still bookable', 'bookable'),
         (f'{c["NOT_OFFERED"]} were not offered', 'not offered'),
         (f'{c["REMOVED"]} (from {removed_listings} listings) had been removed', 'removed'),
         (f'Of the {c["BOOKABLE"]}, only {free_in_unit} state a free washer', 'free in-unit washers'),
     ]
-    problems = [f'index.html: the recheck tally should read "{s}" ({what}, from the run data)' for s, what in want if s not in text]
+    problems += [f'index.html: the recheck tally should read "{s}" ({what}, from the readings)' for s, what in want
+                 if s not in text]
     if c['NOT_DETERMINED'] and 'could not be determined' not in text:
         problems.append('index.html: the tally omits the rows the recheck could not determine')
     return problems
