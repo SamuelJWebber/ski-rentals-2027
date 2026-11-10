@@ -1,34 +1,54 @@
-read_date	room_id	check_in	check_out	status	total_usd	originally_usd	cancellation	washer	note
-2026-11-09	1267557874578220140	2027-01-09	2027-01-16	BOOKABLE	1571	1857	Free cancellation before January 4. Cancel before check-in on January 9 for a partial refund.	Washer – In unit; Dryer	Amenity list marks smoke alarm and carbon monoxide alarm unavailable
-2026-11-09	15395305	2027-01-23	2027-01-30	BOOKABLE	1927	2358	Free cancellation before December 24. Cancel before January 16 for a partial refund.
-2026-11-09	29856063	2027-01-23	2027-01-30	BOOKABLE	1718		Free cancellation before December 24. Cancel before January 16 for a partial refund.	In-unit washer and dryer (description)
-2026-11-09	15857739	2027-03-13	2027-03-20	BOOKABLE	2619		Free cancellation for 24 hours. Cancel before March 6 for a partial refund.
-2026-11-09	779567373113942720	2027-01-09	2027-01-16	BOOKABLE	907	1152	Free cancellation before January 4.		Booking-panel line; the full policy section did not render
-2026-11-09	1005849900575274943	2027-01-09	2027-01-16	BOOKABLE	1923	2167	Free cancellation before December 10. Cancel before January 2 for a partial refund.	Free washer – In unit	Amenity list marks smoke alarm and carbon monoxide alarm unavailable
-2026-11-09	749164300750846312	2027-03-06	2027-03-13	BOOKABLE	2671		Free cancellation for 24 hours. Cancel before February 27 for a partial refund.	Free washer – In unit
-2026-11-09	1450123020779481422	2027-01-09	2027-01-16	BOOKABLE	2710	3079	Free cancellation before December 10. Cancel before January 2 for a partial refund.		Parking USD 26 a day per the listing
-2026-11-09	50011393	2027-01-09	2027-01-16	BOOKABLE	1455	1771	Free cancellation before December 26. Cancel before January 2 for a partial refund.	Compact washer and dryer inside the room (description)
-2026-11-09	29955416	2027-01-09	2027-01-16	BOOKABLE	1813		Free cancellation before December 10. Cancel before January 2 for a partial refund.	Washer-dryer in the kitchen (description)
-2026-11-09	664157190105079182	2027-01-09	2027-01-16	BOOKABLE	1035		Free cancellation before January 4. Cancel before check-in on January 9 for a partial refund.
-2026-11-09	1544941317426703858	2027-01-09	2027-01-16	BOOKABLE	1825	2172	Free cancellation before January 4. Cancel before check-in on January 9 for a partial refund.
-2026-11-09	1663839049801753122	2027-01-09	2027-01-16	BOOKABLE	1872	2037	Free cancellation before December 10. Cancel before January 2 for a partial refund.
-2026-11-09	966035320847612433	2027-01-09	2027-01-16	BOOKABLE	1466	1601	Free cancellation before January 4. Cancel before check-in on January 9 for a partial refund.
-2026-11-09	914666151815486819	2027-01-16	2027-01-23	BOOKABLE	1219		Free cancellation before December 17. Cancel before January 9 for a partial refund.
-2026-11-09	1400536477616188823	2027-01-09	2027-01-16	BOOKABLE	1022		Free cancellation before December 10. Cancel before January 2 for a partial refund.
-2026-11-09	999872551685699126	2027-01-09	2027-01-16	BOOKABLE	3017		Free cancellation before December 10. Cancel before January 2 for a partial refund.
-2026-11-09	5416558	2027-01-09	2027-01-16	BOOKABLE	938	1157	Free cancellation before January 4. Cancel before check-in on January 9 for a partial refund.
-2026-11-09	47063708	2027-01-16	2027-01-23	BOOKABLE	956		Free cancellation before December 17. Cancel before January 9 for a partial refund.
-2026-11-09	744213578381851180	2027-03-06	2027-03-13	BOOKABLE	2439		Free cancellation before February 4. Cancel before February 27 for a partial refund.
-2026-11-09	39763734	2027-03-06	2027-03-13	BOOKABLE	490	541	Free cancellation before February 4. Cancel before February 27 for a partial refund.
-2026-11-09	1131653137430902948	2027-03-13	2027-03-20	BOOKABLE	678	782			Policy section did not render
-2026-11-09	1439140285546961010	2027-03-13	2027-03-20	BOOKABLE	1296		Free cancellation before March 12.		Booking-panel line; the full policy section did not render
-2026-11-09	673758664490334985	2027-02-05	2027-03-05	BOOKABLE	7452	9766	Free cancellation before January 6.		Monthly total; booking-panel line
-2026-11-09	39332849	2027-03-05	2027-04-05	BOOKABLE	4927	5085			Monthly total; policy section did not render
-2026-11-09	766838246342060838	2027-03-13	2027-03-20	BOOKABLE	1828	2325			Policy section did not render
-2026-11-09	42225513	2027-01-09	2027-01-16	BOOKABLE	1348	1510	Free cancellation before January 8.		Booking-panel line; the full policy section did not render
-2026-11-09	1455513831165257651	2027-01-09	2027-01-16	BOOKABLE	2459				Policy section did not render
-2026-11-09	24184418	2027-02-27	2027-03-06	BOOKABLE	2323		Free cancellation for 24 hours. Cancel before February 20 for a partial refund.		The Dreamcatcher (three-resort page)
-2026-11-09	27640579	2027-03-06	2027-03-13	BOOKABLE	2999		Free cancellation for 24 hours. Cancel before February 27 for a partial refund.		Comfy Condo on the Mountain (three-resort page)
-2026-11-09	37327548	2027-01-23	2027-01-30	BOOKABLE	2257	2491	Free cancellation before December 24.		Booking-panel line; Revelstoke Retreat (three-resort page)
-2026-11-09	980952029630306770	2027-01-23	2027-01-30	BOOKABLE	2863	3161	Free cancellation before December 24.		Booking-panel line; Revylation (three-resort page)
-2026-11-09	36729825	2027-01-09	2027-01-16	NOT_OFFERED			Those dates are not available		The listing page itself; the scripted 9 Nov check could not determine this row
+read_date	room_id	check_in	check_out	adults	status	total_usd	originally_usd	evidence	cancellation	washer	source	note
+2026-11-09	1267557874578220140	2027-01-09	2027-01-16	2	BOOKABLE	1571	1857		Free cancellation before January 4. Cancel before check-in on January 9 for a partial refund.	Washer – In unit; Dryer	typed	Amenity list marks smoke alarm and carbon monoxide alarm unavailable
+2026-11-09	15395305	2027-01-23	2027-01-30	2	BOOKABLE	1927	2358		Free cancellation before December 24. Cancel before January 16 for a partial refund.		typed	
+2026-11-09	29856063	2027-01-23	2027-01-30	2	BOOKABLE	1718			Free cancellation before December 24. Cancel before January 16 for a partial refund.	In-unit washer and dryer (description)	typed	
+2026-11-09	15857739	2027-03-13	2027-03-20	2	BOOKABLE	2619			Free cancellation for 24 hours. Cancel before March 6 for a partial refund.		typed	
+2026-11-09	779567373113942720	2027-01-09	2027-01-16	2	BOOKABLE	907	1152		Free cancellation before January 4.		typed	Booking-panel line; the full policy section did not render
+2026-11-09	1005849900575274943	2027-01-09	2027-01-16	2	BOOKABLE	1923	2167		Free cancellation before December 10. Cancel before January 2 for a partial refund.	Free washer – In unit	typed	Amenity list marks smoke alarm and carbon monoxide alarm unavailable
+2026-11-09	749164300750846312	2027-03-06	2027-03-13	2	BOOKABLE	2671			Free cancellation for 24 hours. Cancel before February 27 for a partial refund.	Free washer – In unit	typed	
+2026-11-09	1450123020779481422	2027-01-09	2027-01-16	2	BOOKABLE	2710	3079		Free cancellation before December 10. Cancel before January 2 for a partial refund.		typed	Parking USD 26 a day per the listing
+2026-11-09	50011393	2027-01-09	2027-01-16	2	BOOKABLE	1455	1771		Free cancellation before December 26. Cancel before January 2 for a partial refund.	Compact washer and dryer inside the room (description)	typed	
+2026-11-09	29955416	2027-01-09	2027-01-16	2	BOOKABLE	1813			Free cancellation before December 10. Cancel before January 2 for a partial refund.	Washer-dryer in the kitchen (description)	typed	
+2026-11-09	664157190105079182	2027-01-09	2027-01-16	2	BOOKABLE	1035			Free cancellation before January 4. Cancel before check-in on January 9 for a partial refund.		typed	
+2026-11-09	1544941317426703858	2027-01-09	2027-01-16	2	BOOKABLE	1825	2172		Free cancellation before January 4. Cancel before check-in on January 9 for a partial refund.		typed	
+2026-11-09	1663839049801753122	2027-01-09	2027-01-16	2	BOOKABLE	1872	2037		Free cancellation before December 10. Cancel before January 2 for a partial refund.		typed	
+2026-11-09	966035320847612433	2027-01-09	2027-01-16	2	BOOKABLE	1466	1601		Free cancellation before January 4. Cancel before check-in on January 9 for a partial refund.		typed	
+2026-11-09	914666151815486819	2027-01-16	2027-01-23	2	BOOKABLE	1219			Free cancellation before December 17. Cancel before January 9 for a partial refund.		typed	
+2026-11-09	1400536477616188823	2027-01-09	2027-01-16	2	BOOKABLE	1022			Free cancellation before December 10. Cancel before January 2 for a partial refund.		typed	
+2026-11-09	999872551685699126	2027-01-09	2027-01-16	2	BOOKABLE	3017			Free cancellation before December 10. Cancel before January 2 for a partial refund.		typed	
+2026-11-09	5416558	2027-01-09	2027-01-16	2	BOOKABLE	938	1157		Free cancellation before January 4. Cancel before check-in on January 9 for a partial refund.		typed	
+2026-11-09	47063708	2027-01-16	2027-01-23	2	BOOKABLE	956			Free cancellation before December 17. Cancel before January 9 for a partial refund.		typed	
+2026-11-09	744213578381851180	2027-03-06	2027-03-13	2	BOOKABLE	2439			Free cancellation before February 4. Cancel before February 27 for a partial refund.		typed	
+2026-11-09	39763734	2027-03-06	2027-03-13	2	BOOKABLE	490	541		Free cancellation before February 4. Cancel before February 27 for a partial refund.		typed	
+2026-11-09	1131653137430902948	2027-03-13	2027-03-20	2	BOOKABLE	678	782				typed	Policy section did not render
+2026-11-09	1439140285546961010	2027-03-13	2027-03-20	2	BOOKABLE	1296			Free cancellation before March 12.		typed	Booking-panel line; the full policy section did not render
+2026-11-09	673758664490334985	2027-02-05	2027-03-05	2	BOOKABLE	7452	9766		Free cancellation before January 6.		typed	Monthly total; booking-panel line
+2026-11-09	39332849	2027-03-05	2027-04-05	2	BOOKABLE	4927	5085				typed	Monthly total; policy section did not render
+2026-11-09	766838246342060838	2027-03-13	2027-03-20	2	BOOKABLE	1828	2325				typed	Policy section did not render
+2026-11-09	42225513	2027-01-09	2027-01-16	2	BOOKABLE	1348	1510		Free cancellation before January 8.		typed	Booking-panel line; the full policy section did not render
+2026-11-09	1455513831165257651	2027-01-09	2027-01-16	2	BOOKABLE	2459					typed	Policy section did not render
+2026-11-09	24184418	2027-02-27	2027-03-06	2	BOOKABLE	2323			Free cancellation for 24 hours. Cancel before February 20 for a partial refund.		typed	The Dreamcatcher (three-resort page)
+2026-11-09	27640579	2027-03-06	2027-03-13	2	BOOKABLE	2999			Free cancellation for 24 hours. Cancel before February 27 for a partial refund.		typed	Comfy Condo on the Mountain (three-resort page)
+2026-11-09	37327548	2027-01-23	2027-01-30	2	BOOKABLE	2257	2491		Free cancellation before December 24.		typed	Booking-panel line; Revelstoke Retreat (three-resort page)
+2026-11-09	980952029630306770	2027-01-23	2027-01-30	2	BOOKABLE	2863	3161		Free cancellation before December 24.		typed	Booking-panel line; Revylation (three-resort page)
+2026-11-09	36729825	2027-01-09	2027-01-16	2	NOT_OFFERED			Those dates are not available			typed	The listing page itself; the scripted 9 Nov check could not determine this row
+2026-11-09	1050498932831223252	2027-03-13	2027-03-20	2	BOOKABLE	2669		$2,669 for 7 nights	Free cancellation for 24 hours. Cancel before March 6 for a partial refund.		pasted	Hakuba 13-20 Mar walk, step 2: fails on refund, so the amenity list was not opened
+2026-11-09	12572632	2027-03-13	2027-03-20	2	BOOKABLE	2669		$2,669 for 7 nights	Free cancellation for 24 hours. Cancel before March 6 for a partial refund.		pasted	Hakuba 13-20 Mar walk, step 3: fails on refund, so the amenity list was not opened
+2026-11-09	4721170	2027-03-13	2027-03-20	2	BOOKABLE	2697		$2,697 for 7 nights	Free cancellation before February 11. Cancel before March 6 for a partial refund.	Free washer – In unit; Free dryer – In unit	pasted	Hakuba 13-20 Mar walk, step 4: the first listing with the washer in the unit and free cancellation. Per the listing, the ski resorts are 5 minutes away by car, a winter shuttle stop is outside and Echoland's main street is 10 minutes on foot
+2026-11-09	18758028	2027-03-06	2027-03-13	2	BOOKABLE	2749		$2,749 for 7 nights	Free cancellation for 24 hours. Cancel before February 4 for a partial refund.		pasted	Zermatt 6-13 Mar walk, step 2: fails on refund, so the amenity list was not opened
+2026-11-09	43885505	2027-03-06	2027-03-13	2	BOOKABLE	2749		$2,749 for 7 nights	Free cancellation for 24 hours. Cancel before February 4 for a partial refund.		pasted	Zermatt 6-13 Mar walk, step 3: fails on refund; the next result is over the budget line with tax
+2026-11-09	1556537260452412398	2026-12-05	2027-01-05	2	NOT_OFFERED			Those dates are not available			pasted	Zermatt month row the 9 Nov search could not see (R2-12)
+2026-11-09	1295138371680887002	2027-01-05	2027-02-05	3	NOT_OFFERED			Those dates are not available			pasted	Zermatt month row the 9 Nov search could not see (R2-12)
+2026-11-09	29856063	2027-02-20	2027-02-27	2	BOOKABLE	2152		$2,152 for 7 nights	Free cancellation before January 21. Cancel before February 13 for a partial refund.	A full kitchen, in-unit washer and dryer, and a dedicated parking spot right outside the door	pasted	Three-resort page: Telluride pick
+2026-11-09	15985907	2027-02-27	2027-03-06	2	BOOKABLE	2942	3440	$2,942 for 7 nights, originally $3,440	Free cancellation before January 28. Cancel before February 20 for a partial refund.	Free parking, washer/dryer combo, full amenities, and thoughtfully curated decor for a cozy, beautiful stay.	pasted	Three-resort page: Telluride table
+2026-11-09	19811781	2027-02-27	2027-03-06	2	BOOKABLE	2485		$2,485 for 7 nights	Free cancellation for 24 hours. Cancel before February 20 for a partial refund.	There is also a washer and dryer available in the condo.	pasted	Three-resort page: Telluride table
+2026-11-09	50552567	2027-02-27	2027-03-06	2	BOOKABLE	2595		$2,595 for 7 nights	Free cancellation for 24 hours. Cancel before February 20 for a partial refund.	A washer and dryer is available for use inside the condo.	pasted	Three-resort page: Telluride table (Views and Privacy in Telluride Town)
+2026-11-09	9624791	2027-03-06	2027-03-13	2	BOOKABLE	2305	2550	$2,305 for 7 nights, originally $2,550	Free cancellation before February 4. Cancel before February 27 for a partial refund.	Washer	pasted	Three-resort page: Big Sky pick; the washer and dryer are also in the listing's description
+2026-11-09	688370470745968677	2027-03-06	2027-03-13	2	BOOKABLE	2447		$2,447 for 7 nights	Free cancellation for 24 hours. Cancel before February 27 for a partial refund.		pasted	Three-resort page: Big Sky table; the amenity list was not opened
+2026-11-09	688364107479787274	2027-03-06	2027-03-13	2	BOOKABLE	2551		$2,551 for 7 nights	Free cancellation for 24 hours. Cancel before February 27 for a partial refund.	A fireplace, in-unit washer and dryer, and a kitchen for cooking between ski days	pasted	Three-resort page: Big Sky table
+2026-11-09	1521039495192820325	2027-01-23	2027-01-30	2	BOOKABLE	1945	2302	$1,945 for 7 nights, originally $2,302	Free cancellation before January 22. Cancel before check-in on January 23 for a partial refund.		pasted	Three-resort page: Revelstoke pick; its washer is in the listing's photos, not re-read
+2026-11-09	1604500088893881386	2027-01-23	2027-01-30	2	BOOKABLE	1892	2189	$1,892 for 7 nights, originally $2,189	Free cancellation before December 24. Cancel before January 16 for a partial refund.		pasted	Three-resort page: Revelstoke table; the amenity list was not opened
+2026-11-09	1700139462864960533	2027-01-23	2027-01-30	2	BOOKABLE	1928	2231	$1,928 for 7 nights, originally $2,231	Free cancellation before December 24. Cancel before January 16 for a partial refund.	Guests can also enjoy the convenience of an in-unit washer and dryer.	pasted	Three-resort page: Revelstoke table
+2026-11-09	45117750	2027-01-23	2027-01-30	2	BOOKABLE	1836		$1,836 for 7 nights	Free cancellation before January 18. Cancel before check-in on January 23 for a partial refund.	Ensuite laundry and parking are included.	pasted	Three-resort page: Revelstoke table; $1,840 when read earlier the same day
+2026-11-09	1020383229264071150	2027-01-23	2027-01-30	2	BOOKABLE	1861		$1,861 for 7 nights	Free cancellation for 24 hours. Cancel before January 16 for a partial refund.	Bathroom: Contains a full size washer, dryer, and shower.	pasted	Three-resort page: Revelstoke table
+2026-11-09	53958745	2027-01-23	2027-01-30	2	BOOKABLE	2296	2539	$2,296 for 7 nights, originally $2,539	Free cancellation for 24 hours. Cancel before January 16 for a partial refund.	There is a 4 burner conduction stove top, oven, microwave, fridge, freezer, crockpot, Nutri bullet, washer, dryer and more.	pasted	Three-resort page: Revelstoke table

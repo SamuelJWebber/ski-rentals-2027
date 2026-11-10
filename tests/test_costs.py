@@ -61,6 +61,8 @@ class PageCheck(unittest.TestCase):
         self.dir = tempfile.mkdtemp()
         for f in costs.PAGES + ['README.md']:
             shutil.copy(os.path.join(REPO, f), self.dir)
+        os.makedirs(os.path.join(self.dir, 'data'))
+        shutil.copy(costs.DATA, os.path.join(self.dir, 'data'))  # the tools read the data beside the pages
 
     def tearDown(self):
         shutil.rmtree(self.dir, True)

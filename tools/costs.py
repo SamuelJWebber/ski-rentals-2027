@@ -169,8 +169,13 @@ def fill_spans(text, vals):
     return SPAN.sub(sub, text)
 
 
+def data_path(root=REPO):
+    """The cost data that belongs to the pages under root."""
+    return os.path.join(root, 'data', 'costs.json')
+
+
 def apply(root=REPO, model=None):
-    model = model or load()
+    model = model or load(data_path(root))
     vals = values(model)
     changed = []
     for name in PAGES:
@@ -199,7 +204,7 @@ def apply(root=REPO, model=None):
 def check(root=REPO, model=None):
     """Problems: a data-cost element whose text differs from the model, an unknown key, a missing
     generated block, or a generated block that is out of date."""
-    model = model or load()
+    model = model or load(data_path(root))
     vals = values(model)
     problems = []
     seen_keys = set()

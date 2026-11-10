@@ -127,6 +127,11 @@ def parse(html_text):
     return b.root
 
 
+def runs_dir(root):
+    """The recheck runs that belong to the pages under root (its data/checks sits beside them)."""
+    return os.path.join(root, 'data', 'recheck')
+
+
 def read(root, name):
     with open(os.path.join(root, name), encoding='utf-8') as f:
         return f.read()
@@ -397,7 +402,7 @@ def check_pick_status(root=REPO):
     """R1-8: every listing a page cites outside its recheck table carries a dated recheck note; each
     recheck says it covers listings identified by room ID; the skipped count matches the page."""
     import recheck
-    meta, rows = recheck.load()
+    meta, rows = recheck.load(runs_dir=runs_dir(root))
     rooms = {r['room_id'] for r in rows}
     problems = []
     for tag, name in recheck.PAGES.items():
@@ -421,6 +426,55 @@ def check_pick_status(root=REPO):
 
 
 register('pick-status', check_pick_status)
+
+
+# ---------------------------------------------------------------- R2-9: every logged status from its own line
+
+CANCEL_FORM = re.compile(r'(?:Free cancellation (?:before [A-Z][a-z]+ \d{1,2}|for \d+ hours)|Cancel before |'
+                         r'Non-refundable|This reservation is non-refundable)')
+
+
+def check_reading_evidence(root=REPO):
+    """R2-9: every browser reading in data/checks keeps the page's own line that decided its status, and
+    that line supports the status: a price line for BOOKABLE (with the same total), the page's own
+    unavailability line for NOT_OFFERED, a removal notice for REMOVED. Rows typed by hand on 9 Nov
+    (source=typed) kept no price line, so a typed BOOKABLE needs a total; a typed "not offered" still
+    needs the page's own line. A cancellation line must be one Airbnb writes."""
+    import csv
+    import glob
+    import listing_status as ls
+    import log_read
+    problems = []
+    for path in sorted(glob.glob(os.path.join(root, 'data', 'checks', '*.tsv'))):
+        name = 'data/checks/' + os.path.basename(path)
+        with open(path, encoding='utf-8', newline='') as f:
+            reader = csv.DictReader(f, delimiter='\t', quoting=csv.QUOTE_NONE)
+            if reader.fieldnames != log_read.FIELDS:
+                problems.append(f'{name}: columns are not those tools/log_read.py writes ({", ".join(log_read.FIELDS)})')
+                continue
+            rows = list(reader)
+        for i, r in enumerate(rows, 2):
+            where = f'{name}:{i} (room {r["room_id"]}, {r["check_in"]})'
+            if r['source'] not in ('pasted', 'typed'):
+                problems.append(f'{where}: source is {r["source"]!r}, not pasted or typed')
+                continue
+            status, total, _ = ls.status_from_evidence(r['evidence'])
+            if r['source'] == 'pasted' or r['evidence']:
+                if status != r['status']:
+                    problems.append(f'{where}: the stored line supports {status}, the row says {r["status"]}: '
+                                    f'{r["evidence"][:60]!r}')
+                elif status == ls.BOOKABLE and str(total) != r['total_usd']:
+                    problems.append(f'{where}: the stored line says ${total:,}, the row says ${r["total_usd"]}')
+            elif r['status'] == ls.BOOKABLE and not r['total_usd']:
+                problems.append(f'{where}: a typed BOOKABLE row with no total')
+            elif r['status'] in (ls.NOT_OFFERED, ls.REMOVED):
+                problems.append(f'{where}: {r["status"]} without the page\'s own line in the evidence column')
+            if r['cancellation'] and not CANCEL_FORM.match(r['cancellation']):
+                problems.append(f'{where}: {r["cancellation"][:50]!r} is not a cancellation line Airbnb writes')
+    return problems
+
+
+register('reading-evidence', check_reading_evidence)
 
 
 # ---------------------------------------------------------------- R1-9: capacity claims against the lift table
@@ -776,7 +830,7 @@ def check_rolling_citations(root=REPO):
             block = next((n for n in a.ancestors() if n.tag in ('li', 'p', 'td', 'div')), None)
             if block is None or not ROLLING_NOTE.search(block.text()):
                 problems.append(f'{name}:{a.line}: links a source that updates itself ({m.group(0)}) without saying so: {href[:90]}')
-    if not os.path.exists(os.path.join(REPO, 'data', 'readings.tsv')):
+    if not os.path.exists(os.path.join(root, 'data', 'readings.tsv')):
         problems.append('data/readings.tsv: no dated snapshot of the live readings')
     return problems
 
@@ -848,7 +902,7 @@ def check_tallies(root=REPO):
     count in it reproduces from them: listing-weeks and listing-months apart (R2-14), bookable, not
     offered, removed, undetermined, and free in-unit washers."""
     import recheck
-    meta, rows = recheck.load(runs_dir=os.path.join(root, 'data', 'recheck'))
+    meta, rows = recheck.load(runs_dir=runs_dir(root))
     c = recheck.counts(rows)
     weeks = sum(1 for r in rows if r['page'] != 'zermatt')
     free_in_unit = sum(1 for r in rows if r['status'] == 'BOOKABLE' and 'Free washer – In unit' in r['washer'])
@@ -885,7 +939,7 @@ register('costs', check_costs)
 def check_recheck_blocks(root=REPO):
     """R1-4: the recheck sections, header lines, nav links and banner match the latest run's data."""
     import recheck
-    return recheck.check(root)
+    return recheck.check(root, runs_dir=runs_dir(root))
 
 
 register('recheck-blocks', check_recheck_blocks)

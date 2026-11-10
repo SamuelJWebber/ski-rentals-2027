@@ -4,7 +4,15 @@ fetches anything.
 classify_listing_text(text)
     For the method used from 9 Nov 2026 on: a listing page opened in the browser pane at human pace
     (https://www.airbnb.com/rooms/<id>?check_in=...&check_out=...&adults=2), its visible text read
-    once it has rendered. Returns a dict with status, total_usd, originally_usd and cancellation.
+    once it has rendered. Returns a dict with status, total_usd, originally_usd, cancellation, the
+    evidence line that decided the status, and the page's own washer lines. tools/log_read.py runs it
+    on every page read and logs the result in data/checks/<date>.tsv.
+
+status_from_evidence(line)
+    The status one stored line supports: the price line ("$2,697 for 7 nights"), the page's own "Those
+    dates are not available", or a removal notice. tools/sitecheck.py re-derives every logged status
+    from its stored line with this, so a half-drawn page or a challenge typed in as "not available"
+    cannot become a published "not offered" (review finding R2-9).
 
 status_from_search_pages(pages, room_id)
     For saved Airbnb search pages (the method of the 9 Nov recheck): the listing is bookable if it is
@@ -28,8 +36,10 @@ UNAVAILABLE = re.compile(r"Those dates are not available|These dates are not ava
                          r"(?:Those|These) dates aren(?:'|’)t available|dates are unavailable", re.I)
 GONE = re.compile(r"can(?:'|’)t seem to find the page|This (?:listing|place) is no longer available|"
                   r"listing (?:has been|was) (?:removed|deactivated)", re.I)
-CANCEL = re.compile(r'Free cancellation (?:before [A-Z][a-z]+ \d{1,2}|for 24 hours)[^.\n]*\.'
-                    r'(?: Cancel before[^.\n]*\.)?')
+CANCEL = re.compile(r'Free cancellation (?:before [A-Z][a-z]+ \d{1,2}|for \d+ hours)[^.\n]*\.'
+                    r'(?: (?:Cancel before|After that)[^.\n]*\.)?')
+# A line about laundry, a washer or a dryer, but not a dishwasher or a hair dryer.
+WASHER = re.compile(r'(?<![Dd]ish)(?<![Dd]ish )[Ww]asher|[Ll]aundry|(?<![Hh]air )[Dd]ryer')
 
 
 def _dollars(s):
@@ -37,23 +47,60 @@ def _dollars(s):
 
 
 def classify_listing_text(text):
+    """status, total_usd, originally_usd, cancellation, evidence (the line that decided the status, as
+    the page wrote it) and washer (the page's own lines that mention a washer or laundry)."""
     text = text or ''
-    out = {'status': NOT_DETERMINED, 'total_usd': None, 'originally_usd': None, 'cancellation': ''}
+    out = {'status': NOT_DETERMINED, 'total_usd': None, 'originally_usd': None, 'cancellation': '',
+           'evidence': '', 'washer': washer_lines(text)}
     c = CANCEL.search(text)
     if c:
         out['cancellation'] = c.group(0)
-    if GONE.search(text) and not LISTING_MARKERS.search(text):
-        out['status'] = REMOVED
+    g = GONE.search(text)
+    if g and not LISTING_MARKERS.search(text):
+        out.update(status=REMOVED, evidence=_line_of(text, g))
         return out
     if not LISTING_MARKERS.search(text):
         return out  # not recognisably a listing page: blank, challenge, error, or changed markup
-    if UNAVAILABLE.search(text):
-        out['status'] = NOT_OFFERED
+    u = UNAVAILABLE.search(text)
+    if u:
+        out.update(status=NOT_OFFERED, evidence=_line_of(text, u))
         return out
     m = TOTAL.search(text)
     if m:
-        out.update(status=BOOKABLE, total_usd=_dollars(m.group(1)), originally_usd=_dollars(m.group(3)))
+        out.update(status=BOOKABLE, total_usd=_dollars(m.group(1)), originally_usd=_dollars(m.group(3)),
+                   evidence=_line_of(text, m))
     return out
+
+
+def _line_of(text, m):
+    """The whole line a match sits on, stripped."""
+    start = text.rfind('\n', 0, m.start()) + 1
+    end = text.find('\n', m.end())
+    return text[start:end if end != -1 else len(text)].strip()
+
+
+def washer_lines(text):
+    """The page's own lines that mention a washer or laundry (not a dishwasher), in page order, once each."""
+    out = []
+    for line in (text or '').splitlines():
+        line = line.strip()
+        if line and len(line) <= 200 and WASHER.search(line) and line not in out:
+            out.append(line)
+    return '; '.join(out)
+
+
+def status_from_evidence(line):
+    """(status, total_usd, originally_usd) that one stored line supports: a price line, the page's own
+    unavailability line, or a removal notice. Anything else supports only NOT_DETERMINED."""
+    line = line or ''
+    m = TOTAL.search(line)
+    if m:
+        return BOOKABLE, _dollars(m.group(1)), _dollars(m.group(3))
+    if UNAVAILABLE.search(line):
+        return NOT_OFFERED, None, None
+    if GONE.search(line):
+        return REMOVED, None, None
+    return NOT_DETERMINED, None, None
 
 
 # ---------------------------------------------------------------- saved search pages
