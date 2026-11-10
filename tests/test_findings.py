@@ -75,7 +75,9 @@ class R1_3_CostDefinitions(Base):
 
 
 class R1_6_CurrencyLabels(Base):
-    check = staticmethod(sitecheck.check_currency_labels)
+    # the round-1 expectation is passed in, so a later recheck that moves St Anton's quote cannot break it (R2-7)
+    check = staticmethod(lambda root: sitecheck.check_currency_labels(
+        root, expect=None if root == REPO else '&minus;$102 (&minus;4%)'))
 
     def test_current(self):
         self.assertPasses()
@@ -219,7 +221,9 @@ class R1_17_GondolaHours(Base):
 
 
 class R1_18_DatesStamped(Base):
-    check = staticmethod(sitecheck.check_dates_stamped)
+    # the round-1 recheck date is passed in for the reviewed pages; the current pages use the data's (R2-7)
+    check = staticmethod(lambda root: sitecheck.check_dates_stamped(
+        root, latest=None if root == REPO else '2026-11-09'))
 
     def test_current(self):
         self.assertPasses()

@@ -268,6 +268,81 @@ class R2_6_RefundWindowsExpire(Base):
         self.assertFalse(sitecheck._passed_deadline('What changed by 9 November 2026'))
 
 
+def _reviewed_module(name):
+    """tools/<name>.py as it was at the reviewed commit, imported under another name."""
+    import importlib.util
+    import os
+    import subprocess
+    import tempfile
+    from helpers import have_commit
+    if not have_commit(REVIEWED_R2):
+        return None
+    src = subprocess.run(['git', 'show', f'{REVIEWED_R2}:tools/{name}.py'], cwd=REPO, capture_output=True,
+                         text=True, encoding='utf-8').stdout
+    d = tempfile.mkdtemp()
+    path = os.path.join(d, f'{name}_reviewed.py')
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write(src)
+    spec = importlib.util.spec_from_file_location(f'{name}_reviewed', path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+class R2_7_ChecksSurviveACorrectRefresh(unittest.TestCase):
+    """The review's simulation: a later full run (5 Dec 2026) in which only St Anton's 9-16 Jan quote
+    moves, from $2,459 to $2,400, with the header, footer and README naming the new date."""
+
+    def setUp(self):
+        import csv
+        import json
+        import os
+        import recheck
+        self.root = _copy_root()
+        runs = os.path.join(self.root, 'data', 'recheck')
+        with open(os.path.join(runs, '2026-11-09.json'), encoding='utf-8') as f:
+            meta = json.load(f)
+        with open(os.path.join(runs, meta['rows']), encoding='utf-8', newline='') as f:
+            rows = list(csv.DictReader(f, delimiter='\t', quoting=csv.QUOTE_NONE))
+        for r in rows:
+            if (r['room_id'], r['check_in']) == sitecheck.ST_ANTON:
+                r['quote_usd'] = '2400'
+        meta.update(run_date='2026-12-05', rows='2026-12-05.tsv')
+        with open(os.path.join(runs, '2026-12-05.json'), 'w', encoding='utf-8') as f:
+            json.dump(meta, f)
+        with open(os.path.join(runs, '2026-12-05.tsv'), 'w', encoding='utf-8', newline='') as f:
+            f.write('\t'.join(rows[0]) + '\n')
+            for r in rows:
+                f.write('\t'.join(r[k] for k in rows[0]) + '\n')
+        changed, problems = recheck.apply(self.root, runs_dir=runs)
+        self.assertEqual(problems, [])
+        for name in ('index.html', 'README.md'):
+            p = os.path.join(self.root, name)
+            with open(p, encoding='utf-8') as f:
+                s = f.read()
+            with open(p, 'w', encoding='utf-8') as f:
+                f.write(s.replace('9 November 2026', '5 December 2026'))
+
+    def tearDown(self):
+        import shutil
+        shutil.rmtree(self.root, True)
+
+    def test_the_st_anton_check_follows_the_new_quote(self):
+        self.assertEqual(sitecheck.check_currency_labels(self.root), [])
+        self.assertIn('&minus;$161 (&minus;6%)', sitecheck.read(self.root, 'alps-extreme-ski-2027.html'))
+
+    def test_the_dates_check_follows_the_new_run(self):
+        self.assertEqual(sitecheck.latest_read(self.root), '2026-12-05')
+        self.assertEqual([p for p in sitecheck.check_dates_stamped(self.root) if 'research rounds' in p], [])
+
+    def test_the_reviewed_checks_fail_the_same_refresh(self):
+        old = _reviewed_module('sitecheck')
+        if old is None:
+            self.skipTest('reviewed commit not in this clone')
+        self.assertTrue(any('expected −$102, −4%' in p for p in old.check_currency_labels(self.root)))
+        self.assertEqual(len([p for p in old.check_dates_stamped(self.root) if 'research rounds' in p]), 3)
+
+
 class R2_15_CostToolEdges(unittest.TestCase):
     def test_a_row_without_dates_is_refused(self):
         import json

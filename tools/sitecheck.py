@@ -349,9 +349,22 @@ def _rows_in_recheck(text):
     return re.findall(r'<tr>.*?</tr>', m.group(1)) if m else []
 
 
-def check_currency_labels(root=REPO):
+ST_ANTON = ('1455513831165257651', '2027-01-09')  # Pure Alpin Apart, 9-16 Jan: its September quote was in USD
+
+
+def _st_anton_change(root):
+    """The change cell the readings give St Anton's row: its newest quote against the September dollar quote."""
+    import recheck
+    _, rows = recheck.load(runs_dir=runs_dir(root))
+    r = next((r for r in rows if r['page'] == 'alps' and (r['room_id'], r['check_in']) == ST_ANTON), None)
+    return recheck.change_cell(r['sept_quote_usd'], r['quote_usd']) if r else None
+
+
+def check_currency_labels(root=REPO, expect=None):
     """R1-6: the Europe page's September Airbnb figures are the US dollars Airbnb displayed. No euro
-    label converted to dollars, no "priced out" verdict, and St Anton's change measured in dollars."""
+    label converted to dollars, no "priced out" verdict, and St Anton's change measured in dollars: the
+    change cell equals the newest quote minus the September dollar quote, whatever the newest quote is
+    (R2-7), unless the caller passes the expected cell (the tests do, for the round-1 pages)."""
     name = 'alps-extreme-ski-2027.html'
     text, tree = page(root, name)
     body = tree.text()
@@ -360,11 +373,13 @@ def check_currency_labels(root=REPO):
     if accom:
         for m in re.finditer(r'€[0-9][0-9,]* ≈ \$[0-9][0-9,]*', accom.group(1)):
             problems.append(f'{name}: Airbnb figure shown as euros converted to dollars: {m.group(0)}')
-    st_anton = [r for r in _rows_in_recheck(text) if 'Pure Alpin' in r and 'check_in=2027-01-09' in r]
+    st_anton = [r for r in _rows_in_recheck(text) if f'rooms/{ST_ANTON[0]}?check_in={ST_ANTON[1]}' in r]
+    want = expect or _st_anton_change(root)
     if not st_anton:
         problems.append(f'{name}: St Anton row missing from the recheck table')
-    elif '&minus;$102 (&minus;4%)' not in st_anton[0]:
-        problems.append(f'{name}: St Anton change is not measured from the dollar quote (expected −$102, −4%)')
+    elif want and want not in st_anton[0]:
+        shown = want.replace('&minus;', '−').replace(' (', ', ').rstrip(')')
+        problems.append(f'{name}: St Anton change is not measured from the dollar quote (expected {shown})')
     return problems
 
 
@@ -1083,19 +1098,30 @@ def _passed_deadline(s):
 DONE_WORDS = re.compile(r'expired|has passed|have passed|ended|closed')
 
 
-def check_dates_stamped(root=REPO):
+def latest_read(root=REPO):
+    """The newest date any listing was read, from the recheck runs and the listing-page readings."""
+    import recheck
+    meta, rows = recheck.load(runs_dir=runs_dir(root))
+    return max([r['read_date'] for r in rows] + [r['read_date'] for r in meta['_readings']])
+
+
+def check_dates_stamped(root=REPO, latest=None):
     """R1-18: the index header and footer and the README date both research rounds; no deadline that
     has passed is offered as an action; no 'live quote' sentence is undated; the Zermatt season pass
-    is not quoted at its October price."""
+    is not quoted at its October price. R2-7: the recheck date they must name is the newest read date
+    in the data, not a fixed day, so a later recheck passes once the pages name it."""
+    import recheck
     problems = []
+    latest = latest or latest_read(root)
+    want = recheck.long_date(latest)
     _, tree = page(root, 'index.html')
     header = next(tree.find_all('header'), None)
     footer = next(tree.find_all('footer'), None)
     for where, t in (('index.html header', header.text() if header else ''),
                      ('index.html footer', footer.text() if footer else ''),
                      ('README.md', read(root, 'README.md'))):
-        if not ('September 2026' in t and re.search(r'9 November 2026', t) and 'recheck' in t):
-            problems.append(f'{where}: does not date both research rounds (September, and the 9 November 2026 recheck)')
+        if not ('September 2026' in t and want in t and 'recheck' in t):
+            problems.append(f'{where}: does not date both research rounds (September, and the {want} recheck)')
     for name in PAGES:
         for s in sentences(page(root, name)[1].text()):
             if _passed_deadline(s) and not DONE_WORDS.search(s):
