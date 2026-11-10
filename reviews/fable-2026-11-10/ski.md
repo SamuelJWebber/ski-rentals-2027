@@ -2,7 +2,7 @@
 
 Snapshot SHA 412d997497b9d5fc4cd4fcd12527cebaaa76fea9, reviewed 2026-11-10 (one reviewer, both jobs).
 
-What I ran (everything is in `C:\Users\samwe\code\.codex-temp\adversarial-2026-11-10\work\ski\`):
+What I ran (everything is in `<review-scratch>/work\ski\`):
 - Fetched the six live pages with curl and compared them with the snapshot: all six identical (`live/`, `text/`).
 - `tools/sitecheck.py` (24 checks ok), `python -m unittest discover -s tests` (120 tests OK, 15.5 s),
   `costs.py --check`, `recheck.py --check` (no drift), all single-process in a copy (`repo_copy/`).
