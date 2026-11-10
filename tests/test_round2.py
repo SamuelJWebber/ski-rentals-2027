@@ -167,6 +167,139 @@ class R2_1_WalkBehindEveryNone(Base):
             shutil.rmtree(d, True)
 
 
+class R2_5_PassPricesCarryTheirDates(Base):
+    check = staticmethod(sitecheck.check_pass_dates)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('README.md: a week for two is dated "priced 9 Nov 2026" as a whole')
+
+    def test_every_pass_price_is_dated_and_printed(self):
+        import costs
+        model = costs.load()
+        for row in model['rows']:
+            self.assertTrue(row['passes']['quoted'], row['key'])
+        table = costs.render_table(model, readings=costs.load_readings(REPO))
+        self.assertIn('Quoted September 2026 estimate; the CHF 274 has no season', table)
+        self.assertIn('Quoted 9 Nov 2026. No Epic or Ikon access', table)   # Zermatt's floor, read 9 Nov
+
+    def test_an_undated_pass_price_is_refused(self):
+        import json
+        import os
+        import shutil
+        import tempfile
+        import costs
+        d = tempfile.mkdtemp()
+        try:
+            model = costs.load()
+            del model['rows'][0]['passes']['quoted']
+            p = os.path.join(d, 'costs.json')
+            with open(p, 'w', encoding='utf-8') as f:
+                json.dump(model, f)
+            with self.assertRaises(ValueError):
+                costs.load(p)
+        finally:
+            shutil.rmtree(d, True)
+
+
+class R2_6_RefundWindowsExpire(Base):
+    check = staticmethod(sitecheck.check_refund_windows)
+
+    def tearDown(self):
+        sitecheck.set_today(None)
+
+    def test_current(self):
+        self.assertPasses()
+        text = sitecheck.read(REPO, 'index.html')
+        self.assertIn('<!-- refund-window:start -->Refund windows read 9 Nov 2026; the first in the cost table closes on '
+                      '10 Dec 2026.<!-- refund-window:end -->', text)
+
+    def test_reviewed_pages_fail(self):
+        self.assertCaught('index.html: the header does not say when the refund windows were read')
+
+    def test_on_11_december_todays_pages_fail(self):
+        sitecheck.set_today('2026-12-11')
+        problems = sitecheck.check_refund_windows(REPO)
+        self.assertTrue(any('Zermatt 9–16 Jan 2027 answers "Yes" on a refund window that closed on 10 Dec 2026' in p
+                            for p in problems), problems)
+        self.assertTrue(any('the cost table is out of date' in p for p in sitecheck.check_costs(REPO)))
+
+    def test_marked_rows_pass_and_say_the_window_closed(self):
+        import shutil
+        from datetime import date
+        import costs
+        d = _copy_root()
+        try:
+            costs.apply(d, today=date(2026, 12, 11))
+            sitecheck.set_today('2026-12-11')
+            self.assertEqual(sitecheck.check_refund_windows(d), [])
+            self.assertEqual(sitecheck.check_costs(d), [])
+            text = sitecheck.read(d, 'index.html')
+            self.assertIn('Refund window closed on 10 Dec 2026', text)
+            self.assertIn('Not known: its refund window has closed', text)
+            self.assertIn('4 in the cost table have closed, and the next closes on 17 Dec 2026', text)
+        finally:
+            shutil.rmtree(d, True)
+
+    def test_a_reread_with_a_later_window_passes(self):
+        import os
+        import shutil
+        from datetime import date
+        import costs
+        import log_read
+        d = _copy_root()
+        try:
+            page_text = ('Baccara Studio\n$1,950 for 7 nights\nThings to know\n'
+                         'Free cancellation before January 2. Cancel before check-in on January 9 for a partial refund.\n')
+            row = log_read.classify('1005849900575274943', '2027-01-09', '2027-01-16', page_text, read_date='2026-12-11')
+            log_read.append([row], os.path.join(d, 'data', 'checks'))
+            st = costs.refund_state([r for r in costs.load(costs.data_path(d))['rows'] if r['key'] == 'zermatt_jan'][0],
+                                    costs.load_readings(d))
+            self.assertEqual((st['cutoff'], st['read']), (date(2027, 1, 2), '2026-12-11'))
+        finally:
+            shutil.rmtree(d, True)
+
+    def test_dated_deadlines_follow_today(self):
+        sitecheck.set_today('2026-11-09')
+        self.assertTrue(sitecheck._passed_deadline('Book Winter Park by 29 Sep 2026 with the code.'))
+        self.assertFalse(sitecheck._passed_deadline('Book Winter Park by 29 Sep 2027 with the code.'))
+        self.assertFalse(sitecheck._passed_deadline('What changed by 9 November 2026'))
+
+
+class R2_15_CostToolEdges(unittest.TestCase):
+    def test_a_row_without_dates_is_refused(self):
+        import json
+        import os
+        import shutil
+        import tempfile
+        import costs
+        d = tempfile.mkdtemp()
+        try:
+            model = costs.load()
+            del model['rows'][0]['check_in']
+            p = os.path.join(d, 'costs.json')
+            with open(p, 'w', encoding='utf-8') as f:
+                json.dump(model, f)
+            with self.assertRaisesRegex(ValueError, 'cannot be dated'):
+                costs.load(p)
+        finally:
+            shutil.rmtree(d, True)
+
+    def test_any_week_gets_dated_links(self):
+        import costs
+        row = {'check_in': '2027-02-20', 'check_out': '2027-02-27', 'lodging': {'rooms': ['29856063']}}
+        self.assertIn('rooms/29856063?check_in=2027-02-20&amp;check_out=2027-02-27&amp;adults=2', costs._room_links(row))
+        self.assertEqual(costs.week_label(row), '20–27 Feb 2027')
+        self.assertEqual(costs.week_label({'check_in': '2027-02-27', 'check_out': '2027-03-06'}), '27 Feb–6 Mar 2027')
+
+    def test_a_percent_range_prints_both_ends(self):
+        import costs
+        self.assertEqual(costs._tax_label({'tax': {'kind': 'percent', 'amount': [12, 14.5]}}), '12–14.5%')
+        self.assertEqual(costs._tax_label({'tax': {'kind': 'percent', 'amount': [16, 16]}}), '16%')
+
+
 class R2_9_EveryLoggedStatusHasItsLine(Base):
     check = staticmethod(sitecheck.check_reading_evidence)
 

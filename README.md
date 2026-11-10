@@ -11,11 +11,11 @@ The brief was refined partway through to a strict priority order: **terrain firs
 <!-- answers:start -->
 | | Resort | Lodging for two + tax | Two 6-day passes | Week for two | Note |
 |---|---|---|---|---|---|
-| Europe | **Engelberg** | $1,626–1,649 | $677–963 | $2,303–2,612 | 9–16 Jan 2027, priced 9 Nov 2026. Washer in the flat; free cancellation before 4 Jan. The lift-pass price is unverified. |
-| North America | **Telluride** | $2,014–2,259 | $3,003 | $5,017–5,262 | 23–30 Jan 2027, priced 9 Nov 2026. Lift 7 a short walk away; free cancellation before 24 Dec. An Epic Pass covers the lifts. |
-| Japan | **Hakuba** | $2,742 | $819 | $3,561 | 13–20 Mar 2027, priced 9 Nov 2026. Washer in the unit; free cancellation before 11 Feb; a 5-minute drive or a shuttle ride from the lifts. January starts at $5,605 before tax. |
+| Europe | **Engelberg** | $1,626–1,649 | $677–963 | $2,303–2,612 | 9–16 Jan 2027, lodging priced 9 Nov 2026. Washer in the flat; free cancellation before 4 Jan. The lift-pass price is unverified. |
+| North America | **Telluride** | $2,014–2,259 | $3,003 | $5,017–5,262 | 23–30 Jan 2027, lodging priced 9 Nov 2026. Lift 7 a short walk away; free cancellation before 24 Dec. An Epic Pass covers the lifts. |
+| Japan | **Hakuba** | $2,742 | $819 | $3,561 | 13–20 Mar 2027, lodging priced 9 Nov 2026. Washer in the unit; free cancellation before 11 Feb; a 5-minute drive or a shuttle ride from the lifts. January starts at $5,605 before tax. |
 
-Week for two = lodging + tax + two adult 6-day lift passes, priced 9 Nov 2026; food and travel left out. The US$3,000 budget is tested against lodging plus tax. Every component and its source is in the [cost table](https://samueljwebber.github.io/ski-rentals-2027/#costs), generated from `data/costs.json`.
+Week for two = lodging + tax + two adult 6-day lift passes; food and travel left out. Lodging priced 9 Nov 2026; lift passes as dated in the cost table, mostly September 2026 estimates; converted at the 10–11 Sep 2026 rates. The US$3,000 budget is tested against lodging plus tax. Every component and its source is in the [cost table](https://samueljwebber.github.io/ski-rentals-2027/#costs), generated from `data/costs.json`.
 <!-- answers:end -->
 
 Engelberg has 2,017 m of lift-served vertical, three glaciers, the Galtiberg and the Laub, and is best in January. Telluride's lifts launch off the town grid; March is its peak season. Hakuba is the only Japanese mountain here with sustained steep lift-served terrain.

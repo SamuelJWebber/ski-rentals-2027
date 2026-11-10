@@ -1,22 +1,36 @@
 """Consistency checks for the published pages. Standard library only, no network.
 
-usage: python tools/sitecheck.py [--root DIR] [--pre-push]
+usage: python tools/sitecheck.py [--root DIR] [--today YYYY-MM-DD] [--only KEY,...] [--pre-push]
 
 Each check returns a list of problems (strings). The script prints them and exits 1 if there are any.
-`--root` runs the checks against another copy of the pages (the tests use it to show a check fails
-on the old pages). `--pre-push` also checks the commits about to be pushed (author emails, local
-paths, secrets), which is what tools/hooks/pre-push runs.
+`--root` runs the checks against another copy of the pages, with that copy's own data/ (the tests use
+it to show a check fails on the old pages). `--today` sets the date the checks treat as today (default:
+the real date), so a refund window or deadline that has passed fails the run. `--pre-push` also checks
+the commits about to be pushed (author emails, local paths, booking wording, secrets), which is what
+tools/hooks/pre-push runs.
 """
 import json
 import os
 import re
 import subprocess
 import sys
+from datetime import date
 from html.parser import HTMLParser
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
+TODAY = None  # set by --today; None means the real date
+
+
+def today():
+    return TODAY or date.today()
+
+
+def set_today(iso=None):
+    """Treat `iso` (YYYY-MM-DD) as today in every check; None goes back to the real date."""
+    global TODAY
+    TODAY = date.fromisoformat(iso) if iso else None
 
 PAGES = [
     'index.html',
@@ -244,10 +258,27 @@ STALE_HEADLINES = ['2,350–2,750', '1,950–2,600', '1,950 incl', '≈$2,200', 
 ANSWERS = ('Engelberg', 'Telluride', 'Hakuba')
 
 
+def cost_model(root=REPO, strict=True):
+    """(the cost model beside the pages, problems): a model that does not load is a problem, not a crash,
+    and leaves an empty model so the other checks still run. strict=False skips the schema checks
+    (stay dates, dated pass prices) for checks that do not use those fields."""
+    import costs
+    try:
+        if strict:
+            return costs.load(costs.data_path(root)), []
+        with open(costs.data_path(root), encoding='utf-8') as f:
+            return json.load(f), []
+    except (ValueError, KeyError, OSError) as e:
+        return {'rows': []}, [f'data/costs.json: {e}']
+
+
 def check_costs(root=REPO):
     """Every figure marked data-cost matches data/costs.json, and the generated tables are current."""
     import costs
-    return costs.check(root)
+    model, problems = cost_model(root)
+    if problems:
+        return problems
+    return costs.check(root, model=model, today=today())
 
 
 def check_headline_costs(root=REPO):
@@ -552,8 +583,8 @@ def check_walks(root=REPO):
                 problems.append(f'{where}: the walk stops before the budget line')
         else:
             problems.append(f'{where}: unknown outcome {w["outcome"]!r}')
-    import costs
-    model = costs.load(costs.data_path(root))
+    model, bad = cost_model(root, strict=False)
+    problems += bad
     for row in model['rows']:
         k = row.get('walk')
         if not k:
@@ -589,6 +620,86 @@ def check_walks(root=REPO):
 
 
 register('walks', check_walks)
+
+
+# ---------------------------------------------------------------- R2-6: refund windows expire
+
+PICK_LINK = re.compile(r'/rooms/(\d+)\?check_in=(\d{4}-\d{2}-\d{2})&(?:amp;)?check_out=(\d{4}-\d{2}-\d{2})')
+
+
+def check_refund_windows(root=REPO):
+    """R2-6: as of today (--today), no cost-table row still answers "Yes" on a refund window that has
+    closed, no pick on the three-resort page rests on one, and the index header gives the refund windows'
+    read date and the first one to close, from the data. A listing read again with a later window passes;
+    a row costs.py has marked closed passes."""
+    import costs
+    model, problems = cost_model(root)
+    readings = costs.load_readings(root)
+    t = today()
+    for row in model['rows']:
+        st = costs.refund_state(row, readings)
+        _, closed = costs.refund_text(row, st, t)
+        if closed and row['fits'].startswith('Yes'):
+            table = re.search(r'<!-- costs:start -->(.*?)<!-- costs:end -->', read(root, 'index.html'), re.S)
+            cell = re.search(rf'data-cost="{row["key"]}:total".*?</tr>', table.group(1) if table else '', re.S)
+            if cell and 'Refund window closed' not in cell.group(0):
+                problems.append(f'index.html: {row["resort"]} {costs.week_label(row)} answers "Yes" on a refund window '
+                                f'that closed on {costs.short(st["cutoff"])}; read the listing again or run tools/costs.py')
+    newest = {}
+    for r in readings:
+        newest[(r['room_id'], r['check_in'], r['check_out'])] = r
+    text = read(root, 'three-resorts-best-snow-2027.html')
+    picks = re.search(r'<section id="picks">(.*?)</section>', text, re.S)
+    for m in PICK_LINK.finditer(picks.group(1) if picks else ''):
+        r = newest.get(m.groups())
+        if r is None:
+            problems.append(f'three-resorts-best-snow-2027.html: pick {m.group(1)} has no listing-page reading in data/checks')
+            continue
+        c = costs.cutoff(r['cancellation'], m.group(2))
+        if c is None:
+            problems.append(f'three-resorts-best-snow-2027.html: pick {m.group(1)} has no free-cancellation date on record')
+        elif c <= t:
+            problems.append(f'three-resorts-best-snow-2027.html: pick {m.group(1)}\'s refund window closed on '
+                            f'{costs.short(c)} (read {r["read_date"]}); read it again or drop the pick')
+    if '<!-- refund-window:start -->' not in read(root, 'index.html'):
+        problems.append('index.html: the header does not say when the refund windows were read and when the first closes')
+    return problems
+
+
+register('refund-windows', check_refund_windows)
+
+
+# ---------------------------------------------------------------- R2-5: every lift-pass price is dated
+
+def check_pass_dates(root=REPO):
+    """R2-5: every lift-pass price in data/costs.json carries the date it was quoted and the cost table
+    prints it; where the README or the index dates a week for two, the date it gives belongs to the
+    lodging, and the passes are dated separately."""
+    model, problems = cost_model(root)
+    html_text = read(root, 'index.html')
+    for row in model['rows']:
+        q = row['passes']['quoted']
+        cell = re.search(rf'data-cost="{row["key"]}:passes">[^<]*</span><br><span class="small">([^<]*)</span>', html_text)
+        if cell and f'Quoted {html_escape(q)}' not in cell.group(1):
+            problems.append(f'index.html: the {row["key"]} pass price does not print its quoted date ({q})')
+    texts = [('README.md', read(root, 'README.md')), ('index.html', page(root, 'index.html')[1].text())]
+    for name, text in texts:
+        for s in sentences(text):
+            if not re.search(r'Week for two = ', s):
+                continue
+            for m in re.finditer(rf'\bpriced \d{{1,2}} (?:{MONTHS})[a-z]* \d{{4}}', s):
+                if not re.search(r'[Ll]odging\s*$', s[:m.start()]):
+                    problems.append(f'{name}: a week for two is dated "{m.group(0)}" as a whole, but its lift '
+                                    f'passes are mostly September estimates: {s[:110]}')
+    return problems
+
+
+def html_escape(s):
+    import html
+    return html.escape(s)
+
+
+register('pass-dates', check_pass_dates)
 
 
 # ---------------------------------------------------------------- R1-9: capacity claims against the lift table
@@ -954,8 +1065,21 @@ register('rolling-citations', check_rolling_citations)
 
 # ---------------------------------------------------------------- R1-18: dates and expired advice
 
-PAST_DEADLINE = re.compile(r'\b(?:by|before) \d{1,2} (?:Aug|Sep|Oct) 2026\b|\bby 29 Sep\b|re-shop in October|'
-                           r'closes today|runs to 21 Sep')
+# The September 2026 pages' undated deadlines, all past by November 2026 (round 1, R1-18).
+PAST_DEADLINE = re.compile(r'\bby 29 Sep\b(?! 20\d\d)|re-shop in October|closes today|runs to 21 Sep\b(?! 20\d\d)')
+# An action with a full-dated deadline ("book by 29 Sep 2026", "cancel before 10 Dec 2026"), checked
+# against --today rather than a fixed month list. A date in a heading or in history is not a deadline.
+DATED_DEADLINE = re.compile(r'\b(?:book|reserve|buy|purchase|re-?shop|re-?read|lock in|decide|confirm|cancel|order|'
+                            r'sign up|apply|check)\w*\b[^.;]{0,40}?\b(?:by|before|until) (\d{1,2}) '
+                            r'(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* (20\d\d)\b', re.I)
+MONTH_NUM = {m: i for i, m in enumerate(MONTHS.split('|'), 1)}
+
+
+def _passed_deadline(s):
+    for m in DATED_DEADLINE.finditer(s):
+        if date(int(m.group(3)), MONTH_NUM[m.group(2)], int(m.group(1))) <= today():
+            return True
+    return bool(PAST_DEADLINE.search(s))
 DONE_WORDS = re.compile(r'expired|has passed|have passed|ended|closed')
 
 
@@ -974,7 +1098,7 @@ def check_dates_stamped(root=REPO):
             problems.append(f'{where}: does not date both research rounds (September, and the 9 November 2026 recheck)')
     for name in PAGES:
         for s in sentences(page(root, name)[1].text()):
-            if PAST_DEADLINE.search(s) and not DONE_WORDS.search(s):
+            if _passed_deadline(s) and not DONE_WORDS.search(s):
                 problems.append(f'{name}: past deadline offered as an action: {s[:130]}')
             if re.search(r'live quote', s) and not re.search(rf'(?:{MONTHS})\w* \d{{4}}|\d{{1,2}} (?:{MONTHS})', s):
                 problems.append(f'{name}: undated live quote: {s[:130]}')
@@ -1083,6 +1207,8 @@ def main(argv):
             only = set(args.pop(0).split(','))
         elif a == '--pre-push':
             pre_push = True
+        elif a == '--today':
+            set_today(args.pop(0))
         else:
             print(__doc__)
             return 2

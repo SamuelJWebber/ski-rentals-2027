@@ -12,13 +12,14 @@
       "JPY": 156
     }
   },
-  "definition": "Week for two = lodging for 7 nights (the Airbnb total for two before tax, as shown on the listing on the date given) + lodging or tourist tax at the rate shown + two adult 6-day lift passes at the local price, converted at the rates above. Food and travel are left out of every row. The US$3,000 budget is tested against lodging plus tax, because a season pass (Epic or Ikon) already covers the lifts at several of these resorts; lift prices are shown in their own column so the total can be compared either way. The September version of the Engelberg figure also counted about $750 to $1,150 of food, so it is not comparable with these.",
+  "definition": "Week for two = lodging for 7 nights (the Airbnb total for two before tax, as shown on the listing on the date given) + lodging or tourist tax at the rate shown + two adult 6-day lift passes at the local price on the date each row gives, mostly September 2026 estimates, converted at the rates above. Food and travel are left out of every row. The US$3,000 budget is tested against lodging plus tax, because a season pass (Epic or Ikon) already covers the lifts at several of these resorts; lift prices are shown in their own column so the total can be compared either way. The September version of the Engelberg figure also counted about $750 to $1,150 of food, so it is not comparable with these.",
   "rows": [
     {
       "key": "engelberg",
       "resort": "Engelberg",
       "region": "Europe",
-      "week": "9–16 Jan 2027",
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-16",
       "lodging": {
         "usd": [
           1571,
@@ -46,19 +47,20 @@
         ],
         "currency": "CHF",
         "basis": "6-day Titlis pass not verified: CHF 274 on sno.co.uk (no season given) to CHF 390 (September estimate). titlis.ch answered HTTP 429 on 9 Nov 2026 and was not retried",
-        "covered_by": "No Epic or Ikon access"
+        "covered_by": "No Epic or Ikon access",
+        "quoted": "September 2026 estimate; the CHF 274 has no season"
       },
-      "refund": "Free cancellation before 4 Jan (listing read 9 Nov 2026)",
       "washer": "In unit",
       "fits": "Yes",
-      "readme_note": "9–16 Jan 2027, priced 9 Nov 2026. Washer in the flat; free cancellation before 4 Jan. The lift-pass price is unverified.",
+      "readme_note": "9–16 Jan 2027, lodging priced 9 Nov 2026. Washer in the flat; free cancellation before 4 Jan. The lift-pass price is unverified.",
       "walk": "engelberg"
     },
     {
       "key": "telluride",
       "resort": "Telluride",
       "region": "North America",
-      "week": "23–30 Jan 2027",
+      "check_in": "2027-01-23",
+      "check_out": "2027-01-30",
       "lodging": {
         "usd": [
           1718,
@@ -87,18 +89,19 @@
         "currency": "USD",
         "ticket_tax": 5,
         "basis": "Regular-season 6-day ticket $1,430 plus 5% ticket tax (steep-and-town page, September 2026)",
-        "covered_by": "Epic Pass, up to 7 days"
+        "covered_by": "Epic Pass, up to 7 days",
+        "quoted": "September 2026"
       },
-      "refund": "Free cancellation before 24 Dec for both (listings read 9 Nov 2026)",
       "washer": "In unit",
       "fits": "Yes, on lodging and tax; not with lift tickets",
-      "readme_note": "23–30 Jan 2027, priced 9 Nov 2026. Lift 7 a short walk away; free cancellation before 24 Dec. An Epic Pass covers the lifts."
+      "readme_note": "23–30 Jan 2027, lodging priced 9 Nov 2026. Lift 7 a short walk away; free cancellation before 24 Dec. An Epic Pass covers the lifts."
     },
     {
       "key": "hakuba_mar",
       "resort": "Hakuba",
       "region": "Japan",
-      "week": "13–20 Mar 2027",
+      "check_in": "2027-03-13",
+      "check_out": "2027-03-20",
       "lodging": {
         "usd": [
           2697,
@@ -126,19 +129,20 @@
         ],
         "currency": "JPY",
         "basis": "Hakuba Valley 6-day pass ¥63,900 (steep-and-town page, September 2026)",
-        "covered_by": "Epic Pass, 5 consecutive days"
+        "covered_by": "Epic Pass, 5 consecutive days",
+        "quoted": "September 2026"
       },
-      "refund": "Free cancellation before 11 Feb (listing read 9 Nov 2026)",
       "washer": "In unit",
       "fits": "Yes, on lodging and tax; a drive or shuttle from the lifts",
-      "readme_note": "13–20 Mar 2027, priced 9 Nov 2026. Washer in the unit; free cancellation before 11 Feb; a 5-minute drive or a shuttle ride from the lifts. January starts at $5,605 before tax.",
+      "readme_note": "13–20 Mar 2027, lodging priced 9 Nov 2026. Washer in the unit; free cancellation before 11 Feb; a 5-minute drive or a shuttle ride from the lifts. January starts at $5,605 before tax.",
       "walk": "hakuba_mar"
     },
     {
       "key": "hakuba_jan",
       "resort": "Hakuba",
       "region": "Japan",
-      "week": "9–16 Jan 2027",
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-16",
       "lodging": {
         "usd": [
           5605,
@@ -166,7 +170,8 @@
         ],
         "currency": "JPY",
         "basis": "Hakuba Valley 6-day pass ¥63,900",
-        "covered_by": "Epic Pass, 5 consecutive days"
+        "covered_by": "Epic Pass, 5 consecutive days",
+        "quoted": "September 2026"
       },
       "refund": "Not read",
       "washer": "In unit",
@@ -177,7 +182,8 @@
       "key": "whistler",
       "resort": "Whistler",
       "region": "North America",
-      "week": "9–16 Jan 2027",
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-16",
       "lodging": {
         "usd": [
           2710,
@@ -204,9 +210,9 @@
         ],
         "currency": "CAD",
         "basis": "Six 2025/26 advance day tickets at C$205 to 255 (2026/27 prices were not out in August)",
-        "covered_by": "Epic Pass, unlimited"
+        "covered_by": "Epic Pass, unlimited",
+        "quoted": "August 2026, at 2025/26 prices"
       },
-      "refund": "Free cancellation before 10 Dec (listing read 9 Nov 2026)",
       "washer": "Listed without a location on 9 Nov; in unit per the September listing",
       "fits": "No: over budget with tax"
     },
@@ -214,7 +220,8 @@
       "key": "zermatt_jan",
       "resort": "Zermatt",
       "region": "Europe",
-      "week": "9–16 Jan 2027",
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-16",
       "lodging": {
         "usd": [
           1923,
@@ -243,9 +250,9 @@
         "currency": "CHF",
         "basis": "6-day pass from CHF 384, the dynamic-pricing floor, which the operator applies only 1-27 Nov 2026 and 19 Apr-2 May 2027, so a January or March pass costs more (matterhornparadise.ch, read 9 Nov 2026)",
         "covered_by": "No Epic or Ikon access",
-        "floor": true
+        "floor": true,
+        "quoted": "9 Nov 2026"
       },
-      "refund": "Free cancellation before 10 Dec (listing read 9 Nov 2026)",
       "washer": "In unit",
       "fits": "Yes, on lodging and tax; with two passes only at the floor price, which January does not get",
       "walk": "zermatt_jan"
@@ -254,7 +261,8 @@
       "key": "zermatt_mar",
       "resort": "Zermatt",
       "region": "Europe",
-      "week": "6–13 Mar 2027",
+      "check_in": "2027-03-06",
+      "check_out": "2027-03-13",
       "lodging": {
         "usd": [
           2671,
@@ -283,9 +291,9 @@
         "currency": "CHF",
         "basis": "6-day pass from CHF 384, the dynamic-pricing floor, which the operator applies only 1-27 Nov 2026 and 19 Apr-2 May 2027, so a January or March pass costs more (matterhornparadise.ch, read 9 Nov 2026)",
         "covered_by": "No Epic or Ikon access",
-        "floor": true
+        "floor": true,
+        "quoted": "9 Nov 2026"
       },
-      "refund": "Full refund for 24 hours after booking only (listing read 9 Nov 2026)",
       "washer": "In unit",
       "fits": "No: under the budget line, no village listing with the washer in the flat has a free-cancellation date (walk logged)",
       "walk": "zermatt_mar"
@@ -294,7 +302,8 @@
       "key": "jackson",
       "resort": "Jackson town",
       "region": "North America",
-      "week": "6–13 Mar 2027",
+      "check_in": "2027-03-06",
+      "check_out": "2027-03-13",
       "lodging": {
         "usd": null,
         "quoted": "9 Nov 2026",
@@ -318,7 +327,8 @@
         ],
         "currency": "USD",
         "basis": "About $1,275 to $1,560 for a 5 to 6 day advance ticket (September page)",
-        "covered_by": "Ikon Pass, 7 days, with reservations"
+        "covered_by": "Ikon Pass, 7 days, with reservations",
+        "quoted": "September 2026"
       },
       "refund": "Not applicable",
       "washer": "Not applicable",
@@ -328,7 +338,8 @@
       "key": "chamonix",
       "resort": "Chamonix (Argentière)",
       "region": "Europe",
-      "week": "9–16 Jan 2027",
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-16",
       "lodging": {
         "usd": [
           1022,
@@ -356,9 +367,9 @@
         ],
         "currency": "EUR",
         "basis": "Mont Blanc Unlimited 6-day about €499, estimated from the announced +3.98%",
-        "covered_by": "No Epic access"
+        "covered_by": "No Epic access",
+        "quoted": "September 2026 estimate"
       },
-      "refund": "Free cancellation before 10 Dec (listing read 9 Nov 2026)",
       "washer": "Paid washer in the unit",
       "fits": "Yes"
     },
@@ -366,7 +377,8 @@
       "key": "andermatt",
       "resort": "Andermatt",
       "region": "Europe",
-      "week": "9–16 Jan 2027",
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-16",
       "lodging": {
         "usd": [
           3017,
@@ -394,9 +406,9 @@
         ],
         "currency": "CHF",
         "basis": "SkiArena 6-day about CHF 380 (secondary source)",
-        "covered_by": "On Epic; terms unverified"
+        "covered_by": "On Epic; terms unverified",
+        "quoted": "September 2026, secondary source"
       },
-      "refund": "Free cancellation before 10 Dec (listing read 9 Nov 2026)",
       "washer": "In unit",
       "fits": "No: over budget"
     },
@@ -404,7 +416,8 @@
       "key": "crested_butte",
       "resort": "Crested Butte",
       "region": "North America",
-      "week": "9–16 Jan 2027",
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-16",
       "lodging": {
         "usd": [
           1348,
@@ -431,9 +444,9 @@
         ],
         "currency": "USD",
         "basis": "Week ticket $1,064 (2025/26 proxy)",
-        "covered_by": "Epic Pass, unlimited"
+        "covered_by": "Epic Pass, unlimited",
+        "quoted": "September 2026, a 2025/26 proxy"
       },
-      "refund": "Free cancellation before 8 Jan (booking panel, read 9 Nov 2026)",
       "washer": "In unit",
       "fits": "Yes"
     },
@@ -441,7 +454,8 @@
       "key": "fernie",
       "resort": "Fernie",
       "region": "North America",
-      "week": "16–23 Jan 2027",
+      "check_in": "2027-01-16",
+      "check_out": "2027-01-23",
       "lodging": {
         "usd": [
           1219,
@@ -468,9 +482,9 @@
         ],
         "currency": "CAD",
         "basis": "Six days at the 2025/26 reference day rate of about C$185",
-        "covered_by": "Epic Pass, up to 7 days"
+        "covered_by": "Epic Pass, up to 7 days",
+        "quoted": "September 2026, at the 2025/26 rate"
       },
-      "refund": "Free cancellation before 17 Dec (listing read 9 Nov 2026)",
       "washer": "Listed without a location",
       "fits": "Yes, if the washer is in the unit"
     },
@@ -478,7 +492,8 @@
       "key": "alagna",
       "resort": "Alagna",
       "region": "Europe",
-      "week": "9–16 Jan 2027",
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-16",
       "lodging": {
         "usd": [
           938,
@@ -506,9 +521,9 @@
         ],
         "currency": "EUR",
         "basis": "Monterosa 6-day about €370 including €48 of Punta Indren supplements (estimate)",
-        "covered_by": "No Epic or Ikon access"
+        "covered_by": "No Epic or Ikon access",
+        "quoted": "September 2026 estimate"
       },
-      "refund": "Free cancellation before 4 Jan (listing read 9 Nov 2026)",
       "washer": "Listed without a location",
       "fits": "Yes, if the washer is in the unit"
     },
@@ -516,7 +531,8 @@
       "key": "st_anton",
       "resort": "St Anton",
       "region": "Europe",
-      "week": "9–16 Jan 2027",
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-16",
       "lodging": {
         "usd": [
           2459,
@@ -544,9 +560,9 @@
         ],
         "currency": "EUR",
         "basis": "Ski Arlberg 6-day €468 (2026/27)",
-        "covered_by": "Epic covers 3 days only, with partner lodging"
+        "covered_by": "Epic covers 3 days only, with partner lodging",
+        "quoted": "September 2026"
       },
-      "refund": "Not read (the policy section did not render)",
       "washer": "Paid, in the building",
       "fits": "No: washer in the building"
     },
@@ -554,7 +570,8 @@
       "key": "snowbird",
       "resort": "Snowbird / Alta",
       "region": "North America",
-      "week": "6–13 Mar 2027",
+      "check_in": "2027-03-06",
+      "check_out": "2027-03-13",
       "lodging": {
         "usd": [
           3276,
@@ -581,7 +598,8 @@
         ],
         "currency": "USD",
         "basis": "About $1,075 to $1,290 for a 5 to 6 day advance ticket (September page)",
-        "covered_by": "Ikon Pass, 7 days"
+        "covered_by": "Ikon Pass, 7 days",
+        "quoted": "September 2026"
       },
       "refund": "Not read",
       "washer": "Listed without a location",
@@ -591,7 +609,8 @@
       "key": "les_deux_alpes",
       "resort": "Les Deux Alpes",
       "region": "Europe",
-      "week": "9–16 Jan 2027",
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-16",
       "lodging": {
         "usd": [
           680,
@@ -619,7 +638,8 @@
         ],
         "currency": "EUR",
         "basis": "6-day pass €326.50 (2025/26, skiinfo.fr) to €333 (2026/27, guide-ski.fr); not on the operator's site as read",
-        "covered_by": "No Epic or Ikon access"
+        "covered_by": "No Epic or Ikon access",
+        "quoted": "9 Nov 2026, from two secondary sites"
       },
       "refund": "Not read",
       "washer": "In unit",
@@ -629,7 +649,8 @@
       "key": "niseko",
       "resort": "Niseko",
       "region": "Japan",
-      "week": "13–20 Mar 2027",
+      "check_in": "2027-03-13",
+      "check_out": "2027-03-20",
       "lodging": {
         "usd": [
           1828,
@@ -656,9 +677,9 @@
         ],
         "currency": "JPY",
         "basis": "Niseko United regular-season 6-day ¥73,100",
-        "covered_by": "Ikon Pass, 7 days"
+        "covered_by": "Ikon Pass, 7 days",
+        "quoted": "September 2026"
       },
-      "refund": "Not read (the policy section did not render)",
       "washer": "In unit",
       "fits": "Yes, on price"
     }
