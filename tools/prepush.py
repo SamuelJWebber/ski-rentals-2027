@@ -1,33 +1,25 @@
 """Checks on the commits about to be pushed, for a public repository.
 
-Run by tools/hooks/pre-push (through tools/sitecheck.py --pre-push). For every outgoing commit:
+Run by tools/hooks/pre-push (and by tools/sitecheck.py --pre-push). For every outgoing commit:
   - author and committer emails must be GitHub noreply addresses;
-  - the added lines must not contain a local Windows user path, an email address outside the allow-list,
-    or a string shaped like a token or private key.
-Standard library only.
+  - the added lines must not contain a local user path in any form (Windows, Git Bash, WSL, macOS,
+    Linux), an email address outside the allow-list, or a string shaped like a token or private key;
+  - added lines of prose and data must not record a booking in any wording, first person or impersonal,
+    so a booking never reaches the public history even if a later commit removes it (review finding R2-8).
+The patterns live in tools/privacy.py. Standard library only.
 """
 import os
 import re
 import subprocess
 import sys
 
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import privacy  # noqa: E402
+
 ZERO = '0' * 40
 NOREPLY = re.compile(r'^[0-9]+\+[A-Za-z0-9-]+@users\.noreply\.github\.com$|^[A-Za-z0-9-]+@users\.noreply\.github\.com$')
-EMAIL = re.compile(r'[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}')
-EMAIL_ALLOW = {
-    # businesses' own published contacts, quoted on the rentals page
-    'reservations@nisade.com', 'enquiry@powderlife.com', 'enquiries@japanskiexperience.com',
-    # the commit-trailer address required by the workflow
-    'noreply@anthropic.com',
-}
-SECRET_PATTERNS = [
-    (re.compile(r'\b(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{30,}'), 'a GitHub token'),
-    (re.compile(r'\bgithub_pat_[A-Za-z0-9_]{30,}'), 'a GitHub token'),
-    (re.compile(r'\bAKIA[0-9A-Z]{16}\b'), 'an AWS access key'),
-    (re.compile(r'-----BEGIN [A-Z ]*PRIVATE KEY-----'), 'a private key'),
-    (re.compile(r'\bsk-[A-Za-z0-9]{32,}'), 'an API key'),
-]
-LOCAL_PATH = re.compile(r'[A-Za-z]:[\\/]+Users[\\/]+[A-Za-z0-9._-]+', re.I)
+EMAIL_ALLOW = privacy.EMAIL_ALLOW
 
 
 def git(repo, *args):
@@ -53,8 +45,20 @@ def outgoing(repo, updates=None):
 
 
 def is_allowed_email(addr):
-    a = addr.lower()
-    return a in EMAIL_ALLOW or a.endswith('@users.noreply.github.com')
+    return privacy.is_allowed_email(addr)
+
+
+def added_lines(repo, sha):
+    """{path: added text} for one commit."""
+    diff = git(repo, 'show', '--format=', '--unified=0', '--no-color', sha)
+    out, path = {}, None
+    for line in diff.split('\n'):
+        if line.startswith('+++ '):
+            path = line[6:] if line.startswith('+++ b/') else None
+            continue
+        if path and line.startswith('+') and not line.startswith('+++'):
+            out.setdefault(path, []).append(line[1:])
+    return {p: '\n'.join(v) for p, v in out.items()}
 
 
 def check_commit(repo, sha):
@@ -63,18 +67,17 @@ def check_commit(repo, sha):
     for role, email in zip(('author', 'committer'), meta[:2]):
         if not NOREPLY.match(email.strip()):
             problems.append(f'{sha[:7]}: {role} email is not a GitHub noreply address')
-    diff = git(repo, 'show', '--format=', '--unified=0', '--no-color', sha)
-    for line in diff.split('\n'):
-        if not line.startswith('+') or line.startswith('+++'):
-            continue
-        if LOCAL_PATH.search(line):
-            problems.append(f'{sha[:7]}: adds a local Windows user path')
-        for m in EMAIL.finditer(line):
-            if not is_allowed_email(m.group(0)):
-                problems.append(f'{sha[:7]}: adds an email address outside the allow-list')
-        for pat, what in SECRET_PATTERNS:
-            if pat.search(line):
-                problems.append(f'{sha[:7]}: adds what looks like {what}')
+    for path, text in added_lines(repo, sha).items():
+        for what, why in privacy.other_problems(text):
+            if why == 'a local user path':
+                problems.append(f'{sha[:7]}: adds a local user path ({path})')
+            elif why.startswith('an email'):
+                problems.append(f'{sha[:7]}: adds an email address outside the allow-list ({path})')
+            else:
+                problems.append(f'{sha[:7]}: adds {why} ({path})')
+        if privacy.wording_scope(path):
+            for what, why in privacy.wording_problems(privacy.unquote_review(path, text)):
+                problems.append(f'{sha[:7]}: adds {why}: "{what}" ({path})')
     return sorted(set(problems))
 
 
@@ -86,7 +89,7 @@ def check_outgoing(repo, updates=None):
 
 
 def main():
-    repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    repo = os.path.dirname(HERE)
     updates = []
     for line in sys.stdin.read().splitlines():
         parts = line.split()

@@ -176,49 +176,35 @@ def strip_tags(s):
 
 # ---------------------------------------------------------------- R1-2: privacy
 
-PRIVACY_PATTERNS = [
-    (r'Email to send', 'an enquiry email drafted for the user'),
-    (r'\bWe are looking for\b', 'a first-person enquiry'),
-    (r'\bbook all three\b', 'a booking plan rather than options'),
-    (r"\byour (?:four |two |target |chosen )?(?:weeks?|windows?|dates|trip)\b", 'second-person travel window'),
-    (r"\bafter you'd go\b", 'second-person travel window'),
-    (r'\b1 ?(?:to|–|-) ?3 people\b', 'party size'),
-    (r'\(possibly 3\)', 'party size'),
-    (r'\bweeks of 9 Jan, 16 Jan\b', 'the candidate travel weeks as a list'),
-    (r'\bTarget weeks\b', 'the candidate travel weeks as a list'),
-    (r'\b(?:I|we) (?:have |just )?(?:booked|reserved)\b', 'a first-person booking'),
-    (r'\b(?:our|my) (?:booking|reservation|stay)\b', 'a first-person booking'),
-    (r'\b(?:booking|reservation|confirmation) (?:reference|number|code)\b', 'a booking reference'),
-]
-# Business contact addresses that are published by the businesses themselves.
-EMAIL_ALLOW = {
-    'reservations@nisade.com', 'enquiry@powderlife.com', 'enquiries@japanskiexperience.com',
-}
-PUBLIC_TEXT_FILES = ['README.md', 'HANDOFF.md']
+def tracked_text_files(root=REPO):
+    """Every tracked text file under root (git ls-files), or every text file when root is not a clone."""
+    import privacy
+    r = subprocess.run(['git', 'ls-files'], cwd=root, capture_output=True, text=True, encoding='utf-8')
+    names = r.stdout.split('\n') if r.returncode == 0 and r.stdout.strip() else []
+    if not names:
+        for dirpath, dirnames, files in os.walk(root):
+            dirnames[:] = [d for d in dirnames if d not in ('.git', '__pycache__')]
+            names += [os.path.relpath(os.path.join(dirpath, f), root).replace('\\', '/') for f in files]
+    return sorted(n for n in names if n and privacy.is_text(n) and os.path.exists(os.path.join(root, n)))
 
 
 def check_privacy(root=REPO):
-    """No page, README or HANDOFF names the party, lists the candidate weeks as the user's, drafts an
-    enquiry in the first person, or tells readers to book specific units."""
+    """R1-2 and R2-8: no tracked text file names the party, lists the candidate weeks as the user's,
+    drafts an enquiry in the first person, tells readers to book specific units, or records a booking in
+    any wording (first person or impersonal, a label, a confirmation code); and none holds a local path in
+    any form, an email outside the allow-list, or a token. Pages are read as their readers see them.
+    Wording is not scanned in code and tests, which hold the patterns, and a review's quoted examples are
+    evidence, not bookings."""
+    import privacy
     problems = []
-    texts = []
-    for name in PAGES:
-        _, tree = page(root, name)
-        texts.append((name, tree.text()))
-    for name in PUBLIC_TEXT_FILES:
-        if os.path.exists(os.path.join(root, name)):
-            texts.append((name, read(root, name)))
-    for name, text in texts:
-        for pat, why in PRIVACY_PATTERNS:
-            for m in re.finditer(pat, text, re.I):
-                problems.append(f'{name}: "{m.group(0)}" ({why})')
-        for m in re.finditer(r'[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}', text):
-            addr = m.group(0).lower()
-            if addr not in EMAIL_ALLOW and not addr.endswith('@users.noreply.github.com') \
-                    and not addr.endswith('@anthropic.com'):
-                problems.append(f'{name}: email address {addr} is not on the allow-list of business contacts')
-        if re.search(r'[A-Za-z]:\\Users\\', text):
-            problems.append(f'{name}: contains a local Windows user path')
+    for name in tracked_text_files(root):
+        raw = read(root, name)
+        text = page(root, name)[1].text() if name in PAGES else raw
+        if privacy.wording_scope(name):
+            for what, why in privacy.wording_problems(privacy.unquote_review(name, text)):
+                problems.append(f'{name}: "{what}" ({why})')
+        for what, why in privacy.other_problems(raw):
+            problems.append(f'{name}: {why}' + (f' ({what})' if why.startswith('an email') else ''))
     return problems
 
 

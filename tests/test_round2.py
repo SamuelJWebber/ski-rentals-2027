@@ -375,6 +375,21 @@ class R2_15_CostToolEdges(unittest.TestCase):
         self.assertEqual(costs._tax_label({'tax': {'kind': 'percent', 'amount': [16, 16]}}), '16%')
 
 
+class R2_8_NoBookingStateAnywhere(Base):
+    check = staticmethod(sitecheck.check_privacy)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_reviewed_handoff_fails(self):
+        self.assertCaught('HANDOFF.md: "is booked" (a stay recorded as booked)')
+
+    def test_every_tracked_text_file_is_scanned(self):
+        names = sitecheck.tracked_text_files(REPO)
+        for n in ('REVIEW.md', 'HANDOFF.md', 'data/checks/2026-11-09.tsv', 'data/costs.json', 'tools/hooks/pre-push'):
+            self.assertIn(n, names)
+
+
 class R2_9_EveryLoggedStatusHasItsLine(Base):
     check = staticmethod(sitecheck.check_reading_evidence)
 

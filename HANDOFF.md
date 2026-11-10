@@ -6,7 +6,7 @@ Rewritten **2026-11-09**, end of the review round 1 fix pass (Claude Code). Read
 ## State
 
 Published at https://samueljwebber.github.io/ski-rentals-2027/ : six pages, all linked from `index.html` and
-`README.md`. Nothing is booked and nothing is in flight; everything is committed and pushed. Review round 1
+`README.md`. No travel or booking state is kept in this repo; everything is committed and pushed. Review round 1
 (`REVIEW.md`, 19 findings): 18 fixed, 1 deferred (R1-5, the history rewrite). Each finding has a status line
 with its commit and test.
 
@@ -133,5 +133,5 @@ free-cancellation badge is not the policy, and its cutoff falls before the date 
 ## Standing
 
 This repo is public: no personal details, booking references, payment information, party size or first-person
-plans. A unit someone books is never identifiable on the site: remove or anonymise its row the day it is booked.
+plans. A unit chosen for a stay is never identifiable on the site: remove or anonymise its row that day.
 Every price carries its currency and the date it was quoted. A claim that cannot be sourced is cut or marked.
