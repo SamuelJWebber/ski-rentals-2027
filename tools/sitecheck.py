@@ -167,6 +167,9 @@ PRIVACY_PATTERNS = [
     (r'\(possibly 3\)', 'party size'),
     (r'\bweeks of 9 Jan, 16 Jan\b', 'the candidate travel weeks as a list'),
     (r'\bTarget weeks\b', 'the candidate travel weeks as a list'),
+    (r'\b(?:I|we) (?:have |just )?(?:booked|reserved)\b', 'a first-person booking'),
+    (r'\b(?:our|my) (?:booking|reservation|stay)\b', 'a first-person booking'),
+    (r'\b(?:booking|reservation|confirmation) (?:reference|number|code)\b', 'a booking reference'),
 ]
 # Business contact addresses that are published by the businesses themselves.
 EMAIL_ALLOW = {
