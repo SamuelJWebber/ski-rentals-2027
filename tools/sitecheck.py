@@ -349,6 +349,8 @@ STALE_FACTS = [
     (r'every 2 h(?:ou)?rs?\b', 'the Revelstoke bus runs about every 30 to 45 minutes', r'September said'),
     (r"Jackson(?:'|’)s 40 minutes", 'Teton Village is 12 to 14 miles and 19 to 26 minutes from Jackson', None),
     (r'365[–-]390', 'the Engelberg 6-day pass is unverified (CHF 274 to 390)', r'(?i)unverified|estimate'),
+    (r'already demolished', 'no source found on 9 Nov 2026 for the Hakuba base and terrace demolition',
+     r'could not be traced|Unsourced'),
 ]
 
 
