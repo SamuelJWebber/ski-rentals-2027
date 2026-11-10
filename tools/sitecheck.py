@@ -746,6 +746,29 @@ def check_dates_stamped(root=REPO):
 register('dates-stamped', check_dates_stamped)
 
 
+# ---------------------------------------------------------------- tax breakdowns sum to their totals
+
+def check_tax_breakdowns(root=REPO):
+    """A stated tax total equals the sum of the components the same sentence lists after it, as in
+    'Telluride's rate is 17.22% ...: 2.9% state, 1% county, ...' or 'Add 16% ... tax (8% PST, 3% ..., 5% GST)'."""
+    problems = []
+    for name in PAGES:
+        for s in sentences(page(root, name)[1].text()):
+            if 'tax' not in s.lower():
+                continue
+            m = re.search(r'(\d+(?:\.\d+)?)%[^:()]{0,160}?(?::|\()\s*((?:\d+(?:\.\d+)?% [^,;)]+(?:,| and )\s*)+\d+(?:\.\d+)?% [^,;).]+)', s)
+            if not m:
+                continue
+            total = float(m.group(1))
+            parts = [float(x) for x in re.findall(r'(\d+(?:\.\d+)?)%', m.group(2))]
+            if len(parts) >= 2 and abs(sum(parts) - total) > 0.005:
+                problems.append(f'{name}: {total:g}% is stated, the listed parts sum to {sum(parts):g}%: {s[:120]}')
+    return problems
+
+
+register('tax-breakdowns', check_tax_breakdowns)
+
+
 # ---------------------------------------------------------------- tallies on the index match the run
 
 def check_tallies(root=REPO):

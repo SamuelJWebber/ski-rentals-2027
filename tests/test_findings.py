@@ -247,5 +247,31 @@ class R1_19_SmallSlips(Base):
         self.assertIn('$2,485 + 17.22% = $2,913, page says $2,912', joined)
 
 
+class TaxBreakdowns(Base):
+    """Review, bigger improvement 1: each tax breakdown sums to its stated total."""
+    check = staticmethod(sitecheck.check_tax_breakdowns)
+
+    def test_current(self):
+        self.assertPasses()
+
+    def test_a_wrong_component_is_caught(self):
+        import os
+        import shutil
+        import tempfile
+        d = tempfile.mkdtemp()
+        try:
+            for f in sitecheck.PAGES:
+                shutil.copy(os.path.join(REPO, f), d)
+            p = os.path.join(d, 'steep-and-town-2027.html')
+            with open(p, encoding='utf-8') as fh:
+                s = fh.read()
+            with open(p, 'w', encoding='utf-8') as fh:
+                fh.write(s.replace("1.25% transit lodgers'", "1.35% transit lodgers'", 1))
+            problems = sitecheck.check_tax_breakdowns(d)
+            self.assertTrue(any('17.22% is stated, the listed parts sum to 17.32%' in x for x in problems), problems)
+        finally:
+            shutil.rmtree(d, True)
+
+
 if __name__ == '__main__':
     unittest.main()

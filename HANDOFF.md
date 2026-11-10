@@ -20,7 +20,7 @@ with its commit and test.
   status line on every listing a page cites. Each piece prints its own read date; blocks sit between markers.
 - `data/checks/<date>.tsv`: listing pages read by hand (price, cancellation line). `data/readings.tsv`: dated
   snapshot of the CPC, SNOTEL and BC Hydro readings. `tools/listing_status.py`: the status rules.
-- `python tools/sitecheck.py` (18 checks) and `python -m unittest discover -s tests` (66 tests), standard library,
+- `python tools/sitecheck.py` (19 checks) and `python -m unittest discover -s tests` (68 tests), standard library,
   no network. Each finding's test also runs on the reviewed commit 20cb727 from git history and must fail there.
 - `sh tools/install-hooks.sh` installs the pre-push hook (done in this clone): noreply emails only, no local
   paths or tokens, all checks green. When correcting a fact, add its old wording to `STALE_FACTS` in sitecheck.
@@ -63,7 +63,8 @@ with its commit and test.
 - **Fetched 9 Nov with a project identifier:** SNOTEL fixed-date queries (Lone Mountain 2 in, Lizard Head Pass 4,
   Idarado 3), CPC's archived October ENSO discussion, BC Hydro Mt Revelstoke (18 cm at 15:45).
 - **Read 9 Nov with web tools:** Matterhorn Paradise pass prices; Evolution Fernie's site; engelberg.ch (CHF 213
-  covers only Brunni); titlis.ch answered 429 to one request, not retried; Hakuba lodging tax from hotel notices.
+  covers only Brunni); titlis.ch answered 429 and SMART's gondola site 403, one request each, not retried; Big Sky's
+  snow report still showed only "Loading..." (opening 25 Nov); Hakuba lodging tax from hotel notices.
 - **Fixture-proven only:** cost arithmetic, recheck rendering and reruns, status rules on saved or hand-written
   pages, pre-push rules (tests). Reproduced: the old insert_sections.py exits 1 on a copy of the reviewed pages.
 
@@ -89,14 +90,17 @@ Zermatt Baccara studio 9–16 Jan: before 10 Dec. Telluride 23–30 Jan options:
 
 - Engelberg 6-day Titlis pass: CHF 274–390 (UK operator page with no season; September estimate).
 - Zermatt January and March 6-day and month pass prices: only the floors are known.
-- Tax assumptions not rechecked: CO 16% outside Telluride, UT 15%, WY 13%, NM 15%, Quebec 18.5%; Europe tourist
-  taxes; Niseko's Hokkaido tax (only Kutchan's 2% is in the model). Hakuba's rates come from hotel notices.
+- Tax assumptions: UT 15%, WY 13% and NM 15% were checked only against secondary sources (Park City about 14.6%,
+  Jackson 11–12%, Taos 14.4%; the steep page says so and keeps the assumptions). Not checked: CO 16% outside
+  Telluride, Quebec 18.5%, Europe tourist taxes, Niseko's Hokkaido tax. Hakuba's rates come from hotel notices.
 - Cancellation lines not read for most of the 66 bookable rows (the refund column says which).
 - No fresh search for Whistler, Jackson, Chamonix, Andermatt and the others; only September listings were rechecked.
 - CPC outlook percentages were read before this pass and confirmed by the review, not re-read from the images.
-- Not rechecked at all: Hakuba Adam opening date, Telluride gondola funding, Lift 7/8 type, a numeric BC snow
-  outlook, the Big Sky and Revelstoke snow reports, lift-audit numbers, terrain write-ups, gym and supermarket
-  claims, Jackson details.
+- Hakuba: the December 2027 gondola opening is reported consistently by third parties; the base and terrace
+  demolition is marked unsourced on the index.
+- Not rechecked at all: Telluride gondola funding (SMART's site refuses plain requests), Lift 7/8 type, a numeric
+  BC snow outlook, the Revelstoke snow report, lift-audit numbers, terrain write-ups, gym and supermarket claims,
+  Jackson details.
 
 ## Next
 

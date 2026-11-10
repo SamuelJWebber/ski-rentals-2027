@@ -445,7 +445,7 @@ Status: Fixed in 06ed2dd (with d191655 for −$101, 5d162d5 for 0.81 CHF, 15c16c
    - every dollar figure has a date in the same block.
 
    This alone would have caught R1-6, R1-7, R1-9, R1-10 and R1-19.
-   Status: Done across this round: tools/sitecheck.py (anchors, all-in arithmetic on the steep and three-resort pages, tallies, superseded facts, privacy, dates, rolling citations) plus 66 unittest cases; tools/hooks/pre-push runs it.
+   Status: Done across this round: tools/sitecheck.py (anchors, all-in arithmetic on the steep and three-resort pages, tallies, superseded facts, privacy, dates, rolling citations) plus 68 unittest cases, and a tax-breakdown check that sums each stated total's parts; tools/hooks/pre-push runs it.
 
 2. **One cost model, rendered from one data file.** Each resort gets lodging, tax, passes and optional food as
    separate fields, and the cards, tables and README read from that file. A corrected input then reaches
