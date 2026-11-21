@@ -377,6 +377,9 @@ register('currency-labels', check_currency_labels)
 # (pattern, the corrected fact, a qualifier that may sit within 200 characters to mark the old wording
 # as superseded or as an estimate). Add a row whenever a correction is made, before closing it.
 STALE_FACTS = [
+    (r'from \$2,940', 'the Zermatt January week with two passes is from $3,069 at the January band (CHF 436)',
+     r'Until 21 Nov 2026'),
+    (r'from \$3,688', 'the Zermatt March week with two passes is from $3,817 to $3,945 (CHF 436 to 488)', None),
     (r'two supermarkets, but no gym found', 'Fernie has a gym (Evolution Health & Fitness, verified 9 Nov 2026)', None),
     (r'no commercial gym appears in any directory', 'Fernie has a gym (verified 9 Nov 2026)', None),
     (r'10,000 sq ft', 'the Fernie gym size is unsourced', None),
@@ -1193,6 +1196,34 @@ def check_recheck_blocks(root=REPO):
 
 
 register('recheck-blocks', check_recheck_blocks)
+
+
+# ---------------------------------------------------------------- 2026-11-21: the pages are a snapshot
+
+SNAPSHOT_WORDS = 'Snapshot of 9 November 2026, not maintained.'
+
+
+def check_snapshot_note(root=REPO):
+    """Every page opens with a visible line saying it is a snapshot that nobody maintains. The limit case: a reader
+    who lands on a card quoting 'free cancellation before 10 December' in January and takes it as current."""
+    problems = []
+    for name in PAGES:
+        text = read(root, name)
+        body = text.find('<body')
+        at = text.find('class="snapshot-note"')
+        if at < 0 or SNAPSHOT_WORDS not in text:
+            problems.append(f'{name}: no "{SNAPSHOT_WORDS}" line')
+            continue
+        h1 = text.find('<h1')
+        if not (body < at < h1):
+            problems.append(f'{name}: the snapshot line is not the first thing in the body, above the title')
+        tag = text[text.rfind('<', 0, at):text.find('>', at)]
+        if 'hidden' in tag or 'display:none' in tag.replace(' ', ''):
+            problems.append(f'{name}: the snapshot line is hidden')
+    return problems
+
+
+register('snapshot-note', check_snapshot_note)
 register('headline-costs', check_headline_costs)
 register('cost-definitions', check_cost_definitions)
 

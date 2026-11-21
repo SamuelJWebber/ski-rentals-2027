@@ -61,8 +61,8 @@ class R2_2_AllInMeansLodgingAndTax(Base):
             p = os.path.join(d, 'steep-and-town-2027.html')
             with open(p, encoding='utf-8') as fh:
                 s = fh.read()
-            s = s.replace('<span data-cost="zermatt_jan:total">from $2,940</span> and',
-                          '<span data-cost="zermatt_jan:total">from $2,940</span> all-in and', 1)
+            s = s.replace('<span data-cost="zermatt_jan:total">from $3,069</span> and',
+                          '<span data-cost="zermatt_jan:total">from $3,069</span> all-in and', 1)
             with open(p, 'w', encoding='utf-8') as fh:
                 fh.write(s)
             self.assertTrue(any('a total figure, which includes lift passes, is called all-in' in x
@@ -183,7 +183,7 @@ class R2_5_PassPricesCarryTheirDates(Base):
             self.assertTrue(row['passes']['quoted'], row['key'])
         table = costs.render_table(model, readings=costs.load_readings(REPO))
         self.assertIn('Quoted September 2026 estimate; the CHF 274 has no season', table)
-        self.assertIn('Quoted 9 Nov 2026. No Epic or Ikon access', table)   # Zermatt's floor, read 9 Nov
+        self.assertIn('Quoted 10 Nov 2026. No Epic or Ikon access', table)   # Zermatt's January band, read 10 Nov
 
     def test_an_undated_pass_price_is_refused(self):
         import json

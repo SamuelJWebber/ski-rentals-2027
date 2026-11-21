@@ -1,14 +1,36 @@
 # ski-rentals-2027 handoff
 
-Rewritten **2026-11-09**, end of the review round 1 fix pass (Claude Code). Read `CLAUDE.md` first for the rules.
-**Rewrite this file at the end of every session — never append.** Under 150 lines.
+Rewritten **2026-11-21** (Claude Code). Read `CLAUDE.md` first for the rules.
+**Rewrite this file at the end of every session, never append.** Under 150 lines.
 
 ## State
 
-Published at https://samueljwebber.github.io/ski-rentals-2027/ : six pages, all linked from `index.html` and
-`README.md`. No travel or booking state is kept in this repo; everything is committed and pushed. Review round 1
-(`REVIEW.md`, 19 findings): 18 fixed, 1 deferred (R1-5, the history rewrite). Each finding has a status line
-with its commit and test.
+Published at https://samueljwebber.github.io/ski-rentals-2027/ : six pages, **public repo**. The pages are a
+**snapshot of 9 November 2026 that nobody maintains**, and since 2026-11-21 every page says so in a line above its
+title. Nothing has been rechecked since 9 November. The first refund cutoff the pages quote is 10 December 2026.
+
+An independent review was filed on 2026-11-10 (`REVIEW.md`, top table; `reviews/fable-2026-11-10/`). On 2026-11-21
+one finding was fixed (SKI-3, the Zermatt week with passes: from $3,069, not from $2,940) and the snapshot line was
+added. The other seven are deferred, with the reason for each in `REVIEW.md` under "Status of each finding".
+
+124 tests pass (`python -m unittest discover -s tests`) and `python tools/sitecheck.py` is clean (20 checks).
+
+## Next, in order
+
+1. **SKI-1 is the one that could change a recommendation.** Two cheaper Hakuba listings (rooms 678032453961510940
+   and 1025746272456071125, 13-20 March) were dismissed for a washer their own pages say is in the unit. Read both
+   by hand in the browser pane (total, cancellation line, washer wording), log them in `data/checks/<date>.tsv`,
+   and correct the Hakuba card either way. No script may fetch Airbnb.
+2. If the pages are ever to be current again, rerun the hand recheck of the listings that drive a recommendation
+   and change the snapshot line's date. If not, leave them; the line says what they are.
+3. The Zermatt month page still prices month passes at the pre-season CHF 1,118 (March bands: 1,270 to 1,422).
+4. SKI-2, 4, 5, 6, 7, 8: one sentence or one figure each (`REVIEW.md`).
+
+## Unverified
+
+- The Zermatt band prices (CHF 384 / 436 / 488 for six days) come from the review's read of the operator's leaflet on
+  10 Nov 2026. On 21 Nov the operator's ticket pages answered 404 to a plain fetch, so they were not re-read here.
+- The pushed pages were not opened on the live site by this session until after the push; see the session report.
 
 ## How the pages are built now
 
@@ -47,91 +69,23 @@ with its commit and test.
   cancellation before 24 Dec); $5,017–5,262 with two 6-day tickets. Epic covers the lifts.
 - **Hakuba**, 13–20 Mar: $2,742 lodging and tax (4721170, $2,697, washer in the unit, free cancellation before
   11 Feb), a 5-minute drive or a shuttle from the lifts; walk logged in data/walks. January from $5,605.
-- **Zermatt**: a January week fits on lodging and tax ($1,992); with passes it is "from $2,940", at a floor price
-  the operator charges only 1–27 Nov and 19 Apr–2 May. Season pass CHF 1,850 from 1 Nov, 1,960 from 1 Dec.
+- **Zermatt**: a January week fits on lodging and tax ($1,992); with two passes it is from $3,069 (CHF 436 each,
+  the January band's starting price). March from $3,817 to $3,945. Season pass CHF 1,850 from 1 Nov, 1,960 from 1 Dec.
 - **Recheck**: 158 listing-weeks identified by room ID: 66 bookable, 88 not offered, 4 removed (3 listings). The
   steep page has 26 more priced listings without a room ID (every Japanese one), not rechecked. Of the 66 bookable,
   15 state a free washer in the unit and 29 a building or paid one (27 in the building, 2 paid in the unit).
 - **Whistler**: the only September listing still offered is $3,144 with tax (9–16 Jan); not searched afresh.
 - **Fernie has a gym**: Evolution Health & Fitness, 1192 8th Ave, day passes (its own site, read 9 Nov).
 
-## Verified, and how
+## Needs the user
 
-- **Seen live, 9 Nov 2026, browser pane at human pace:** 33 listing pages (`data/checks/2026-11-09.tsv`): 24 showed
-  a free-cancellation date, 4 refund in full only for 24 hours, 4 did not render the line, 1 (Westgate, the one row
-  the scripts could not determine) showed "Those dates are not available". The live index and cost table render.
-- **Fetched 9 Nov with a project identifier:** SNOTEL fixed-date queries (Lone Mountain 2 in, Lizard Head Pass 4,
-  Idarado 3), CPC's archived October ENSO discussion, BC Hydro Mt Revelstoke (18 cm at 15:45).
-- **Read 9 Nov with web tools:** Matterhorn Paradise pass prices; Evolution Fernie's site; engelberg.ch (CHF 213
-  covers only Brunni); titlis.ch answered 429 and SMART's gondola site 403, one request each, not retried; Big Sky's
-  snow report still showed only "Loading..." (opening 25 Nov); Hakuba lodging tax from hotel notices.
-- **Fixture-proven only:** cost arithmetic, recheck rendering and reruns, status rules on saved or hand-written
-  pages, pre-push rules (tests). Reproduced: the old insert_sections.py exits 1 on a copy of the reviewed pages.
+- R1-5, the history rewrite: old commits in this public repo carry a personal address. Yes or no.
 
-## Refund cutoffs of the options on the pages (last safe day is the day before, listing's local time)
+## Rules that matter here
 
-Zermatt Baccara studio 9–16 Jan: before 10 Dec. Telluride 23–30 Jan options: before 24 Dec. Engelberg flats
-9–16 Jan: before 4 Jan. Three-resort options: Telluride 20–27 Feb before 21 Jan, Revelstoke 23–30 Jan before
-22 Jan, Big Sky 6–13 Mar before 4 Feb. Every other read cutoff is in the recheck tables' refund column.
-
-## Choices made, and why (all reversible)
-
-- **Budget test is lodging plus tax**, with two 6-day passes in their own column: a season pass covers the lifts at
-  many of these resorts. Food is left out everywhere (the September Engelberg figure counted $750–1,150 of it).
-- **Zermatt passes are floors** ("from $X"), because the operator's lowest price applies only in shoulder weeks.
-- **Hakuba tax** is the Nagano and Hakuba village per-person tax (about ¥500 a night, ¥1,000 at January rates),
-  replacing the September ~12% assumption in the cost model; Europe tourist taxes are labelled assumptions.
-- **Fernie gym**: corrected the index rather than propagating its "no gym found" (R1-7).
-- **Scorecard**: eight steep-page cells re-derived from listed rows (R1-10); card ranges likewise.
-- **Stay dates stay on price rows**; party size, the enquiry draft and first-person framing are gone (R1-2).
-- **Scrapers retired**, not moved into this public repo; rendering, rules and data moved in instead.
-
-## Unverified or open — exact
-
-- Engelberg 6-day Titlis pass: CHF 274–390 (UK operator page with no season; September estimate).
-- Zermatt January and March 6-day and month pass prices: only the floors are known.
-- Tax assumptions: UT 15%, WY 13% and NM 15% were checked only against secondary sources (Park City about 14.6%,
-  Jackson 11–12%, Taos 14.4%; the steep page says so and keeps the assumptions). Not checked: CO 16% outside
-  Telluride, Quebec 18.5%, Europe tourist taxes, Niseko's Hokkaido tax. Hakuba's rates come from hotel notices.
-- Cancellation lines not read for most of the 66 bookable rows (the refund column says which).
-- No fresh search for Whistler, Jackson, Chamonix, Andermatt and the others; only September listings were rechecked.
-- CPC outlook percentages were read before this pass and confirmed by the review, not re-read from the images.
-- Hakuba: the December 2027 gondola opening is reported consistently by third parties; the base and terrace
-  demolition is marked unsourced on the index.
-- Not rechecked at all: Telluride gondola funding (SMART's site refuses plain requests), Lift 7/8 type, a numeric
-  BC snow outlook, the Revelstoke snow report, lift-audit numbers, terrain write-ups, gym and supermarket claims,
-  Jackson details.
-
-## Next
-
-1. CPC's ENSO update is due 12 Nov 2026: link the new archived discussion (`enso_disc_nov2026/`) on the
-   three-resort page and add the reading to `data/readings.tsv`.
-2. Before 9 Dec (the earliest cutoff), re-read the recommended listings by the method above, write
-   `data/checks/<date>.tsv` and a new recheck run, then run `tools/recheck.py` and `tools/costs.py`.
-3. Verify the North American tax assumptions from official pages; they drive every all-in on the steep page.
-4. Engelberg pass: one request to titlis.ch in December; stop at a 429.
-5. Review round 2 follows; keep `STALE_FACTS` and the cost data current with every correction.
-
-## Needs the user (true walls only)
-
-- **R1-5 history rewrite.** Removing the personal email from 15 published commits and the local path from 868d81c
-  needs your go-ahead for a force-push to this public repo (`git filter-repo` with a mailmap to the noreply
-  address and a path replacement). Clones and GitHub's cached commits keep the old text either way.
-- **CLAUDE.md privacy line.** The review's suggested hard line (below, under Standing) was not added to CLAUDE.md,
-  because an agent may not edit it on an agent's instruction; add it if you agree.
-
-## Corrections already made — do not undo them
-
-Andermatt's queue figures are unsourceable and size is the real caveat. St Anton is kept off the top by the
-washer, not the price, and its September quotes were US dollars. Fernie's Polar Peak rarely opens; Fernie town
-does have a gym (Evolution, verified 9 Nov). Airbnb quotes USD by default. Telluride and Hakuba are on Epic, not
-Ikon; Furano, Shiga Kogen and Myoko Suginohara are on Ikon. Telluride's lodging tax is 17.22%. Lifts 7/8 were
-not approved in June 2026. The Revelstoke bus runs every 30–45 minutes. Jackson's Teton Village is 19–26 minutes
-away. Whistler's capacity is about three times Telluride's, not more than six resorts combined. Airbnb's
-free-cancellation badge is not the policy, and its cutoff falls before the date shown.
-
-## Standing
-
-This repo is public: no personal details, booking references, payment information, party size or first-person
-plans. A unit chosen for a stay is never identifiable on the site: remove or anonymise its row that day.
-Every price carries its currency and the date it was quoted. A claim that cannot be sourced is cut or marked.
+- Hand reading only for Airbnb and Booking.com, at human pace, in the browser pane. Stop at the first 429, challenge
+  or CAPTCHA. The 9 Nov scripts are retired and must not be run.
+- Every price carries its currency and the date it was quoted. Figures come from `data/costs.json` through
+  `python tools/costs.py`; edit the data, never the figure. When a fact is corrected, add its old wording to
+  `STALE_FACTS` in `tools/sitecheck.py`.
+- The pre-push hook runs the checks and refuses commits with a non-noreply email, a local path or a token.

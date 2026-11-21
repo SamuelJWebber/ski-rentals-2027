@@ -244,17 +244,17 @@
       },
       "passes": {
         "each": [
-          384,
-          384
+          436,
+          436
         ],
         "currency": "CHF",
-        "basis": "6-day pass from CHF 384, the dynamic-pricing floor, which the operator applies only 1-27 Nov 2026 and 19 Apr-2 May 2027, so a January or March pass costs more (matterhornparadise.ch, read 9 Nov 2026)",
+        "basis": "6-day pass from CHF 436, the starting price of the operator's Basic band, which covers 4-24 Jan 2027; the day's price is set by the operator's calculator and can be higher (operator leaflet dated April 2026, read 10 Nov 2026 in the independent review; until 21 Nov 2026 this row used CHF 384, the Pre band of 1-27 Nov and 19 Apr-2 May)",
         "covered_by": "No Epic or Ikon access",
         "floor": true,
-        "quoted": "9 Nov 2026"
+        "quoted": "10 Nov 2026"
       },
       "washer": "In unit",
-      "fits": "Yes, on lodging and tax; with two passes only at the floor price, which January does not get",
+      "fits": "Yes, on lodging and tax; not with two passes, which start at CHF 436 each in January",
       "walk": "zermatt_jan"
     },
     {
@@ -285,14 +285,14 @@
       },
       "passes": {
         "each": [
-          384,
-          384
+          436,
+          488
         ],
         "currency": "CHF",
-        "basis": "6-day pass from CHF 384, the dynamic-pricing floor, which the operator applies only 1-27 Nov 2026 and 19 Apr-2 May 2027, so a January or March pass costs more (matterhornparadise.ch, read 9 Nov 2026)",
+        "basis": "6-day pass from CHF 436 (Basic band, 8-26 Mar 2027) to from CHF 488 (Peak band, to 7 Mar): the week of 6-13 Mar straddles both; starting prices, the day's price can be higher (operator leaflet dated April 2026, read 10 Nov 2026 in the independent review; until 21 Nov 2026 this row used CHF 384)",
         "covered_by": "No Epic or Ikon access",
         "floor": true,
-        "quoted": "9 Nov 2026"
+        "quoted": "10 Nov 2026"
       },
       "washer": "In unit",
       "fits": "No: under the budget line, no village listing with the washer in the flat has a free-cancellation date (walk logged)",

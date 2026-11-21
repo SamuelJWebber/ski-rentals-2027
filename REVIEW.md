@@ -5,7 +5,7 @@ reviewed it: first-line reviewers attacked the work and compared it with other p
 second reviewer tried to refute each HIGH and MEDIUM finding. Only the verified result is below.
 Full reports, with commands and sources: `reviews/fable-2026-11-10/` (`ski-V.md` is the verification;
 the others are the first-line reports, including claims the verifier narrowed or rejected).
-**Nothing here has been implemented.** Mark each row Fixed / Rejected / Deferred as it is handled.
+**Status as of 2026-11-21:** SKI-3 is fixed and every page now says it is an unmaintained snapshot; the rest are deferred, most because they need a listing read by hand. See "Status of each finding".
 
 ## Verdict table
 
@@ -24,6 +24,20 @@ Counts: UPHELD 4 (SKI-2, 3, 7, 8), WEAKENED 4 (SKI-1, 4, 5, 6), REFUTED 0 whole 
 (SKI-1 refundability, SKI-2 consumption tax). Sub-claims refuted: SKI-4 "unlinked on another page"; SKI-5 "two
 outside sources"; SKI-6 "JMA ties El Niño winters to below-normal snowfall on the Sea of Japan side" as a general
 rule; SKI-3's fix "drop 'only the floors are known'".
+
+## Status of each finding (2026-11-21, Claude Code)
+
+| Finding | Status | What was done, or why not |
+|---|---|---|
+| SKI-3 Zermatt "from $2,940" | **Fixed** | `data/costs.json`: the January week uses CHF 436 a pass (the operator's Basic band, 4-24 Jan), so the week with two passes is **from $3,069**; the March week straddles two bands (CHF 436 to 488), **from $3,817 to $3,945**. The index says what it printed before and why. The month line on the index now reads about $9,415 to $9,790 for Täsch in March. The band prices are the verifier's read of the operator's leaflet on 10 Nov; on 21 Nov the operator's ticket pages returned 404 to an honest fetch, so they were not re-read. `tests/test_snapshot.py` recomputes 1,923 + 69 + 1,077 = 3,069. **Not done:** the Zermatt month page still prices its month passes at the pre-season CHF 1,118; it says every total with passes is a lower bound. |
+| Snapshot line (portfolio review, 2026-11-21) | **Fixed** | Every page opens with "Snapshot of 9 November 2026, not maintained." above its title. `sitecheck.py` check `snapshot-note`; the test fails on the pages as pushed on 10 Nov. |
+| SKI-1 two cheaper Hakuba listings | **Deferred, needs a hand read** | Rooms 678032453961510940 and 1025746272456071125 for 13-20 March: total, cancellation line, washer wording. The rule here is hand reading only, and nobody has read them. Until then "the first in price order" on the Hakuba card is unsupported. |
+| SKI-2 Hakuba accommodation tax | **Deferred** | ¥400 and ¥900 per person per night instead of ¥500 and ¥1,000 moves the March figure from $2,742 to $2,733. Small, and the consumption-tax half is unverified. |
+| SKI-4 Telluride February line | **Deferred** | One line on the Telluride card. |
+| SKI-5 snow source | **Deferred** | A caveat about the source, not an error. |
+| SKI-6 El Niño and Japan | **Deferred** (LOW) | |
+| SKI-7 Whistler first sentence | **Deferred** | The rentals page's opening sentence about Whistler at $1,400 to 2,500 is unsupported by the 9 Nov recheck; Whistler was not searched afresh. |
+| SKI-8 Jackson in March | **Deferred** | An omitted caveat. |
 
 ## Fix first
 
