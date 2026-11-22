@@ -79,7 +79,14 @@ added. The other seven are deferred, with the reason for each in `REVIEW.md` und
 
 ## Needs the user
 
-- R1-5, the history rewrite: old commits in this public repo carry a personal address. Yes or no.
+- R1-5. **Decided 2026-11-22: no history rewrite** (the owner said "make the decision and do it"). 15 commits here
+  carry a personal address, none since 2026-10-02; the repo has no forks. A rewrite would not remove the address
+  from GitHub (old commits stay reachable by hash until GitHub Support purges them, and public push-event archives
+  keep author addresses), and it would change every commit hash these review and handoff files cite and break every
+  clone and the scheduled jobs' pushes. The leak is already stopped: every commit since uses the noreply address,
+  held by the hook and tests. Reverse by running `git filter-repo --mailmap` and force-pushing; nothing done today
+  prevents it. One account setting would also stop it at the source and is the owner's own: GitHub Settings, Emails,
+  "Keep my email addresses private" and "Block command line pushes that expose my email".
 
 ## Rules that matter here
 
