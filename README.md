@@ -12,13 +12,13 @@ The brief was refined partway through to a strict priority order: **terrain firs
 | | Resort | Lodging for two + tax | Two 6-day passes | Week for two | Note |
 |---|---|---|---|---|---|
 | Europe | **Engelberg** | $1,626–1,649 | $677–963 | $2,303–2,612 | 9–16 Jan 2027, lodging priced 9 Nov 2026. Washer in the flat; free cancellation before 4 Jan. The lift-pass price is unverified. |
-| North America | **Telluride** | $2,014–2,259 | $3,003 | $5,017–5,262 | 23–30 Jan 2027, lodging priced 9 Nov 2026. Lift 7 a short walk away; free cancellation before 24 Dec. An Epic Pass covers the lifts. |
-| Japan | **Hakuba** | $2,742 | $819 | $3,561 | 13–20 Mar 2027, lodging priced 9 Nov 2026. Washer in the unit; free cancellation before 11 Feb; a 5-minute drive or a shuttle ride from the lifts. January starts at $5,605 before tax. |
+| North America | **Telluride** | $2,014–2,259 | $3,003 | $5,017–5,262 | 23–30 Jan 2027, lodging priced 9 Nov 2026. Lift 7 a short walk away; free cancellation before 24 Dec. An Epic Pass covers the lifts. The same studio is also refundable for 20–27 Feb at $2,523 with tax (free cancellation before 21 Jan). |
+| Japan | **Hakuba** | $2,733 | $819 | $3,552 | 13–20 Mar 2027, lodging priced 9 Nov 2026. Washer in the unit; free cancellation before 11 Feb; a 5-minute drive or a shuttle ride from the lifts. January starts at $5,605 before tax. |
 
 Week for two = lodging + tax + two adult 6-day lift passes; food and travel left out. Lodging priced 9 Nov 2026; lift passes as dated in the cost table, mostly September 2026 estimates; converted at the 10–11 Sep 2026 rates. The US$3,000 budget is tested against lodging plus tax. Every component and its source is in the [cost table](https://samueljwebber.github.io/ski-rentals-2027/#costs), generated from `data/costs.json`.
 <!-- answers:end -->
 
-Engelberg has 2,017 m of lift-served vertical, three glaciers, the Galtiberg and the Laub, and is best in January. Telluride's lifts launch off the town grid; March is its peak season. Hakuba is the only Japanese mountain here with sustained steep lift-served terrain.
+Engelberg has 2,017 m of lift-served vertical, three glaciers, the Galtiberg and the Laub, and is best in January. Telluride's lifts launch off the town grid; late January or 20–27 February fit under budget, while March is its peak season. Hakuba is the only Japanese mountain here with sustained steep lift-served terrain.
 
 ## Reports
 
@@ -33,7 +33,7 @@ Engelberg has 2,017 m of lift-served vertical, three glaciers, the Galtiberg and
 
 Airbnb search pages quote in **US dollars by default regardless of country** — verified at a 1.383 ratio on the same Whistler listing. An earlier version of the rentals report divided Canadian figures by 1.38 and understated Whistler, Tremblant and Sun Peaks by about 38%; that is corrected. Airbnb's washer filter is also unreliable, surfacing listings with shared or surcharged laundry, so only amenities confirmed on the listing page are marked as in-unit.
 
-Airbnb's free-cancellation badge is not the policy. Of nineteen listing policies read for the three-resort report on 9 November 2026, nine refunded in full only within 24 hours of booking. Of 28 more read the same day for the listings the other pages recommend, 22 showed a free-cancellation date, 2 refunded in full only for 24 hours and 4 did not render the line. Only the line on the listing page or at checkout counts.
+Airbnb's free-cancellation badge is not the policy. Of seventeen listing policies read for the three-resort report on 9 November 2026, eight refunded in full only within 24 hours of booking. Of 28 more read the same day for the listings the other pages recommend, 22 showed a free-cancellation date, 2 refunded in full only for 24 hours and 4 did not render the line. Only the line on the listing page or at checkout counts.
 
 The detailed pages were researched on 10 to 11 September 2026. On 9 November 2026 every Airbnb listing they identified by room ID was rechecked, the answers and the three-resort report were repriced, and each figure on the pages says which date it comes from. Re-check prices, cancellation terms and lift status before booking.
 

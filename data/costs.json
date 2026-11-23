@@ -94,7 +94,7 @@
       },
       "washer": "In unit",
       "fits": "Yes, on lodging and tax; not with lift tickets",
-      "readme_note": "23–30 Jan 2027, lodging priced 9 Nov 2026. Lift 7 a short walk away; free cancellation before 24 Dec. An Epic Pass covers the lifts."
+      "readme_note": "23–30 Jan 2027, lodging priced 9 Nov 2026. Lift 7 a short walk away; free cancellation before 24 Dec. An Epic Pass covers the lifts. The same studio is also refundable for 20–27 Feb at $2,523 with tax (free cancellation before 21 Jan)."
     },
     {
       "key": "hakuba_mar",
@@ -111,16 +111,16 @@
         "rooms": [
           "4721170"
         ],
-        "basis": "First listing within 2 km of Happo and Echoland, in the 9 Nov search's price order, whose own page puts the washer in the unit and offers free cancellation; the three before it with a known washer or refund line refund in full only for 24 hours (walk in data/walks/2026-11-09.json). The listing puts the ski areas a 5-minute drive away, with a winter shuttle stop outside"
+        "basis": "First verified refundable listing within 2 km of Happo and Echoland in the 9 Nov walk whose own page puts the washer in the unit and offers free cancellation; the three immediately before it refund in full only for 24 hours (walk in data/walks/2026-11-09.json; two cheaper listings at $2,156 and $2,231 that also state an in-unit washer on their pages were passed over by the retired 9 Nov script and their cancellation lines have not yet been read by hand). The listing puts the ski areas a 5-minute drive away, with a winter shuttle stop outside"
       },
       "tax": {
         "kind": "per_person_night",
         "amount": [
-          500,
-          500
+          400,
+          400
         ],
         "currency": "JPY",
-        "basis": "Nagano prefecture and Hakuba village accommodation taxes since 1 Jun 2026, about ¥500 per person per night at this room rate (from hotel notices; the village ordinance was not read)"
+        "basis": "Nagano prefecture (¥100) and Hakuba village (¥300) accommodation taxes from 1 Jun 2026 to 31 May 2029, ¥400 per person per night in the ¥20,000–49,999 nightly room-charge band (MIC consent notice dated 30 Sep 2025 and Nagano prefecture council paper, read 10 Nov 2026; ¥500 applies from June 2029)"
       },
       "passes": {
         "each": [
@@ -157,11 +157,11 @@
       "tax": {
         "kind": "per_person_night",
         "amount": [
-          1000,
-          1000
+          900,
+          900
         ],
         "currency": "JPY",
-        "basis": "Nagano and Hakuba accommodation taxes, about ¥1,000 per person per night at this room rate (hotel notices)"
+        "basis": "Nagano prefecture (¥100) and Hakuba village (¥800) accommodation taxes from 1 Jun 2026 to 31 May 2029, ¥900 per person per night in the ¥50,000–99,999 nightly room-charge band (MIC consent notice dated 30 Sep 2025, read 10 Nov 2026; ¥1,000 applies from June 2029)"
       },
       "passes": {
         "each": [

@@ -328,7 +328,7 @@
    "adults": 2,
    "area": "within 2 km of Happo and Echoland",
    "budget_usd": 3000,
-   "tax_usd": 45,
+   "tax_usd": 36,
    "steps": [
     {
      "room_id": "1812996327187552512",
@@ -586,7 +586,7 @@
    "adults": 2,
    "area": "within 2 km of Happo and Echoland",
    "budget_usd": 3000,
-   "tax_usd": 90,
+   "tax_usd": 81,
    "steps": [
     {
      "room_id": "1725760259808478894",
