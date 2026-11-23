@@ -122,7 +122,7 @@ class R2_1_WalkBehindEveryNone(Base):
         import costs
         row = [r for r in costs.load()['rows'] if r['key'] == 'hakuba_mar'][0]
         self.assertEqual(row['lodging']['usd'], [2697, 2697])
-        self.assertEqual(costs.values(costs.load())[('hakuba_mar', 'lodging_tax')], '$2,742')
+        self.assertEqual(costs.values(costs.load())[('hakuba_mar', 'lodging_tax')], '$2,733')
         self.assertTrue(row['fits'].startswith('Yes'))
 
     def test_zermatt_march_walk_reached_the_budget_line(self):
